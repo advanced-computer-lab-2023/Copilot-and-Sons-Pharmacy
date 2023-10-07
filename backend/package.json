@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.4",
+    "@types/joi": "^17.2.3",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.3",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.14",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.18",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/mongoose": "^5.11.97",
+    "@types/validator": "^13.11.2",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "start": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node src/server.ts"
+  }
+}
