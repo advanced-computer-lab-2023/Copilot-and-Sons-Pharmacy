@@ -1,14 +1,18 @@
-import {
-  Route,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
-import { AuthRoutes } from "./features/auth/routes";
+import { RouteObject } from "react-router-dom";
 
-export const router = createBrowserRouter(
-  createRoutesFromElements(
-    <>
-      <Route path="auth/*" element={<AuthRoutes />} />
-    </>
-  )
-);
+import { authRoutes } from "./features/auth/routes";
+
+
+export const routes: RouteObject[] = [
+  {
+    path: "/",
+    element: <h1>
+      home 
+    </h1>,
+  },
+  {
+    path: "/auth",
+    children: authRoutes,
+  },
+ 
+];

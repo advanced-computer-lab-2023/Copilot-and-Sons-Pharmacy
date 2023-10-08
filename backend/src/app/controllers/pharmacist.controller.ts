@@ -6,6 +6,7 @@ import { Request, Response ,NextFunction} from 'express';
 const Pharmacist = require('../schemas/pharmacist');
 const Joi = require('joi');
 
+
 export const addPharmacist = async (req: Request, res: Response) => {
     const schema = Joi.object({
         name: Joi.string().min(3).max(30).required().messages({
@@ -18,7 +19,6 @@ export const addPharmacist = async (req: Request, res: Response) => {
             'string.email': `Email must be a valid email`,
             'string.empty': `Email cannot be an empty field`,
             'any.required': `Email is a required field`,
-            // 'any.unique': `Email must be unique`,
           }),
         username: Joi.string().alphanum().min(3).max(30).required().messages({
             'string.min': `Username must be at least 3 characters long`,
@@ -94,6 +94,22 @@ export const addPharmacist = async (req: Request, res: Response) => {
      
         
    const pharmacist = req.body;
+   
+
+      const existingEmail = await Pharmacist.findOne({ email: pharmacist.email });
+      if (existingEmail) {
+        res.status(400).send('Pharmacist with this email already exists');
+        return;
+      }
+
+      const existingUsername = await Pharmacist.findOne({ username: pharmacist.username });
+      if (existingUsername) {
+        res.status(400).send('Pharmacist with this username already exists');
+        return;
+      }
+
+
+
       const newPharmacist = new Pharmacist(pharmacist);
       newPharmacist.save()
         .then((result: any) => {
@@ -101,5 +117,5 @@ export const addPharmacist = async (req: Request, res: Response) => {
         })
         .catch((err: Error) => {
           console.log(err);
-        });
-}; 
+        });      }; 
+
