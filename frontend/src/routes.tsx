@@ -1,30 +1,45 @@
 import { RouteObject } from "react-router-dom";
 
-import { authRoutes } from "./features/auth/routes";
-import Register from "./components/pharmacistRequest";
+import { authRoutes } from './features/auth/routes'
+import { pharmacistDashboardRoutes } from './features/pharmacist-dashboard/routes'
+import { adminDashboardRoutes } from './features/admin-dashboard/routes'
+import { patientDashboardRoutes } from './features/patient-dashboard/routes'
+import { BaseLayout } from './components/BaseLayout'
+import  RedirectToDashboard  from './components/RedirectToDashboard'
+import {medicineRoutes} from './features/medicine-dashboard/routes'
+
 import GetPharmacists from "./features/auth/routes/allPharmacists";
 
 
 
 export const routes: RouteObject[] = [
+ { element: <BaseLayout />,
+  children: [
   {
-    path: "/",
-    element: <h1>
-      home 
-    </h1>,
+    path: '/',
+    element: <RedirectToDashboard />,
   },
   {
-    path: "/auth",
+    path: '/pharmacist-dashboard',
+    children: pharmacistDashboardRoutes,
+  },
+  {
+    path: '/patient-dashboard',
+    children: patientDashboardRoutes,
+  },{
+    path: '/admin-dashboard',
+    children: adminDashboardRoutes,
+  },
+
+  {
+    path: '/auth',
     children: authRoutes,
   },
   {
-    path: "/pharmacistRequest",
-    element: <h1>
-
-
-      <Register />
-    </h1>,
+    path: '/medicines',
+    children: medicineRoutes,
   },
+
   {
     path: "/getPharmacists",
     element: <h1>
@@ -32,7 +47,6 @@ export const routes: RouteObject[] = [
       <GetPharmacists />    
     </h1>,
   }
-
-
- 
+  ]
+}
 ];
