@@ -5,6 +5,13 @@ import { addAdminService } from '../services/addAdmin.service';
 const Pharmacist = require('../schemas/pharmacist');
 const { ObjectId } = require('mongodb')
 const Joi = require('joi');
+import {getPatientByUsername} from '../services/adminViewsPatientInfo';
+
+export const adminViewsPatientInfo =async (req:Request, res: Response) => {
+    const patient = await  getPatientByUsername(req.body.username);
+    res.json({success: SUCCESS, data: patient});
+    console.log(patient);
+}
 export const addAdmin = asyncWrapper( async ( req: Request,res: Response) => { 
     const admin = await addAdminService(req.body);
     res.json({ success: SUCCESS, data: admin });
