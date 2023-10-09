@@ -1,10 +1,12 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import validator from "validator";
+import User from './user.model';
 const PatientSchema = new mongoose.Schema({
-    username: {
-      type: String,
-      required: true,
-      unique: true,
+
+    user:{
+        type: Schema.Types.ObjectId,
+        ref: User,
+        required:true,
     },
     name:{
         type:String,
@@ -13,13 +15,10 @@ const PatientSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true, //helper not validator
+        unique: true, 
         validate: [validator.isEmail, "field must be valid email address"],
       },
-      password: {
-        type: String,
-        required: true,
-      }, dateOfBirth: {
+     dateOfBirth: {
         type: Date,
         required: true,
       },
@@ -45,20 +44,19 @@ const PatientSchema = new mongoose.Schema({
           type: String,
           required: true,
         },
-      },  token:{
-        type:String
-          },
+      }, 
+
 
 
     
 
 })
 export interface IPatient extends Document {
-    username: string;
+    // username: string;
     token:String;
     name: string;
     email: string;
-    password: string;
+    // password: string;
     dateOfBirth: Date;
     gender: 'Male' | 'Female';
     mobileNumber: string;
