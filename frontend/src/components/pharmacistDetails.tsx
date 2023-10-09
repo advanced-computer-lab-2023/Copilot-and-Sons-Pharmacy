@@ -1,3 +1,6 @@
+import formatDistanceToNow from "date-fns/formatDistanceToNow"
+
+
 const PharmacistDetails = ({ pharmacist }) => {
 
     return (
@@ -15,7 +18,7 @@ const PharmacistDetails = ({ pharmacist }) => {
         <p><strong>Graduation Year : </strong>{pharmacist.educationalBackground.graduationYear}</p>
         <p><strong>Degree : </strong>{pharmacist.educationalBackground.degree}</p>
         
-        <p> <strong>Applied at :</strong>{pharmacist.createdAt}</p>
+        <p> <strong>Applied </strong>{formatDistanceToNow(new Date(pharmacist.createdAt), {addSuffix: true})}</p>
 
       </div>
     )
