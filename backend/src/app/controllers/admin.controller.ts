@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import {SUCCESS,FAIL,ERROR} from '../utils/httpStatusText'
 import asyncWrapper from '../middlewares/asyncWrapper';
 import { addAdminService } from '../services/addAdmin.service';
+import { removeUser } from '../services/removeUser.service';
 const Pharmacist = require('../schemas/pharmacist');
 const { ObjectId } = require('mongodb')
 const Joi = require('joi');
@@ -55,3 +56,8 @@ export const getPharmacistByID = async (req: Request, res: Response) => {
 };
 
 
+export const deleteUser = asyncWrapper(async (req: Request, res: Response) => {
+  const { username } = req.body; // Extract the username from the request body
+  await removeUser(username); // Pass the username to the removeUser function
+  res.json({ success: SUCCESS, message: 'User deleted successfully', username: username });
+});
