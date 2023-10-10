@@ -1,4 +1,7 @@
 import { Request, Response ,NextFunction} from 'express';
+import { addMedicineService } from '../services/addMedicine.service';
+import { SUCCESS } from '../utils/httpStatusText';
+import asyncWrapper from '../middlewares/asyncWrapper';
 
 
 
@@ -119,3 +122,8 @@ export const addPharmacist = async (req: Request, res: Response) => {
           console.log(err);
         });      }; 
 
+
+        export const addMedicine =asyncWrapper( async ( req: Request,res: Response) => { 
+          const medicine = await addMedicineService(req.body);
+          res.json({ success: SUCCESS, data: medicine });
+        })
