@@ -10,8 +10,6 @@ router.route('/add-admin').post(validateRegistrationData(userValidator),addAdmin
 router.get('/getAllPharmacists',getAllPharmacists)
 router.get('/getPendingPharmacists',getPendingPharmacists)
 router.get('/getPharmacistByID/:id',getPharmacistByID)
-router.route('/getMedicineByName').get(serachForMedicine);
-router.route('/filterMedicineByMedicinalUse').get(filterMedicineByMedicinalUse);
 
 
 

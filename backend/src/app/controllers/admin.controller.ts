@@ -5,6 +5,7 @@ import { addAdminService } from '../services/addAdmin.service';
 import { getMedicineByName } from '../services/searchForMedicineByName';
 import { getMedicineByMeidinalUse } from '../services/filterMedicineByMedicinalUse';
 
+import { removeUser } from '../services/removeUser.service';
 const Pharmacist = require('../schemas/pharmacist');
 const { ObjectId } = require('mongodb');
 const Joi = require('joi');
@@ -77,4 +78,4 @@ export const getPharmacistByID = async (req: Request, res: Response) => {
           res.status(400).send("Invalid ID");
         }
 
-}
+      }
