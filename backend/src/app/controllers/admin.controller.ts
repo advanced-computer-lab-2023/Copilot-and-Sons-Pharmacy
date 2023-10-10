@@ -6,8 +6,7 @@ import { getMedicineByName } from '../services/searchForMedicineByName';
 import { getMedicineByMeidinalUse } from '../services/filterMedicineByMedicinalUse';
 import { removeUser } from '../services/removeUser.service';
 import {getPatientByUsername} from '../services/adminViewsPatientInfo';
-
-const Pharmacist = require('../schemas/pharmacist');
+import Pharmacist from '../schemas/pharmacist';
 const { ObjectId } = require('mongodb');
 const Joi = require('joi');
 
@@ -45,10 +44,11 @@ export const addAdmin = asyncWrapper( async ( req: Request,res: Response) => {
 })
 
 
-export const getAllPharmacists = async (req: Request, res: Response) => {
-  const pharmacists = await Pharmacist.find();
+export const getAllPharmacists = asyncWrapper(async (req: Request, res: Response) => {
+  const pharmacists = await Pharmacist.find({});
   res.status(200).json(pharmacists);
-};
+  console.log(res)
+});
 
 
 

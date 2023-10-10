@@ -1,4 +1,5 @@
-import React, { useState , useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import  { useState } from "react";
 import { Link  , useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
@@ -34,12 +35,13 @@ export const Register = () => {
   const [degree , setDegree] = useState("");
   
 
-  async function submit(e) {
+
+  async function submit(e:any) {
     console.log("submit");
 
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5500/api/pharmacist/addPharmacist", {
+      await axios.post("http://localhost:3000/api/pharmacist/addPharmacist", {
         name,
         email,
         username,
@@ -54,6 +56,7 @@ export const Register = () => {
         graduationYear,
         degree
         }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       }).then((res) => {
       
           history("/");
