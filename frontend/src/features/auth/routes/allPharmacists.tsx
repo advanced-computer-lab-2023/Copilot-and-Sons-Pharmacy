@@ -11,7 +11,7 @@ const GetPharmacists = () => {
   useEffect(() => {
     const fetchPharmacists = async () => {
       try {
-        const response = await axios.get('http://localhost:5500/api/admin/getAllPharmacists');
+        const response = await axios.get('http://localhost:3000/api/admin/getAllPharmacists');
         if (response.status === 200) {
           setPharmacists(response.data);
         }

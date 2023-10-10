@@ -3,7 +3,7 @@ import {SUCCESS,FAIL,ERROR} from '../utils/httpStatusText'
 import asyncWrapper from '../middlewares/asyncWrapper';
 import { addAdminService } from '../services/addAdmin.service';
 import { removeUser } from '../services/removeUser.service';
-const Pharmacist = require('../schemas/pharmacist');
+import Pharmacist from '../schemas/pharmacist'; // Replace with the actual path to your Pharmacist model
 const { ObjectId } = require('mongodb')
 const Joi = require('joi');
 export const addAdmin = asyncWrapper( async ( req: Request,res: Response) => { 
@@ -13,14 +13,8 @@ export const addAdmin = asyncWrapper( async ( req: Request,res: Response) => {
 
 
 export const getAllPharmacists = async (req: Request, res: Response) => {
-    Pharmacist.find() 
-      .sort({ createdAt: -1 })
-      .then((result: any[]) => { 
-        res.send(result);
-      })
-      .catch((err: Error) => {
-        console.log(err);
-      });
+  const pharmacists = await Pharmacist.find();
+  res.status(200).json(pharmacists);
 };
 
 

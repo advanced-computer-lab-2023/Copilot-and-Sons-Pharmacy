@@ -67,7 +67,7 @@ const patient = new Patient({
 
 
   await patient.save();
-console.log(patient)
+
 
   const newToken = await generateJWT({
     username,

@@ -5,11 +5,6 @@ import User from './user.model';
 
 const pharmacistSchema = new Schema({
 
-    user:{
-        type: Schema.Types.ObjectId,
-        ref: User,
-        required:true,
-    },
     name : {
         type : String,
         required : true
@@ -69,4 +64,4 @@ const pharmacistSchema = new Schema({
 );
 
 const Pharmacist = mongoose.model("Pharmacist", pharmacistSchema);
-module.exports = Pharmacist;
+export  default Pharmacist;

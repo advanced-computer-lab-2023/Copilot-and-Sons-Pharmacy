@@ -6,10 +6,10 @@ import { validateRegistrationData } from '../middlewares/registrationMiddleware'
 const router=express.Router();
 router.use(express.json());
 router.route('/add-admin').post(validateRegistrationData(userValidator),addAdmin)
-router.get('/getAllPharmacists',getAllPharmacists)
-router.get('/getPendingPharmacists',getPendingPharmacists)
-router.get('/getPharmacistByID/:id',getPharmacistByID)
-router.delete('/removeUser',deleteUser)
+router.route('/getAllPharmacists').get(getAllPharmacists)
+router.route('/getPendingPharmacists').get(getPendingPharmacists)
+router.route('/getPharmacistByID/:id').get(getPharmacistByID)
+router.route('/removeUser').delete(deleteUser)
 
 
 export default router;
