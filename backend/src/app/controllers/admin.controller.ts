@@ -3,6 +3,8 @@ import {SUCCESS,FAIL,ERROR} from '../utils/httpStatusText'
 import asyncWrapper from '../middlewares/asyncWrapper';
 import { addAdminService } from '../services/addAdmin.service';
 import { getMedicineByName } from '../services/searchForMedicineByName';
+import { removeUser } from '../services/removeUser.service';
+import {getPatientByUsername} from '../services/adminViewsPatientInfo';
 
 const Pharmacist = require('../schemas/pharmacist');
 const { ObjectId } = require('mongodb');
@@ -17,7 +19,13 @@ else{
 
 }
   }
-  
+ 
+
+export const adminViewsPatientInfo =async (req:Request, res: Response) => {
+    const patient = await  getPatientByUsername(req.body.username);
+    res.json({success: SUCCESS, data: patient});
+    console.log(patient);
+}
 
 export const addAdmin = asyncWrapper( async ( req: Request,res: Response) => { 
     const admin = await addAdminService(req.body);
@@ -67,4 +75,8 @@ export const getPharmacistByID = async (req: Request, res: Response) => {
           res.status(400).send("Invalid ID");
         }
 
-}
+export const deleteUser = asyncWrapper(async (req: Request, res: Response) => {
+  const { username } = req.body; // Extract the username from the request body
+  await removeUser(username); // Pass the username to the removeUser function
+  res.json({ success: SUCCESS, message: 'User deleted successfully', username: username });
+});
