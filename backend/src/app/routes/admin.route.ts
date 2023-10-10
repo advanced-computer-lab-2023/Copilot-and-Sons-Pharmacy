@@ -1,5 +1,5 @@
 import express from'express';
-import { addAdmin, serachForMedicine } from '../controllers/admin.controller';
+import { filterMedicineByMedicinalUse, addAdmin, serachForMedicine } from '../controllers/admin.controller';
 import {  getAllPharmacists , getPendingPharmacists , getPharmacistByID } from '../controllers/admin.controller';
 import userValidator from '../validators/user.validator';
 import { validateRegistrationData } from '../middlewares/registrationMiddleware';
@@ -11,6 +11,8 @@ router.get('/getAllPharmacists',getAllPharmacists)
 router.get('/getPendingPharmacists',getPendingPharmacists)
 router.get('/getPharmacistByID/:id',getPharmacistByID)
 router.route('/getMedicineByName').get(serachForMedicine);
+router.route('/filterMedicineByMedicinalUse').get(filterMedicineByMedicinalUse);
+
 
 
 export default router;
