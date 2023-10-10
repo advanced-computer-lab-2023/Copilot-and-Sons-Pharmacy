@@ -4,7 +4,7 @@ import AppError from '../utils/appError';
 import { ERROR } from '../utils/httpStatusText';
 
 
-const registrationSchema = Joi.object({
+const registrationValidator = Joi.object({
   username: Joi.string()
     .alphanum()
     .min(3)
@@ -72,5 +72,5 @@ const registrationSchema = Joi.object({
   }).required(),
 });
 
-export default registrationSchema;
+export default registrationValidator;
 
