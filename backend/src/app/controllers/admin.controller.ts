@@ -4,8 +4,9 @@ import asyncWrapper from '../middlewares/asyncWrapper';
 import { addAdminService } from '../services/addAdmin.service';
 import { getMedicineByName } from '../services/searchForMedicineByName';
 import { getMedicineByMeidinalUse } from '../services/filterMedicineByMedicinalUse';
-
 import { removeUser } from '../services/removeUser.service';
+import {getPatientByUsername} from '../services/adminViewsPatientInfo';
+
 const Pharmacist = require('../schemas/pharmacist');
 const { ObjectId } = require('mongodb');
 const Joi = require('joi');
@@ -18,7 +19,7 @@ else{
   res.json({success: SUCCESS, data: medicines});
 }
   }
-  
+
 
 export const serachForMedicine =async (req:Request, res: Response) => {
   const medicine = await  getMedicineByName(req.body.name);
@@ -26,9 +27,17 @@ export const serachForMedicine =async (req:Request, res: Response) => {
   res.json("There's no available medicines with this name");
 else{
   res.json({success: SUCCESS, data: medicine});
+  
+
 }
   }
-  
+ 
+
+export const adminViewsPatientInfo =async (req:Request, res: Response) => {
+    const patient = await  getPatientByUsername(req.body.username);
+    res.json({success: SUCCESS, data: patient});
+    console.log(patient);
+}
 
 export const addAdmin = asyncWrapper( async ( req: Request,res: Response) => { 
     const admin = await addAdminService(req.body);
@@ -78,4 +87,10 @@ export const getPharmacistByID = async (req: Request, res: Response) => {
           res.status(400).send("Invalid ID");
         }
 
-      }
+
+        }
+export const deleteUser = asyncWrapper(async (req: Request, res: Response) => {
+  const { username } = req.body; // Extract the username from the request body
+  await removeUser(username); // Pass the username to the removeUser function
+  res.json({ success: SUCCESS, message: 'User deleted successfully', username: username });
+});
