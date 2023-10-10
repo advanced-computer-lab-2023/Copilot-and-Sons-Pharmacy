@@ -1,7 +1,7 @@
 import { IMedicine } from './../schemas/medicine.model';
-import bcrypt from 'bcryptjs';
-import generateJWT from '../utils/generateJWT';
 import Medicine from '../schemas/medicine.model';
+import AppError from '../utils/appError';
+import { ERROR } from '../utils/httpStatusText';
 
 export const addMedicineService=async(info:IMedicine)=>{
     try{
@@ -21,7 +21,7 @@ export const addMedicineService=async(info:IMedicine)=>{
         return newMedicine;
     }
     catch (error){
-        throw new Error('Could not add medicine: ' + error);
+        throw new AppError('Could not add medicine',400, ERROR);
     }
 
 }
