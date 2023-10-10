@@ -25,6 +25,10 @@ const medicineSchema = new mongoose.Schema({
     type:String,
 
   },
+  activeIngredients : {
+    type: [String],
+    required: true
+  },
   medicinalUse: {
     type: [String],
     required: true,
@@ -40,6 +44,7 @@ export interface IMedicine extends Document {
   description: string;
   quantity: number;
   Image: string;
+  activeIngredients: string[];
   medicinalUse: string[];
   sales: number;
 }

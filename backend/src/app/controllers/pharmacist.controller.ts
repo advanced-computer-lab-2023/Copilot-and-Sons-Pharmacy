@@ -2,6 +2,7 @@ import { Request, Response ,NextFunction} from 'express';
 import { addMedicineService } from '../services/addMedicine.service';
 import { SUCCESS } from '../utils/httpStatusText';
 import asyncWrapper from '../middlewares/asyncWrapper';
+import { editMedicineService } from '../services/editMedicine.service';
 
 
 
@@ -125,5 +126,10 @@ export const addPharmacist = async (req: Request, res: Response) => {
 
         export const addMedicine =asyncWrapper( async ( req: Request,res: Response) => { 
           const medicine = await addMedicineService(req.body);
+          res.json({ success: SUCCESS, data: medicine });
+        })
+
+        export const editMedicine =asyncWrapper( async ( req: Request,res: Response) => { 
+          const medicine = await editMedicineService(req.body.name,req.body.edits);
           res.json({ success: SUCCESS, data: medicine });
         })
