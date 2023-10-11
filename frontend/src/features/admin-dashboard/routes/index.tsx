@@ -1,7 +1,9 @@
 import { RouteObject } from 'react-router-dom'
 import { AdminDashboardLayout } from '../components/AdminDashboardLayout'
 import { AdminDashboardHome } from './AdminDashboardHome'
+
 import AddingAdmin from './AddingAdmin'
+import { RemoveUser } from './removeUser'
 
 export const adminDashboardRoutes: RouteObject[] = [
   {
@@ -14,6 +16,11 @@ export const adminDashboardRoutes: RouteObject[] = [
       {
         path:'add-admin',
         element:<AddingAdmin/>
+
+      },
+      {
+        path:'remove-user',
+        element:<RemoveUser/>
 
       }
 
