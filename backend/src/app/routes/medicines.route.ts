@@ -7,4 +7,5 @@ router.route('/').get(getAllMedicines);
 router.route('/quantity-sales').get(viewMedicinesQuantityAndSales);
 router.route('/editMedicine').put(editMedicine);
 router.route('/filterByMedicinalUse').get(filterMedicineByMedicinalUse)
+
 export default router;
