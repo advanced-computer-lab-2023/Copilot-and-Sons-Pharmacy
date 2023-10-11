@@ -29,7 +29,7 @@ export function RemoveUser (){
     console.log(username);
     mutation.mutateAsync(username).then(()=>{toast.success('User deleted Successfuly!', {
         position: 'top-right',
-      })}).catch((err)=>{toast.error(`couldn't delete user ${err}`, {
+      })}).catch((err)=>{toast.error(`couldn't delete user, no user with this name`, {
         position: 'top-right',
       })})
     
