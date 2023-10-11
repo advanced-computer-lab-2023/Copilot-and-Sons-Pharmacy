@@ -5,4 +5,5 @@ const router=express.Router();
 router.route('/').get(getAllMedicines);
 router.route('/quantity-sales').get(viewMedicinesQuantityAndSales);
 router.route('/editMedicine').put(editMedicine);
+
 export default router;
