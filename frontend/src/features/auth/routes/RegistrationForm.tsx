@@ -1,7 +1,8 @@
-import useAuth from "../../../hooks/auth.tsx";
 import { z } from "zod";
-import { useNavigate } from 'react-router-dom';
-import React, { useState, FormEvent, useEffect } from 'react';
+import {registerUser} from '../../../api/auth.ts'
+import React, { useState, FormEvent,  } from 'react';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import {
@@ -35,9 +36,7 @@ type FormState = {
   };
 };
 const RegistrationForm: React.FC = () => {
-  const navigate = useNavigate();
-  const { register, error } = useAuth();
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+
   const [formData, setFormData] = useState<FormState>({
     username: "",
     name: "",
@@ -55,6 +54,7 @@ const RegistrationForm: React.FC = () => {
 
   const [errors, setErrors] = useState<errors>({});
 
+
   const [emergencyContactError, setEmergencyError] = useState<errors>({});
   const handleSubmit = async (e: FormEvent) => {
    
@@ -64,13 +64,25 @@ const RegistrationForm: React.FC = () => {
     RegisterRequestValidator.parse(formData);
     setErrors({});
     setEmergencyError({});
-    register(formData);
-    setRegistrationSuccess(true);
-    navigate('/auth/login');
-  } catch (error) {
-    if (error instanceof z.ZodError) {
+    try{
+    await registerUser(formData);
+    toast.success('Registration was successful!', {
+      position: 'top-right',
+    });
+
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }catch(e:any) {
+ 
+    toast.error(e.response.data.message, {
+      position: 'top-right',
+    });
+  }
+    
+  } catch (err) {
+    if (err instanceof z.ZodError) {
       const fieldErrors: errors = {};
-      error.errors.forEach((validationError) => {
+      err.errors.forEach((validationError) => {
         const fieldName  = validationError.path[0];
         if(typeof fieldName==='string')
        { 
@@ -93,15 +105,6 @@ const RegistrationForm: React.FC = () => {
 
 };
 
-useEffect(() => {
-  if (registrationSuccess) {
-    const timeoutId = setTimeout(() => {
-      setRegistrationSuccess(false);
-    }, 20000); // Hide the message after 5 seconds
-
-    return () => clearTimeout(timeoutId);
-  }
-}, [registrationSuccess]);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as {
       name: keyof FormState;
@@ -129,10 +132,10 @@ useEffect(() => {
 
         setEmergencyError((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error:any) {
+      } catch (err:any) {
         setEmergencyError((prevErrors) => ({
           ...prevErrors,
-          [fieldName]: error.message,
+          [fieldName]: err.message,
         }));
       }
     } else {
@@ -160,10 +163,7 @@ useEffect(() => {
         <Typography variant="h4" align="center" gutterBottom>
           Register
         </Typography>
-        {error && <div className="error-message">{error}</div>}
-        {registrationSuccess && (
-          <div className="success-message">Registration was successful!</div>
-        )}
+        <ToastContainer />
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>

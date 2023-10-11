@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useAddAdmin } from "../../../hooks/addAdmin";
 import{AddAdminValidator} from '../../../validators/admin.validator.ts'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   TextField,
@@ -23,7 +25,7 @@ const AdminLogin: React.FC = () => {
   });
 
   // Use the custom hook
-  const { addAdmin, loading, error } = useAddAdmin();
+  const { addAdmin, errorAdmin } = useAddAdmin();
   const [errors,setError]=useState<errors>({});
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,13 +47,28 @@ const AdminLogin: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     await addAdmin(formData);
+    if(errorAdmin)
+    {  toast.success('Admin is added Successfuly!', {
+      position: 'top-right',
+    });
+
+    }
+    else{
+      toast.error('Add new admin failed. Please check your input', {
+        position: 'top-right',
+      });
+
+    }
+
+   
   };
 
   return (
     <Container maxWidth="sm">
     <Box sx={{ marginTop: 4 }}>
+    <ToastContainer />
       <form onSubmit={handleSubmit}>
         <Typography variant="h4" align="center" gutterBottom>
           Admin Login
@@ -84,15 +101,16 @@ const AdminLogin: React.FC = () => {
         </Grid>
         </Grid>
         <Button
+       sx={{ marginTop: '20px' }}
           type="submit"
           variant="contained"
           color="primary"
           fullWidth
-          disabled={loading}
+     
         >
-          {loading ? "Adding Admin..." : "Add Admin"}
+        ADD ADMIN
         </Button>
-        {error && <p className="error-message">{error}</p>}
+
       </form>
     </Box>
     </Container>

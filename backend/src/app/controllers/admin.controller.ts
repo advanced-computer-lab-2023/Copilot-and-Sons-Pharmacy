@@ -32,15 +32,15 @@ else{
   }
  
 
-export const adminViewsPatientInfo =async (req:Request, res: Response) => {
+export const adminViewsPatientInfo =asyncWrapper(async (req:Request, res: Response) => {
     const patient = await  getPatientByUsername(req.body.username);
     res.json({success: SUCCESS, data: patient});
     console.log(patient);
-}
+})
 
 export const addAdmin = asyncWrapper( async ( req: Request,res: Response) => { 
     const admin = await addAdminService(req.body);
-    res.json({ success: SUCCESS, data: admin });
+    res.status(201).json({ success: SUCCESS, data: admin });
 })
 
 
