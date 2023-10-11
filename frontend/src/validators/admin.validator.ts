@@ -6,7 +6,7 @@ export const AddAdminValidator = zod.object({
     const hasLowercase = /[a-z]/.test(password);
     const hasUppercase = /[A-Z]/.test(password);
     const hasDigit = /\d/.test(password);
-    const hasSymbol = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
+    const hasSymbol = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password);
 
     return hasLowercase && hasUppercase && hasDigit && hasSymbol;
   },{

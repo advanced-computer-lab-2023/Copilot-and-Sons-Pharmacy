@@ -27,11 +27,12 @@ interface RegistrationResponse {
 }
 
 
-export async function registerUser(userData: RegistrationData): Promise<AxiosResponse<RegistrationResponse>> {
+export async function registerUser(userData:any): Promise<AxiosResponse<RegistrationResponse>> {
 
     const response = await axios.post<RegistrationResponse>(`${BASE_URL}/api/patient/register`, userData);
-    console.log(response)
     return response;
+
+
   
 }
 

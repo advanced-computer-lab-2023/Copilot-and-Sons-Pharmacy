@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+
+import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import {registerUser} from '../api/auth.ts';
 
@@ -28,4 +31,6 @@ const useAuth = () => {
 
 }
 export default useAuth;
+
+
 
