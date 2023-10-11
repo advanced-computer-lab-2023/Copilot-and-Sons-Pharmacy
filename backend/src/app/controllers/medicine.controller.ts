@@ -3,12 +3,14 @@ import {SUCCESS,FAIL,ERROR} from '../utils/httpStatusText'
 import {fetchAllMedicines} from '../services/fetchAllMedicines.service'; 
 import asyncWrapper from '../middlewares/asyncWrapper';
 import { viewMedicineQuantityAndSales } from '../services/viewQuantityAndSales.service';
+import { fetchAllPatients } from '../services/viewAllPatients';
 
 // Controller function to fetch all medicines
 export const getAllMedicines = asyncWrapper( async ( req: Request,res: Response) => {
         const medicines = await fetchAllMedicines();
         res.status(200).json({ success: SUCCESS, data: medicines });}
      )
+
   
 
 export const viewMedicinesQuantityAndSales=asyncWrapper( async ( req: Request,res: Response) => {

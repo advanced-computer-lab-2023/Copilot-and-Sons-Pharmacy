@@ -34,7 +34,7 @@ const GetPharmacists = () => {
       </div> */}
       {/* to allign vertically  */}
       <Grid container>
-            {pharmacists && pharmacists.map((pharmacist) => (
+            {pharmacists && pharmacists.map((pharmacist:any) => (
         <Grid item sm ={6} md={3}  >
               <PharmacistDetails key={pharmacist._id} pharmacist={pharmacist} />
         </Grid>
