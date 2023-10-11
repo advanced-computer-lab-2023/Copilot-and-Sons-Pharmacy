@@ -2,9 +2,12 @@ import { RouteObject } from "react-router-dom";
 import { Login } from "./Login";
 import RegistrationForm  from "./RegistrationForm";
 import { Register } from "../../../components/pharmacistRequest";
+import { AuthLayout } from "../components/AuthLayout";
 
 export const authRoutes: RouteObject[] = [
-  {
+  {  element: < AuthLayout/>,
+  children: [
+    {
     path: "login",
     element: <Login />,
   },
@@ -15,5 +18,5 @@ export const authRoutes: RouteObject[] = [
   {
     path: 'register-request',
     element: < Register/>,
-  }
+  }]}
 ];

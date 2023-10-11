@@ -1,18 +1,23 @@
 import Patient from "../schemas/patient.schema";
+import User from "../schemas/user.model";
+import AppError from "../utils/appError";
+import { FAIL } from "../utils/httpStatusText";
 
 
 
 export async function getPatientByUsername(username: string) {
-  try {
-    const patient = await Patient.findOne({ username });
+
+    const patient = await User.findOne({ username ,role:"PATIENT"});
 
     if (!patient) {
-      throw new Error('Patient not found');
+      new AppError ('Patient not found',404,FAIL);
+    }
+    else{
+    const result= await Patient.findOne({user:patient._id});
+    return result;
     }
 
-    return patient;
-  } catch (error) {
-    console.error('Error retrieving patient:', error);
-    throw error; 
-  }
+   
+
+  
 }
