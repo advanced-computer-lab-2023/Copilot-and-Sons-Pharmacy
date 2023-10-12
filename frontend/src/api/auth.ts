@@ -9,7 +9,7 @@ interface RegistrationData {
     name: string;
     email: string;
     password: string;
-    dateOfBirth: Date;
+    dateOfBirth: string | null;
     gender: string;
     mobileNumber: string;
     emergencyContact: {
@@ -30,8 +30,9 @@ interface RegistrationResponse {
 export async function registerUser(userData: RegistrationData): Promise<AxiosResponse<RegistrationResponse>> {
 
     const response = await axios.post<RegistrationResponse>(`${BASE_URL}/api/patient/register`, userData);
-    console.log(response)
     return response;
+
+
   
 }
 

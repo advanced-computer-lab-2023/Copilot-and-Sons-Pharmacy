@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useAddAdmin } from "../../../hooks/addAdmin";
 import{AddAdminValidator} from '../../../validators/admin.validator.ts'
+import { toast } from 'react-toastify';
+import {AddAdmin} from '../../../api/admin.ts'
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   TextField,
@@ -13,7 +15,7 @@ import {
 type errors = {
     [key: string]: string;
   };
-const AdminLogin: React.FC = () => {
+const AdminAdd: React.FC = () => {
   const [formData, setFormData] = useState<{
     username: string;
     password: string;
@@ -22,8 +24,6 @@ const AdminLogin: React.FC = () => {
     password: "",
   });
 
-  // Use the custom hook
-  const { addAdmin, loading, error } = useAddAdmin();
   const [errors,setError]=useState<errors>({});
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,8 +45,22 @@ const AdminLogin: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try{
+    await AddAdmin(formData);
+   
+        await toast.success('Admin is added Successfuly!', {
+      position: 'top-right',
+    });
+    
+    }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  catch(errorAdmin:any){
+     await toast.error(errorAdmin.response.data.message, {
+        position: 'top-right',
+      });
 
-    await addAdmin(formData);
+    }
+
   };
 
   return (
@@ -54,7 +68,7 @@ const AdminLogin: React.FC = () => {
     <Box sx={{ marginTop: 4 }}>
       <form onSubmit={handleSubmit}>
         <Typography variant="h4" align="center" gutterBottom>
-          Admin Login
+         Add Admin
         </Typography>
         <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -84,19 +98,20 @@ const AdminLogin: React.FC = () => {
         </Grid>
         </Grid>
         <Button
+       sx={{ marginTop: '20px' }}
           type="submit"
           variant="contained"
           color="primary"
           fullWidth
-          disabled={loading}
+     
         >
-          {loading ? "Adding Admin..." : "Add Admin"}
+        ADD ADMIN
         </Button>
-        {error && <p className="error-message">{error}</p>}
+
       </form>
     </Box>
     </Container>
   );
 };
 
-export default AdminLogin;
+export default AdminAdd;
