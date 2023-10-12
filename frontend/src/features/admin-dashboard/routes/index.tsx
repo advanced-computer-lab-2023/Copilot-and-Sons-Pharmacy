@@ -4,6 +4,7 @@ import { AdminDashboardHome } from './AdminDashboardHome'
 
 import AddingAdmin from './AddingAdmin'
 import { RemoveUser } from './removeUser'
+import {  ToastContainer } from 'react-toastify';
 
 export const adminDashboardRoutes: RouteObject[] = [
   {
@@ -15,7 +16,7 @@ export const adminDashboardRoutes: RouteObject[] = [
       },
       {
         path:'add-admin',
-        element:<AddingAdmin/>
+        element:<>  <ToastContainer /><AddingAdmin/></>
 
       },
       {

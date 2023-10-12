@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useAddAdmin } from "../../../hooks/addAdmin";
 import{AddAdminValidator} from '../../../validators/admin.validator.ts'
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import {AddAdmin} from '../../../api/admin.ts'
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
@@ -15,7 +15,7 @@ import {
 type errors = {
     [key: string]: string;
   };
-const AdminLogin: React.FC = () => {
+const AdminAdd: React.FC = () => {
   const [formData, setFormData] = useState<{
     username: string;
     password: string;
@@ -24,8 +24,6 @@ const AdminLogin: React.FC = () => {
     password: "",
   });
 
-  // Use the custom hook
-  const { addAdmin, errorAdmin } = useAddAdmin();
   const [errors,setError]=useState<errors>({});
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,31 +45,30 @@ const AdminLogin: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    await addAdmin(formData);
-    if(errorAdmin)
-    {  toast.success('Admin is added Successfuly!', {
+    try{
+    await AddAdmin(formData);
+   
+        await toast.success('Admin is added Successfuly!', {
       position: 'top-right',
     });
-
+    
     }
-    else{
-      toast.error('Add new admin failed. Please check your input', {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  catch(errorAdmin:any){
+     await toast.error(errorAdmin.response.data.message, {
         position: 'top-right',
       });
 
     }
 
-   
   };
 
   return (
     <Container maxWidth="sm">
     <Box sx={{ marginTop: 4 }}>
-    <ToastContainer />
       <form onSubmit={handleSubmit}>
         <Typography variant="h4" align="center" gutterBottom>
-          Admin Login
+         Add Admin
         </Typography>
         <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -117,4 +114,4 @@ const AdminLogin: React.FC = () => {
   );
 };
 
-export default AdminLogin;
+export default AdminAdd;
