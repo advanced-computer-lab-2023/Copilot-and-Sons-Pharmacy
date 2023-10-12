@@ -1,3 +1,5 @@
+import { useMutation } from 'react-query';
+import  { IMedicine } from './../../../backend/src/app/schemas/medicine.model';
 import axios, { AxiosResponse } from 'axios';
 
 
@@ -16,4 +18,18 @@ export async function viewAllMedicines(): Promise<AxiosResponse> {
 
 
   } 
+
+  //Calling the remove user function using axios
+  function addMedicineService(Medicine:IMedicine) {
+    console.log("I'm herreeee")
+    console.log(Medicine)
+    return axios.post(`${BASE_URL}/api/pharmacist/addMedicine`, Medicine ).then((response) => response)
+    .catch((error) => {throw new Error(error)});
+  }
+  //setting a mutation using react_query to handle the changes to database
+  // exporting it to use in the actual component
+  export function useAddMedicineService() {
+    return useMutation(addMedicineService);
+
+  }
 
