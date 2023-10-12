@@ -40,8 +40,8 @@ export function AddMedicine (){
         description: Medicine.description,
         quantity: Number(Medicine.quantity),
         Image: Medicine.Image,
-        activeIngredients: Medicine.activeIngredients.split(","),
-        medicinalUse: Medicine.medicinalUse.split(","),
+        activeIngredients: Medicine.activeIngredients.split(", "),
+        medicinalUse: Medicine.medicinalUse.split(", "),
         sales:0
     }
     mutation.mutateAsync(newMedicine).then(()=>{toast.success('Medicine Added Successfuly!', {
@@ -150,7 +150,7 @@ export function AddMedicine (){
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 multiline
-                helperText= "Please enter in this form {aIng1,aIng1,aIng1}"
+                helperText= "Please enter in this form {aIng1, aIng2, aIng3}"
 
               />
              {formik.errors.activeIngredients && formik.touched.activeIngredients?<Alert severity="warning" >{formik.errors.activeIngredients}</Alert>:""}
@@ -165,7 +165,7 @@ export function AddMedicine (){
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 multiline
-                helperText= "Please enter in this form {mUse1,mUse2,mUse3}"
+                helperText= "Please enter in this form {mUse1, mUse2, mUse3}"
               />
              {formik.errors.medicinalUse && formik.touched.medicinalUse?<Alert severity="warning" >{formik.errors.medicinalUse}</Alert>:""}
             </Grid>
