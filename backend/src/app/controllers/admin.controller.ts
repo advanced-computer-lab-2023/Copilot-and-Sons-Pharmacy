@@ -66,6 +66,19 @@ export const getPendingPharmacists = async (req: Request, res: Response) => {
 };
 
 
+export const getAcceptedPharmacists = async (req: Request, res: Response) => {
+  Pharmacist.find({status: "Accepted"}) 
+  .sort({ createdAt: -1 })
+  .then((result: any[]) => { 
+    res.send(result);
+  })
+  .catch((err: Error) => { 
+    console.log(err);
+  });
+};
+
+
+
 
 
 export const getPharmacistByID = async (req: Request, res: Response) => {
