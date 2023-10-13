@@ -11,7 +11,6 @@ import { RadioGroup } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 
 
-
 const containerStyle = {
   display: "flex",
   flexDirection: "column",
@@ -63,8 +62,13 @@ export const Register = () => {
         alert("Your request has been sent successfully");
       })
       .catch((err) => {
+        if (typeof err.response.data.message == "undefined") {
+          alert(err.response.data.error);
+        }
+        else{
         alert(err.response.data.message);
-        console.log(err);
+       
+        }
       });
       
 
