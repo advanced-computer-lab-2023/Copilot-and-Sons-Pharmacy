@@ -40,7 +40,7 @@ export const Register = () => {
     console.log("submit");
 
     e.preventDefault();
-    try {
+  
       await axios.post("http://localhost:3000/api/pharmacist/addPharmacist", {
         name,
         email,
@@ -68,9 +68,7 @@ export const Register = () => {
       });
       
 
-    } catch (err) {
-      console.log(err);
-    }
+ 
   }
 
 

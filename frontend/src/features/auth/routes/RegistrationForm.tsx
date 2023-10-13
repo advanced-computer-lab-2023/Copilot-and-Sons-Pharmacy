@@ -174,6 +174,7 @@ const RegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="UserName"
+                required
                 name="username"
                 value={formData.username}
                 onChange={handleInputChange}
@@ -185,6 +186,7 @@ const RegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Full Name"
+                required
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
@@ -197,6 +199,7 @@ const RegistrationForm: React.FC = () => {
                 fullWidth
                 label="Email"
                 type="email"
+                required
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
@@ -210,6 +213,7 @@ const RegistrationForm: React.FC = () => {
                 label="Password"
                 type="password"
                 name="password"
+                required
                 value={formData.password}
                 onChange={handleInputChange}
                 error={Boolean(errors.password)}
@@ -223,6 +227,7 @@ const RegistrationForm: React.FC = () => {
                 type="date"
                 name="dateOfBirth"
                 required
+                InputLabelProps={{ shrink: true }}
                 value={formData.dateOfBirth}
                 onChange={(e) => {
                   try {
@@ -245,6 +250,7 @@ const RegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Gender"
+                required
                 name="gender"
                 value={formData.gender}
                 onChange={handleInputChange}
@@ -256,6 +262,7 @@ const RegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Mobile Number"
+                required
                 name="mobileNumber"
                 value={formData.mobileNumber}
                 onChange={handleInputChange}
@@ -268,10 +275,10 @@ const RegistrationForm: React.FC = () => {
                 fullWidth
                 label="Emergency Contact Full Name"
                 type="text"
+                required
                 name="emergencyContact.fullName"
                 value={formData.emergencyContact.fullName}
                 onChange={handleInputChange}
-                required
                 error={Boolean(emergencyContactError.fullName)}
                 helperText={emergencyContactError.fullName}
               />
@@ -281,6 +288,7 @@ const RegistrationForm: React.FC = () => {
                 fullWidth
                 label="Emergency Contact Mobile Number"
                 name="emergencyContact.mobileNumber"
+                required
                 value={formData.emergencyContact.mobileNumber}
                 onChange={handleInputChange}
                 error={Boolean(emergencyContactError.mobileNumber)}
@@ -292,6 +300,7 @@ const RegistrationForm: React.FC = () => {
                 fullWidth
                 label="Emergency Contact Relation"
                 name="emergencyContact.relation"
+                required
                 value={formData.emergencyContact.relation}
                 onChange={handleInputChange}
                 error={Boolean(emergencyContactError.relation)}

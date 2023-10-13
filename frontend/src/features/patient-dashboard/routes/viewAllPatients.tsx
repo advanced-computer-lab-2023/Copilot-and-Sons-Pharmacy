@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Grid, Card, CardContent, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { viewAllPatients } from "../../../api/patient";

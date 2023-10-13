@@ -23,13 +23,13 @@ type Pharmacist = {
 export const addPharmacistService=async(pharmacist:Pharmacist)=>{
 const existingEmail = await Pharmacist.findOne({ email: pharmacist.email });
 if (existingEmail) {
-    return new AppError('Pharmacist with this email already exists',400,FAIL);
+  throw  new AppError('Pharmacist with this email already exists',400,FAIL);
  
 }
 
 const existingUsername = await Pharmacist.findOne({ username: pharmacist.username });
 if (existingUsername) {
- return new AppError('Pharmacist with this username already exists',400,FAIL);
+throw new AppError('Pharmacist with this username already exists',400,FAIL);
 
 }
 

@@ -6,7 +6,7 @@ import AddingAdmin from './AddingAdmin'
 
 import GetApprovedPharmacists from './GetApprovedPharmacists'
 
-import { RemoveUser } from './removeUser'
+import { RemoveUser } from './RemoveUser'
 import {  ToastContainer } from 'react-toastify';
 import GetPharmacists from './getPendingPharmacists'
 
