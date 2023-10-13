@@ -16,32 +16,6 @@
   import { Collapse } from '@mui/material';
   import MailIcon from '@mui/icons-material/Mail';
   import format from 'date-fns/format';
-  // import { makeStyles } from '@mui/styles/makeStyles';
-  // import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-// const theme = createTheme();
-//   const useStyles = makeStyles((theme) => ({
-//     caed : {
-//       '&:hover': {
-//         transform: 'scale(1.05)',
-//       },
-//     },
-   
-//   }));
-
-  // const useStyles = makeStyles({
-  //   card: {
-  //     '&:hover': {
-  //       transform: 'scale(1.05)',
-  //     },
-  //   },
-  // });
-
-  // const CardContainer = styled('div')({
-  //   display: 'grid',
-  //   gap: '100px', /* Adjust the gap between cards as needed */
-    
-  // });
 
 
   interface ExpandMoreProps extends IconButtonProps {
@@ -60,7 +34,6 @@
   }));
 
 export default function PharmacistDetails({ pharmacist }) {
-  // const classes = useStyles();
   const dateOfBirthFormatted = format(new Date(pharmacist.dateOfBirth), "MMMM d, yyyy");
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -102,7 +75,6 @@ export default function PharmacistDetails({ pharmacist }) {
         <CardContent>
           <Typography>
           <p><strong>Username : </strong>{pharmacist.username}</p>
-          <p><strong>Password : </strong>{pharmacist.password}</p>
           <p><strong>Date of Birth : </strong>{dateOfBirthFormatted}</p>
           <p><strong>Hourly Rate : </strong>{pharmacist.hourlyRate} $</p>
           <p><strong>Affiliation : </strong>{pharmacist.affilation}</p>
