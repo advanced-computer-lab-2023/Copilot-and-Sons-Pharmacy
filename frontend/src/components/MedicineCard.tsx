@@ -3,17 +3,18 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions, Button, Box } from "@mui/material";
+import IMedicine from "../types/medicine.type";
 
 
 
-export default function MedicineCard(props: { medicine: { Image: string | undefined; name: string , price:number,description:string,medicinalUse:[string] }; }) {
+export default function MedicineCard(props: { medicine: IMedicine }) {
   return (
     <Card sx={{ maxWidth: 300,minWidth:300 , height: "370px"} }>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
-          image={props.medicine.Image}
+          image= {props.medicine.Image}
           
           alt=""
         />

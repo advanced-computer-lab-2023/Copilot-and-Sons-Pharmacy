@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
 import {registerUser} from '../../../api/auth.ts'
 import React, { useState, FormEvent,  } from 'react';
@@ -129,13 +130,14 @@ const RegistrationForm: React.FC = () => {
             [fieldName]: true,
           })
           .parse({ [fieldName]: value });
-
+        
         setEmergencyError((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err:any) {
+        const message:string=err.errors.find((error:any) => error.path[0] === fieldName).message
         setEmergencyError((prevErrors) => ({
           ...prevErrors,
-          [fieldName]: err.message,
+          [fieldName]: message,
         }));
       }
     } else {
@@ -153,8 +155,10 @@ const RegistrationForm: React.FC = () => {
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setErrors((prevErrors) => ({ ...prevErrors, [name]: error.message }));
+      const message:string=error.errors.find((err:any) => err.path[0] === name).message;
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: message }));
     }
+  
   };
 
   return (
