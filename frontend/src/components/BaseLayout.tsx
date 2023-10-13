@@ -17,6 +17,8 @@ import { Link, Outlet } from 'react-router-dom'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PersonIcon from '@mui/icons-material/Person';
+import { viewAllPatients } from '../api/patient';
+import ViewPatients from './../features/patient-dashboard/routes/viewAllPatients';
 
 
 
@@ -101,8 +103,10 @@ export function BaseLayout() {
             <ListItemLink
             to="/patient-dashboard"
             primary="patient"
-            icon={< PersonIcon/>}
+            icon={ < PersonIcon/>}
           />
+          
+         
           <ListItemLink
           to="/admin-dashboard"
           primary="admin"

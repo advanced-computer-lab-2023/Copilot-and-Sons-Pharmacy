@@ -1,8 +1,15 @@
 import { RouteObject } from 'react-router-dom'
 import { AdminDashboardLayout } from '../components/AdminDashboardLayout'
 import { AdminDashboardHome } from './AdminDashboardHome'
+
 import AddingAdmin from './AddingAdmin'
+
+import GetApprovedPharmacists from './GetApprovedPharmacists'
+
+import { RemoveUser } from './removeUser'
 import {  ToastContainer } from 'react-toastify';
+import GetPharmacists from './getPendingPharmacists'
+
 
 export const adminDashboardRoutes: RouteObject[] = [
   {
@@ -15,6 +22,23 @@ export const adminDashboardRoutes: RouteObject[] = [
       {
         path:'add-admin',
         element:<>  <ToastContainer /><AddingAdmin/></>
+
+      },
+      {
+        path:'remove-user',
+        element:<RemoveUser/>
+
+      }
+      ,
+      {
+        path:'get-approved-pharmacists',
+        element:<GetApprovedPharmacists/>
+
+      }
+      ,
+      {
+        path:'get-pending-pharmacists',
+        element:<GetPharmacists/>
 
       }
 

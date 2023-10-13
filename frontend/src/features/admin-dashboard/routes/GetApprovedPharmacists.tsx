@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import PharmacistDetails from "../../../components/pharmacistDetails";
 import { Container, Grid } from "@mui/material";
+import {Paper} from "@mui/material";
 
-
-const GetPharmacists = () => {
+const GetApprovedPharmacists = () => {
   const [pharmacists, setPharmacists] = useState(null);
 
   useEffect(() => {
     const fetchPharmacists = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/admin/getAllPharmacists');
+        const response = await axios.get('http://localhost:3000/api/admin/getAcceptedPharmacists');
         if (response.status === 200) {
           setPharmacists(response.data);
         }
@@ -45,4 +45,4 @@ const GetPharmacists = () => {
   );
 };
 
-export default GetPharmacists;
+export default GetApprovedPharmacists;

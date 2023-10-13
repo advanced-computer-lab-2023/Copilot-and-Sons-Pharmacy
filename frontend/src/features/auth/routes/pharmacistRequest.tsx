@@ -63,7 +63,7 @@ export const Register = () => {
         alert("Your request has been sent successfully");
       })
       .catch((err) => {
-        alert(err.response.data);
+        alert(err.response.data.message);
         console.log(err);
       });
       
@@ -258,9 +258,7 @@ export const Register = () => {
     </div>
     
 
-    <p className="forgot-password text-right">
-      Already registered <Link to="/auth/login">sign in?</Link>
-    </p>
+    
   </form>
   
   </div>
