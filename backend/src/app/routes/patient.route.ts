@@ -6,7 +6,7 @@ import { fetchAllPatients } from '../services/viewAllPatients';
 
 const router=express.Router();
 router.use(express.json());
-router.route('/getAllPatients').get(getAllPatients);
+router.route('/viewAllPatients').get(getAllPatients);
 router.route('/register').post(
     validateRegistrationData(registrationValidator), 
    registerController);

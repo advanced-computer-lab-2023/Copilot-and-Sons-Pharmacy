@@ -5,16 +5,15 @@ import { FAIL } from "../utils/httpStatusText";
 
 
 
-export async function getPatientByUsername(username: string) {
+export async function getPatientById(_id: string) {
 
-    const patient = await User.findOne({ username ,role:"PATIENT"});
+    const patient = await Patient.findById({ _id});
 
     if (!patient) {
       new AppError ('Patient not found',404,FAIL);
     }
     else{
-    const result= await Patient.findOne({user:patient._id});
-    return result;
+    return patient;
     }
 
    

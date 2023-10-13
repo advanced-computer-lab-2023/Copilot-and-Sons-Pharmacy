@@ -5,7 +5,7 @@ import { addAdminService } from '../services/addAdmin.service';
 import { getMedicineByName } from '../services/searchForMedicineByName';
 import { getMedicineByMeidinalUse } from '../services/filterMedicineByMedicinalUse';
 import { removeUser } from '../services/removeUser.service';
-import {getPatientByUsername} from '../services/adminViewsPatientInfo';
+import {getPatientById} from '../services/adminViewsPatientInfo';
 import Pharmacist from '../schemas/pharmacist';
 const { ObjectId } = require('mongodb');
 const Joi = require('joi');
@@ -33,7 +33,13 @@ else{
  
 
 export const adminViewsPatientInfo =asyncWrapper(async (req:Request, res: Response) => {
-    const patient = await  getPatientByUsername(req.body.username);
+    const _id = req.params.id;
+    console.log('hey')
+    const patient = await  getPatientById(_id);
+    console.log('hi')
+    if(!patient){
+      res.json("Patient not found")
+    }
     res.json({success: SUCCESS, data: patient});
     console.log(patient);
 })
