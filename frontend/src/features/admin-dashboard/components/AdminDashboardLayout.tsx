@@ -19,6 +19,19 @@ export function AdminDashboardLayout() {
         text: 'Remove user ',
         icon: <PersonRemove />,
       },
+      {
+        
+        to : '/admin-dashboard/get-approved-pharmacists',
+        text : 'View Accepted Pharmacists',
+        icon : <PersonAdd />,
+      }
+      ,
+      {
+        
+        to : '/admin-dashboard/get-pending-pharmacists',
+        text : 'View Pending Pharmacists',
+        icon : <PersonAdd />,
+      }
     ])
   }, [setSidebarLinks])
 

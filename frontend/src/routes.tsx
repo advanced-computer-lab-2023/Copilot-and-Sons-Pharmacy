@@ -8,7 +8,6 @@ import { BaseLayout } from './components/BaseLayout'
 import  RedirectToDashboard  from './components/RedirectToDashboard'
 import {medicineRoutes} from './features/medicine-dashboard/routes'
 
-import GetPharmacists from "./features/auth/routes/allPharmacists";
 
 
 
@@ -39,14 +38,6 @@ export const routes: RouteObject[] = [
     path: '/medicines',
     children: medicineRoutes,
   },
-
-  {
-    path: "/getPharmacists",
-    element: <h1>
-      
-      <GetPharmacists />    
-    </h1>,
-  }
   ]
 }
 ];
