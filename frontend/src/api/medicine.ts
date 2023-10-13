@@ -23,7 +23,7 @@ export async function viewAllMedicines(): Promise<AxiosResponse> {
   function addMedicineService(Medicine:IMedicine) {
     console.log("I'm herreeee")
     console.log(Medicine)
-    return axios.post(`${BASE_URL}/api/pharmacist/addMedicine`, Medicine ).then((response) => response)
+    return axios.post(`${BASE_URL}/api/medicine/addMedicine`, Medicine ).then((response) => response)
     .catch((error) => {throw new Error(error)});
   }
   //setting a mutation using react_query to handle the changes to database
