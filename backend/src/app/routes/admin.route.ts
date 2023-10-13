@@ -12,7 +12,7 @@ router.route('/getPendingPharmacists').get(getPendingPharmacists)
 router.route('/getPharmacistByID/:id').get(getPharmacistByID)
 
 router.route('/getMedicineByName').get(serachForMedicine);
-router.route('/getPatientByUsername').get(adminViewsPatientInfo);
+router.route('/patientInfo/:id').get(adminViewsPatientInfo);
 router.route('/removeUser').delete(deleteUser)
 
 

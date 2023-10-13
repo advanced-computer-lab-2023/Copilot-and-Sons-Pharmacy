@@ -11,11 +11,19 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
+
+
+
 
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
+  </QueryClientProvider>,
 );
