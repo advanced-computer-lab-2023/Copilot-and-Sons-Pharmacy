@@ -1,5 +1,4 @@
 import { RouteObject } from "react-router-dom";
-
 import { authRoutes } from './features/auth/routes'
 import { pharmacistDashboardRoutes } from './features/pharmacist-dashboard/routes'
 import { adminDashboardRoutes } from './features/admin-dashboard/routes'
@@ -7,7 +6,6 @@ import { patientDashboardRoutes } from './features/patient-dashboard/routes'
 import { BaseLayout } from './components/BaseLayout'
 import  RedirectToDashboard  from './components/RedirectToDashboard'
 import {medicineRoutes} from './features/medicine-dashboard/routes'
-
 import GetPharmacists from "./features/auth/routes/allPharmacists";
 
 
@@ -29,6 +27,10 @@ export const routes: RouteObject[] = [
   },{
     path: '/admin-dashboard',
     children: adminDashboardRoutes,
+  },
+  {
+    path: '/medicine-dashboard',
+    children: medicineRoutes,
   },
 
   {

@@ -10,8 +10,9 @@ import {
   List,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
+  ListItemText
 } from '@mui/material'
+
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
@@ -59,6 +60,8 @@ export function BaseLayout() {
   const [sidebarLinks, setSidebarLinks] = React.useState<SidebarLink[]>([])
 
   return (
+    
+  
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
