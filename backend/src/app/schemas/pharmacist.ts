@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 import User from './user.model';
 
 const pharmacistSchema = new Schema({
+    user : {
+        type : Schema.Types.ObjectId,
+        ref : User,
+        required : true,
+    },
 
     name : {
         type : String,
@@ -14,15 +19,7 @@ const pharmacistSchema = new Schema({
         required : true,
         // unique : true, to be done later
     },
-    username : {
-        type : String,
-        required : true,
-        // unique : true,  to be done later
-    },
-    password : {
-        type : String,
-        required : true,
-    },
+
     dateOfBirth : {
         type : Date,
         required : true,
