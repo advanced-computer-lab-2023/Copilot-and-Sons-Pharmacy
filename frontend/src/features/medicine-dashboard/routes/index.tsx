@@ -3,7 +3,7 @@ import { MedicineDashboardLayout } from '../components/MedicineDashboardLayout'
 import  ViewAllMedicines  from './ViewAllMedicines'
 import ViewMedicineSalesAndQuantity from './ViewMedicineSalesAndQuantity'
 import SearchForMedicine from './searchForMedicine'
-import { EditMedicine } from './editMedicine'
+import { EditMedicine } from './EditMedicine'
 import { AddMedicine } from './AddMedicine'
 export const medicineRoutes: RouteObject[] = [
   {
