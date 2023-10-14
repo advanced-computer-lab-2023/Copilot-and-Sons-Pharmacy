@@ -32,6 +32,11 @@ export function MedicineDashboardLayout() {
           text: 'Add Medicine',
           icon: <HealingIcon  />,
         },
+        {
+          to: '/medicines/allUses',
+          text: 'Filter By Medicinal Use',
+          icon: <HealingIcon  />,
+        }
  
       ])
     }, [setSidebarLinks])

@@ -40,7 +40,6 @@ export const routes: RouteObject[] = [
     path: '/medicines',
     children: medicineRoutes,
   },
-
   ]
 }
 ];

@@ -5,11 +5,18 @@ import asyncWrapper from "../middlewares/asyncWrapper";
 import { viewMedicineQuantityAndSales } from "../services/viewQuantityAndSales.service";
 import { addMedicineService } from "../services/addMedicine.service";
 import { editMedicineService } from "../services/editMedicine.service";
+import { getAllMedicinalUses } from "../services/getAllMedicinalUses";
 
 export const getAllMedicines = asyncWrapper(
   async (req: Request, res: Response) => {
     const medicines = await fetchAllMedicines();
     res.status(200).json({ success: SUCCESS, data: medicines });
+  }
+);
+export const medicinalUses = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const uses = await getAllMedicinalUses();
+    res.status(200).json({ success: SUCCESS, data: uses });
   }
 );
 
