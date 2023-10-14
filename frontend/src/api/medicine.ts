@@ -18,36 +18,8 @@ export async function viewAllMedicines(): Promise<AxiosResponse> {
 
 
   } 
-//Calling the add Medicine function using axios
-  function addMedicineService(Medicine:IMedicine) {
-    console.log("I'm herreeee")
-    console.log(Medicine)
-    return axios.post(`${BASE_URL}/api/medicine/addMedicine`, Medicine ).then((response) => response)
-    .catch((error) => {throw new Error(error)});
-  }
-  //setting a mutation using react_query to handle the changes to database
-  // exporting it to use in the actual component
-  export function useAddMedicineService() {
-    return useMutation(addMedicineService);
-
-  }
-
-  //Calling the editMedicine function using axios
-  function editMedicineService(Medicine) {
-    return axios.put(`${BASE_URL}/api/medicine/editMedicine/${Medicine.name}`, Medicine ).then((response) => response)
-    .catch((error) => {throw new Error(error)});
-  }
-  //setting a mutation using react_query to handle the changes to database
-  // exporting it to use in the actual component
-  export function useEditMedicineService() {
-    return useMutation(editMedicineService);
-
-  }
-
   //Calling the add Medicine function using axios
   function addMedicineService(Medicine:IMedicine) {
-    console.log("I'm herreeee")
-    console.log(Medicine)
     return axios.post(`${BASE_URL}/api/medicine/addMedicine`, Medicine ).then((response) => response)
     .catch((error) => {throw new Error(error)});
   }
@@ -60,8 +32,6 @@ export async function viewAllMedicines(): Promise<AxiosResponse> {
 
   //Calling the editMedicine function using axios
   function editMedicineService(Medicine) {
-    console.log("I'm herreeee")
-    console.log(Medicine)
     return axios.put(`${BASE_URL}/api/medicine/editMedicine/${Medicine.name}`, Medicine ).then((response) => response)
     .catch((error) => {throw new Error(error)});
   }
