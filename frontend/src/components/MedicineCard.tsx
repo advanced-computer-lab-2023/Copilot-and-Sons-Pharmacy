@@ -51,7 +51,7 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
 
         </Box>
         <Box display="flex" justifyContent="center" width="100%">
-        <Link to={`editMedicine/${props.medicine.name}`}>
+        <Link to={`/medicines/editMedicine/${props.medicine.name}`}>
           <Button
             color="secondary"
             disabled={false}
