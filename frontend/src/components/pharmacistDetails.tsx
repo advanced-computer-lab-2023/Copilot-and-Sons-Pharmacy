@@ -74,7 +74,7 @@ export default function PharmacistDetails({ pharmacist }) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography>
-          <p><strong>Username : </strong>{pharmacist.username}</p>
+          <p><strong>Username : </strong>{pharmacist.user.username}</p>
           <p><strong>Date of Birth : </strong>{dateOfBirthFormatted}</p>
           <p><strong>Hourly Rate : </strong>{pharmacist.hourlyRate} $</p>
           <p><strong>Affiliation : </strong>{pharmacist.affilation}</p>

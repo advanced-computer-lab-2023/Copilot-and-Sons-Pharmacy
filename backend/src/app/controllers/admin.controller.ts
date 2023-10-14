@@ -61,7 +61,7 @@ export const getAllPharmacists = asyncWrapper(async (req: Request, res: Response
 
 
 export const getPendingPharmacists = async (req: Request, res: Response) => {
-    Pharmacist.find({status: "Pending"}) 
+    Pharmacist.find({status: "Pending"}).populate('user')
     .sort({ createdAt: -1 })
     .then((result: any[]) => { 
       res.send(result);
@@ -73,7 +73,7 @@ export const getPendingPharmacists = async (req: Request, res: Response) => {
 
 
 export const getAcceptedPharmacists = async (req: Request, res: Response) => {
-  Pharmacist.find({status: "Accepted"}) 
+  Pharmacist.find({status: "Accepted"}).populate('user')
   .sort({ createdAt: -1 })
   .then((result: any[]) => { 
     res.send(result);
