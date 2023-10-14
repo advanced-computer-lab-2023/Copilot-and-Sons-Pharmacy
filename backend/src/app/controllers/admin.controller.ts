@@ -21,7 +21,7 @@ else{
 
 
 export const serachForMedicine =async (req:Request, res: Response) => {
-  const medicine = await  getMedicineByName(req.body.name);
+  const medicine = await  getMedicineByName(req.params.name);
   if (medicine.length== 0)
   res.json("There's no available medicines with this name");
 else{
