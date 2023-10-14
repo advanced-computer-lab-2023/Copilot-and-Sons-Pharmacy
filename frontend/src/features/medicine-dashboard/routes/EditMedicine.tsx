@@ -78,7 +78,7 @@ const { name } = useParams();
       <Container maxWidth="sm">
       <Box sx={{ marginTop: 4 }}>
         <Typography variant="h4" align="center" gutterBottom>
-          Add New Medicine
+          Edit Medicine
         </Typography>
         <ToastContainer />
         <form onSubmit={formik.handleSubmit}>
