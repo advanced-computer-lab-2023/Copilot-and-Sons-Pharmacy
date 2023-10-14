@@ -6,7 +6,7 @@ import { patientDashboardRoutes } from './features/patient-dashboard/routes'
 import { BaseLayout } from './components/BaseLayout'
 import  RedirectToDashboard  from './components/RedirectToDashboard'
 import {medicineRoutes} from './features/medicine-dashboard/routes'
-import GetPharmacists from "./features/auth/routes/allPharmacists";
+import GetPharmacists from "./features/auth/routes/pharmacistRequest";
 
 
 

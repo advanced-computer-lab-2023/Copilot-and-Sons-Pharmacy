@@ -3,6 +3,9 @@ import { MedicineDashboardLayout } from '../components/MedicineDashboardLayout'
 import  ViewAllMedicines  from './ViewAllMedicines'
 import ViewMedicineSalesAndQuantity from './ViewMedicineSalesAndQuantity'
 import SearchForMedicine from './searchForMedicine'
+import MedicinalUses from './ViewAllMedicinalUses'
+import FilteredMedicines from './FilterMedicines'
+
 export const medicineRoutes: RouteObject[] = [
   {
     element: <MedicineDashboardLayout />,
@@ -19,6 +22,15 @@ export const medicineRoutes: RouteObject[] = [
         path: 'search-for-medicine',
         element: <SearchForMedicine/>,
       },
+      {
+        path: 'allUses',
+        element: <MedicinalUses/>},
+       
+         { path: 'allUses/:name',
+          element: <FilteredMedicines/>
+          
+        }
+      
     ],
   },
 ]

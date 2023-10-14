@@ -11,7 +11,7 @@ const { ObjectId } = require('mongodb');
 const Joi = require('joi');
 
 export const filterMedicineByMedicinalUse =async (req:Request, res: Response) => {
-  const medicines = await  getMedicineByMeidinalUse(req.body.medicinalUse);
+  const medicines = await  getMedicineByMeidinalUse(req.params.medicinalUse);
   if (medicines.length== 0)
   res.json("There's no available medicines with this medicinalUse");
 else{
