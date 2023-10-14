@@ -30,6 +30,8 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
           <br/>
           Medical Use: {props.medicine.medicinalUse.join(', ')}
           <br/>
+          Active Ingrediants:{props.medicine.activeIngredients.join(', ')} 
+          <br/>
           price: {props.medicine.price}
    
           </Typography>

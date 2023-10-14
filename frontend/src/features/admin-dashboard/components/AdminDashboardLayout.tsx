@@ -37,7 +37,7 @@ export function AdminDashboardLayout() {
       },
       {
         to: "/medicines/",
-        text: "View Medicines",
+        text: "Medicines",
         icon:<MedicationIcon/>
       },
     ]);
