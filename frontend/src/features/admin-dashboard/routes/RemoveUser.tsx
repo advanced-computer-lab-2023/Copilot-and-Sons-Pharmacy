@@ -11,7 +11,6 @@ import {
     Box,
   } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
-import { Mutation } from 'react-query';
 
 
 interface IdeleteData {
@@ -44,7 +43,7 @@ export function RemoveUser (){
     username: Yup.string().required('Username is required'),
   });
 
-  let formik = useFormik<any>({
+  const formik = useFormik<any>({
     initialValues,
     validationSchema,
     onSubmit:handleRemoveUser

@@ -3,17 +3,19 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions, Button, Box } from "@mui/material";
+import IMedicine from "../types/medicine.type";
+import { Link } from "react-router-dom";
 
 
 
-export default function MedicineCard(props: { medicine: { Image: string | undefined; name: string , price:number,description:string,medicinalUse:[string] }; }) {
+export default function MedicineCard(props: { medicine: IMedicine }) {
   return (
     <Card sx={{ maxWidth: 300,minWidth:300 , height: "370px"} }>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
-          image={props.medicine.Image}
+          image= {props.medicine.Image}
           
           alt=""
         />
@@ -28,13 +30,15 @@ export default function MedicineCard(props: { medicine: { Image: string | undefi
           <br/>
           Medical Use: {props.medicine.medicinalUse.join(', ')}
           <br/>
+          Active Ingrediants:{props.medicine.activeIngredients.join(', ')} 
+          <br/>
           price: {props.medicine.price}
    
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Box display="flex" justifyContent="center" width="100%">
+      <Box display="flex" justifyContent="center" width="100%">
           <Button
             color="primary"
             disabled={false}
@@ -43,7 +47,24 @@ export default function MedicineCard(props: { medicine: { Image: string | undefi
           >
             Buy
           </Button>
+          
+
         </Box>
+        <Box display="flex" justifyContent="center" width="100%">
+        <Link to={`editMedicine/${props.medicine.name}`}>
+          <Button
+            color="secondary"
+            disabled={false}
+            size="small"
+            variant="contained"
+          >
+            edit
+          </Button>
+          </Link>
+          
+
+        </Box>
+
       </CardActions>
    </Card>
   );

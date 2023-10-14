@@ -27,6 +27,12 @@ export function MedicineDashboardLayout() {
           text: 'view Sales and Quantity',
           icon: <LocalPharmacyIcon />,
         },
+        {
+          to: '/medicines/addMedicine',
+          text: 'Add Medicine',
+          icon: <HealingIcon  />,
+        },
+ 
       ])
     }, [setSidebarLinks])
   return (

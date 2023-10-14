@@ -6,8 +6,9 @@ import AddingAdmin from './AddingAdmin'
 
 import GetApprovedPharmacists from './GetApprovedPharmacists'
 
-import { RemoveUser } from './removeUser'
+import { RemoveUser } from './RemoveUser'
 import {  ToastContainer } from 'react-toastify';
+import GetPharmacists from './getPendingPharmacists'
 
 
 export const adminDashboardRoutes: RouteObject[] = [
@@ -32,6 +33,12 @@ export const adminDashboardRoutes: RouteObject[] = [
       {
         path:'get-approved-pharmacists',
         element:<GetApprovedPharmacists/>
+
+      }
+      ,
+      {
+        path:'get-pending-pharmacists',
+        element:<GetPharmacists/>
 
       }
 
