@@ -12,7 +12,7 @@ export function PatientDashboardLayout() {
     setSidebarLinks([
       {
         to:"/medicines/",
-        text:"view all Medicines",
+        text:"Medicines",
         icon:<MedicationIcon/>
   
       },

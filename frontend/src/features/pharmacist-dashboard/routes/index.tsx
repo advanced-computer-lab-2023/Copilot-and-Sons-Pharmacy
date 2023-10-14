@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router-dom'
 import {PharmacistDashboardLayout } from '../components/PharmacistDashboardLayout'
 import {PharmacistDashboardHome } from './pharmacistDashboardHome'
-import { AddMedicine } from './AddMedicine'
+
 
 export const pharmacistDashboardRoutes: RouteObject[] = [
   {
@@ -10,10 +10,6 @@ export const pharmacistDashboardRoutes: RouteObject[] = [
       {
         path: '',
         element: < PharmacistDashboardHome />,
-      },
-      {
-        path: 'addMedicine',
-        element: < AddMedicine />,
       },
     ],
   },
