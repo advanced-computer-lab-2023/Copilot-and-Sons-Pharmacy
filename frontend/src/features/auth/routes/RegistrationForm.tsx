@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
-import {registerUser} from '../../../api/auth.ts'
-import React, { useState, FormEvent,  } from 'react';
-import { toast,ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { registerUser } from "../../../api/auth.ts";
+import React, { useState, FormEvent } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   TextField,
@@ -13,6 +12,11 @@ import {
   Typography,
   Grid,
   Box,
+  FormControl,
+  RadioGroup,
+  FormLabel,
+  Radio,
+  FormControlLabel,
 } from "@mui/material";
 import {
   RegisterRequestValidator,
@@ -37,7 +41,6 @@ type FormState = {
   };
 };
 const RegistrationForm: React.FC = () => {
-
   const [formData, setFormData] = useState<FormState>({
     username: "",
     name: "",
@@ -55,56 +58,47 @@ const RegistrationForm: React.FC = () => {
 
   const [errors, setErrors] = useState<errors>({});
 
-
   const [emergencyContactError, setEmergencyError] = useState<errors>({});
   const handleSubmit = async (e: FormEvent) => {
-   
     e.preventDefault();
-    
-  try {
-    RegisterRequestValidator.parse(formData);
-    setErrors({});
-    setEmergencyError({});
-    try{
-    await registerUser(formData);
-    toast.success('Registration was successful!', {
-      position: 'top-right',
-    });
 
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }catch(e:any) {
- 
-    toast.error(e.response.data.message, {
-      position: 'top-right',
-    });
-  }
-    
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      const fieldErrors: errors = {};
-      err.errors.forEach((validationError) => {
-        const fieldName  = validationError.path[0];
-        if(typeof fieldName==='string')
-       { 
-        if (fieldName.startsWith('emergencyContact.')) {
-          // Error in emergency contact fields
-          const subField = fieldName.split('.')[1];
-          emergencyContactError[subField] = validationError.message;
-        } else {
-          // Error in other fields
-          fieldErrors[fieldName] = validationError.message;
-        }
-       
-    }});
-      setErrors(fieldErrors);
-      setEmergencyError(emergencyContactError);
+    try {
+      RegisterRequestValidator.parse(formData);
+      setErrors({});
+      setEmergencyError({});
+      try {
+        await registerUser(formData);
+        toast.success("Registration was successful!", {
+          position: "top-right",
+        });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
+        toast.error(e.response.data.message, {
+          position: "top-right",
+        });
+      }
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const fieldErrors: errors = {};
+        err.errors.forEach((validationError) => {
+          const fieldName = validationError.path[0];
+          if (typeof fieldName === "string") {
+            if (fieldName.startsWith("emergencyContact.")) {
+              // Error in emergency contact fields
+              const subField = fieldName.split(".")[1];
+              emergencyContactError[subField] = validationError.message;
+            } else {
+              // Error in other fields
+              fieldErrors[fieldName] = validationError.message;
+            }
+          }
+        });
+        setErrors(fieldErrors);
+        setEmergencyError(emergencyContactError);
+      }
     }
-  }
-
-
-};
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as {
@@ -130,11 +124,13 @@ const RegistrationForm: React.FC = () => {
             [fieldName]: true,
           })
           .parse({ [fieldName]: value });
-        
+
         setEmergencyError((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err:any) {
-        const message:string=err.errors.find((error:any) => error.path[0] === fieldName).message
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        const message: string = err.errors.find(
+          (error: any) => error.path[0] === fieldName
+        ).message;
         setEmergencyError((prevErrors) => ({
           ...prevErrors,
           [fieldName]: message,
@@ -153,12 +149,13 @@ const RegistrationForm: React.FC = () => {
       }).parse({ [name]: value });
 
       setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      const message:string=error.errors.find((err:any) => err.path[0] === name).message;
+      const message: string = error.errors.find(
+        (err: any) => err.path[0] === name
+      ).message;
       setErrors((prevErrors) => ({ ...prevErrors, [name]: message }));
     }
-  
   };
 
   return (
@@ -247,16 +244,29 @@ const RegistrationForm: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Gender"
-                required
+            <FormControl>
+                <FormLabel id="demo-controlled-radio-buttons-group">
+                  Gender
+                </FormLabel>
+                <RadioGroup
+                row
+                aria-label="gender"
                 name="gender"
-                value={formData.gender}
-                onChange={handleInputChange}
-                error={Boolean(errors.gender)}
-                helperText={errors.gender}
-              />
+                  value={formData.gender}
+                  onChange={handleInputChange}
+                >
+                  <FormControlLabel
+                    value="Female"
+                    control={<Radio color="primary" />}
+                    label="Female"
+                  />
+                  <FormControlLabel
+                    value="Male"
+                    control={<Radio color="primary" />}
+                    label="Male"
+                  />
+                </RadioGroup>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
