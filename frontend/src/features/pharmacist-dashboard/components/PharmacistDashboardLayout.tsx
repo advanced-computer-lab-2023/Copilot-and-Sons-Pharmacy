@@ -10,16 +10,11 @@ export function PharmacistDashboardLayout() {
 
   useEffect(() => {
     setSidebarLinks([
-    //   {
-    //     to: '/pharmicist-dashboard/profile',
-    //     text: 'Update Details',
-    //     icon: <Person />,
-    //   },
-    {
-      to:'/pharmacist-dashboard/addMedicine',
-      text:'Add Medicine',
-      icon:<MedicationIcon/>
-    }
+      {
+        to:'/medicines/',
+        text:'Medicines',
+        icon:<MedicationIcon/>
+      }
     ])
   }, [setSidebarLinks])
 
