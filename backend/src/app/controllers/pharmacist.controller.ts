@@ -15,9 +15,4 @@ export const addPharmacist = asyncWrapper(
   }
 );
 
-export const editMedicine = asyncWrapper(
-  async (req: Request, res: Response) => {
-    const medicine = await editMedicineService(req.body.name, req.body.edits);
-    res.json({ success: SUCCESS, data: medicine });
-  }
-);
+

@@ -4,6 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions, Button, Box } from "@mui/material";
 import IMedicine from "../types/medicine.type";
+import { Link } from "react-router-dom";
 
 
 
@@ -35,7 +36,7 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Box display="flex" justifyContent="center" width="100%">
+      <Box display="flex" justifyContent="center" width="100%">
           <Button
             color="primary"
             disabled={false}
@@ -44,7 +45,24 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
           >
             Buy
           </Button>
+          
+
         </Box>
+        <Box display="flex" justifyContent="center" width="100%">
+        <Link to={`editMedicine/${props.medicine.name}`}>
+          <Button
+            color="secondary"
+            disabled={false}
+            size="small"
+            variant="contained"
+          >
+            edit
+          </Button>
+          </Link>
+          
+
+        </Box>
+
       </CardActions>
    </Card>
   );
