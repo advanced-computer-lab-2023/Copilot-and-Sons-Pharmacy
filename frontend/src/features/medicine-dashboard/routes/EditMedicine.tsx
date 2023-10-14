@@ -36,6 +36,8 @@ export function EditMedicine (){
       editedMedicine.edits.description= Medicine.description;
     if(Medicine.quantity!=0)
       editedMedicine.edits.quantity= Medicine.quantity;
+    if(Medicine.sales!=0)
+      editedMedicine.edits.sales= Medicine.sales;
     if(Medicine.Image!="")
       editedMedicine.edits.Image= Medicine.Image;
     if(Medicine.activeIngredients!="")
@@ -60,9 +62,10 @@ const { name } = useParams();
   const initialValues = {name: name, price:0 , description: "" , quantity: 0, Image: "", activeIngredients: "", medicinalUse:"", sales:0};
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('name is required'),
-    price: Yup.number(),
+    price: Yup.number(),  
     description: Yup.string(),
     quantity: Yup.number(),
+    sales: Yup.number(),
     Image: Yup.string(),
     activeIngredients: Yup.string().matches(/^(?!.*\s,)[^,]*(, [^,]+)*$/, 'Input must be in the form "a, b, c, d, e, f" with spaces after commas'),
     medicinalUse: Yup.string().matches(/^(?!.*\s,)[^,]*(, [^,]+)*$/, 'Input must be in the form "a, b, c, d, e, f" with spaces after commas'),
@@ -174,6 +177,20 @@ const { name } = useParams();
                 helperText= "Please enter in this form {mUse1, mUse2, mUse3}"
               />
              {formik.errors.medicinalUse && formik.touched.medicinalUse?<Alert severity="warning" >{formik.errors.medicinalUse}</Alert>:""}
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Sales"
+                name="sales"
+                    value={formik.values.sales}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                helperText= "please enter numbers only"
+              />
+            {formik.errors.sales && formik.touched.sales?<Alert severity="warning" >{formik.errors.sales}</Alert>:""}
+
             </Grid>
 
           </Grid>
