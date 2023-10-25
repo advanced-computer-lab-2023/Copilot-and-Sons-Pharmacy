@@ -1,5 +1,3 @@
-import Medicine from "../schemas/medicine.model";
-import { getAllMedicines } from './../controllers/medicine.controller';
 import { fetchAllMedicines } from "./fetchAllMedicines.service";
 
 export  async function getMedicineByMeidinalUse(medicinalUse: string) {

@@ -44,13 +44,12 @@ const PatientSchema = new mongoose.Schema({
           type: String,
           required: true,
         },
+        cart: {
+          type: Array<String>,
+        }
       }, 
-
-
-
-    
-
 })
+
 export interface IPatient extends Document {
     // username: string;
     token:String;
@@ -64,8 +63,8 @@ export interface IPatient extends Document {
       fullName: string;
       mobileNumber: string;
       relation: string;
-    
-};
+    };
+    cart: Array<string>;
 }
 const Patient: Model<IPatient> = mongoose.model<IPatient>('Patient', PatientSchema);
 

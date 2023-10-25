@@ -1,5 +1,5 @@
-import Patient, { IPatient } from '../schemas/patient.schema';
-import User,{IUser} from '../schemas/user.model';
+import Patient from '../schemas/patient.schema';
+import User from '../schemas/user.model';
 import bcrypt from 'bcryptjs';
 import generateJWT from '../utils/generateJWT';
 import AppError from '../utils/appError';
