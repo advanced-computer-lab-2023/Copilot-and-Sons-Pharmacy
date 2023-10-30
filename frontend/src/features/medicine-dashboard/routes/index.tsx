@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom'
 import { MedicineDashboardLayout } from '../components/MedicineDashboardLayout'
-import  ViewAllMedicines  from './ViewAllMedicines'
+import ViewAllMedicines from './ViewAllMedicines'
 import ViewMedicineSalesAndQuantity from './ViewMedicineSalesAndQuantity'
 import SearchForMedicine from './searchForMedicine'
 
@@ -9,41 +9,38 @@ import FilteredMedicines from './FilterMedicines'
 
 import { EditMedicine } from './EditMedicine'
 import { AddMedicine } from './AddMedicine'
+
 export const medicineRoutes: RouteObject[] = [
   {
     element: <MedicineDashboardLayout />,
     children: [
       {
         path: '',
-        element: <ViewAllMedicines/>,
+        element: <ViewAllMedicines />,
       },
       {
         path: 'sales-and-quantity',
-        element: <ViewMedicineSalesAndQuantity/>,
+        element: <ViewMedicineSalesAndQuantity />,
       },
       {
         path: 'search-for-medicine',
-        element: <SearchForMedicine/>,
+        element: <SearchForMedicine />,
       },
       {
         path: 'editMedicine/:name',
-        element: <EditMedicine/>,
+        element: <EditMedicine />,
       },
-       {
+      {
         path: 'addMedicine',
-        element: < AddMedicine />,
+        element: <AddMedicine />,
       },
 
       {
         path: 'allUses',
-        element: <MedicinalUses/>},
-       
-         { path: 'allUses/:name',
-          element: <FilteredMedicines/>
-          
-        }
-      
+        element: <MedicinalUses />,
+      },
 
+      { path: 'allUses/:name', element: <FilteredMedicines /> },
     ],
   },
 ]

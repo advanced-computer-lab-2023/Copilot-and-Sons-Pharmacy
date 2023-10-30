@@ -1,39 +1,33 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios'
 
-
-const BASE_URL = 'http://localhost:3000'; 
-
+const BASE_URL = 'http://localhost:3000'
 
 interface RegistrationData {
-    username: string;
-    name: string;
-    email: string;
-    password: string;
-    dateOfBirth: string | null;
-    gender: string;
-    mobileNumber: string;
-    emergencyContact: {
-      fullName: string;
-      mobileNumber: string;
-      relation: string;
-    };
-
+  username: string
+  name: string
+  email: string
+  password: string
+  dateOfBirth: string | null
+  gender: string
+  mobileNumber: string
+  emergencyContact: {
+    fullName: string
+    mobileNumber: string
+    relation: string
+  }
 }
-
-
 
 interface RegistrationResponse {
-  user: unknown; 
+  user: unknown
 }
 
+export async function registerUser(
+  userData: RegistrationData
+): Promise<AxiosResponse<RegistrationResponse>> {
+  const response = await axios.post<RegistrationResponse>(
+    `${BASE_URL}/api/patient/register`,
+    userData
+  )
 
-export async function registerUser(userData: RegistrationData): Promise<AxiosResponse<RegistrationResponse>> {
-
-    const response = await axios.post<RegistrationResponse>(`${BASE_URL}/api/patient/register`, userData);
-    return response;
-
-
-  
+  return response
 }
-
-

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { HydratedDocument, Model } from 'mongoose'
 
 const medicineSchema = new mongoose.Schema({
   name: {
@@ -9,25 +9,24 @@ const medicineSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
-    min: 0
+    min: 0,
   },
-  description:{
-    type:String,
-    required:true,
+  description: {
+    type: String,
+    required: true,
   },
   quantity: {
     type: Number,
     required: true,
     default: 0,
-    min: 0
+    min: 0,
   },
-  Image:{
-    type:String,
-
+  Image: {
+    type: String,
   },
-  activeIngredients : {
+  activeIngredients: {
     type: [String],
-    required: true
+    required: true,
   },
   medicinalUse: {
     type: [String],
@@ -35,21 +34,17 @@ const medicineSchema = new mongoose.Schema({
   },
   sales: {
     type: Number,
-    default: 0, 
+    default: 0,
   },
-});
-export interface IMedicine extends Document {
-  name: string;
-  price: number;
-  description: string;
-  quantity: number;
-  Image: string;
-  activeIngredients: string[];
-  medicinalUse: string[];
-  sales: number;
-}
+})
 
+export type IMedicine = HydratedDocument<
+  mongoose.InferSchemaType<typeof medicineSchema>
+>
 
-const Medicine: Model<IMedicine> = mongoose.model<IMedicine>('Medicine', medicineSchema);
+const Medicine: Model<IMedicine> = mongoose.model<IMedicine>(
+  'Medicine',
+  medicineSchema
+)
 
-export default Medicine;
+export default Medicine

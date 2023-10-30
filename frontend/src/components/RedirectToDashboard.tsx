@@ -1,6 +1,5 @@
-const RedirectToDashboard=()=>{
-    return(
-        <h1>Dashboard</h1>
-    )
+const RedirectToDashboard = () => {
+  return <h1>Dashboard</h1>
 }
-export default RedirectToDashboard;
+
+export default RedirectToDashboard

@@ -27,6 +27,7 @@
   "scripts": {
     "start": "nodemon --exec ts-node src/server.ts",
     "build": "tsc",
-    "dev": "nodemon --exec ts-node src/server.ts"
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "compile": "tsc --noEmit"
   }
 }

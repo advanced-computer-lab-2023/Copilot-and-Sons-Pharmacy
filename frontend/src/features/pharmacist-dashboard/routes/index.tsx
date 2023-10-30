@@ -1,7 +1,6 @@
 import { RouteObject } from 'react-router-dom'
-import {PharmacistDashboardLayout } from '../components/PharmacistDashboardLayout'
-import {PharmacistDashboardHome } from './pharmacistDashboardHome'
-
+import { PharmacistDashboardLayout } from '../components/PharmacistDashboardLayout'
+import { PharmacistDashboardHome } from './pharmacistDashboardHome'
 
 export const pharmacistDashboardRoutes: RouteObject[] = [
   {
@@ -9,7 +8,7 @@ export const pharmacistDashboardRoutes: RouteObject[] = [
     children: [
       {
         path: '',
-        element: < PharmacistDashboardHome />,
+        element: <PharmacistDashboardHome />,
       },
     ],
   },

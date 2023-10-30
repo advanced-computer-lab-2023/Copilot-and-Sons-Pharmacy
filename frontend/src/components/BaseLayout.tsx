@@ -1,4 +1,3 @@
-
 import {
   Box,
   CssBaseline,
@@ -10,19 +9,14 @@ import {
   List,
   ListItemButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from '@mui/material'
 
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import PersonIcon from '@mui/icons-material/Person';
-import { viewAllPatients } from '../api/patient';
-import ViewPatients from './../features/patient-dashboard/routes/viewAllPatients';
-
-
-
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import PersonIcon from '@mui/icons-material/Person'
 
 interface ListItemLinkProps {
   icon?: React.ReactElement
@@ -60,8 +54,6 @@ export function BaseLayout() {
   const [sidebarLinks, setSidebarLinks] = React.useState<SidebarLink[]>([])
 
   return (
-    
-  
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
@@ -98,30 +90,27 @@ export function BaseLayout() {
             />
           ))}
 
-            <ListItemLink
-              to="/pharmacist-dashboard"
-              primary="pharmacist"
-              icon={<PersonIcon/>}
-            />
-            <ListItemLink
+          <ListItemLink
+            to="/pharmacist-dashboard"
+            primary="pharmacist"
+            icon={<PersonIcon />}
+          />
+          <ListItemLink
             to="/patient-dashboard"
             primary="patient"
-            icon={ < PersonIcon/>}
+            icon={<PersonIcon />}
           />
-          
-         
+
           <ListItemLink
-          to="/admin-dashboard"
-          primary="admin"
-          icon={<AdminPanelSettingsIcon />}
-        />
+            to="/admin-dashboard"
+            primary="admin"
+            icon={<AdminPanelSettingsIcon />}
+          />
           <ListItemLink
-          to="/auth/register"
-          primary="Authorization"
-          icon={<AppRegistrationIcon />}
-        />
-    
-            
+            to="/auth/register"
+            primary="Authorization"
+            icon={<AppRegistrationIcon />}
+          />
         </List>
       </Drawer>
       <Box

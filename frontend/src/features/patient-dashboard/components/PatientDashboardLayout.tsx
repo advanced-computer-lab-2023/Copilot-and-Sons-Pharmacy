@@ -1,9 +1,8 @@
-
-import {  Container } from '@mui/material'
+import { Container } from '@mui/material'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import { useSidebar } from '../../../hooks/sidebar';
-import MedicationIcon from '@mui/icons-material/Medication';
+import { useSidebar } from '../../../hooks/sidebar'
+import MedicationIcon from '@mui/icons-material/Medication'
 
 export function PatientDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -11,23 +10,16 @@ export function PatientDashboardLayout() {
   useEffect(() => {
     setSidebarLinks([
       {
-        to:"/medicines/",
-        text:"Medicines",
-        icon:<MedicationIcon/>
-  
+        to: '/medicines/',
+        text: 'Medicines',
+        icon: <MedicationIcon />,
       },
-
-  
-])
-}
-  , [setSidebarLinks])
+    ])
+  }, [setSidebarLinks])
 
   return (
-
-      <Container maxWidth="xs">
-
-        <Outlet />
-      </Container>
-
+    <Container maxWidth="xs">
+      <Outlet />
+    </Container>
   )
 }
