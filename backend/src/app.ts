@@ -7,6 +7,7 @@ import adminsRoute from './app/routes/admin.route'
 import pharmacistRoute from './app/routes/pharmacist.route'
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
 import debugRouter from './app/controllers/debug.controller'
+import { deliveryAddressRouter } from './app/controllers/deliveryAddress.controller'
 const app: Application = express()
 
 app.use(cors())
@@ -16,6 +17,7 @@ app.use('/api/patient', patientsRoute)
 app.use('/api/admin', adminsRoute)
 app.use('/api/pharmacist', pharmacistRoute)
 app.use('/api/debug', debugRouter)
+app.use('/api', deliveryAddressRouter)
 
 //global error handler
 app.use(globalErrorHandler)
