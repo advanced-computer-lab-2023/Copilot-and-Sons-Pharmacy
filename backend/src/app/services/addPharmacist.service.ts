@@ -44,7 +44,6 @@ export const addPharmacistService = async (pharmacist: Pharmacist) => {
     role: 'PHARMACIST',
   })
   await user.save()
-  pharmacist.user = user._id
 
   const newPharmacist = new Pharmacist({
     name: pharmacist.name,
@@ -59,7 +58,7 @@ export const addPharmacistService = async (pharmacist: Pharmacist) => {
       graduationYear: pharmacist.educationalBackground.graduationYear,
       degree: pharmacist.educationalBackground.degree,
     },
-    user: pharmacist.user,
+    user: user.id,
   })
   await newPharmacist.save()
 
