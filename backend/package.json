@@ -1,4 +1,5 @@
 {
+  "name": "backend",
   "dependencies": {
     "@types/bcryptjs": "^2.4.4",
     "@types/joi": "^17.2.3",
