@@ -7,6 +7,7 @@ export default (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
+  console.error(error)
   const statusCode = (error as any).statusCode || 500
   const statusText = (error as any).httpStatusText || 'Internal Server Error'
 

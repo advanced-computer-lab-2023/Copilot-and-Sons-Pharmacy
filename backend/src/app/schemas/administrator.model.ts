@@ -12,4 +12,9 @@ const administratorSchema = new Schema<IAdministrator>({
   },
 })
 
-export default model<IAdministrator>('Administrator', administratorSchema)
+const Administrator = model<IAdministrator>(
+  'Administrator',
+  administratorSchema
+)
+
+export default Administrator
