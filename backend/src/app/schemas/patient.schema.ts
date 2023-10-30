@@ -21,6 +21,13 @@ const PatientSchema = new Schema({
     relation: { type: String, required: true },
   },
   cart: { type: Schema.Types.ObjectId, ref: 'Cart' },
+  deliveryAddresses: [
+    {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      country: { type: String, required: true },
+    },
+  ],
 })
 
 export type IPatient = HydratedDocument<InferSchemaType<typeof PatientSchema>>

@@ -3,6 +3,7 @@ import { PatientDashboardLayout } from '../components/PatientDashboardLayout'
 import { PatientDashboardHome } from './PatientDashboardHome'
 import ViewPatients from './viewAllPatients'
 import PatientInfo from './viewPatient'
+import { DeliveryAddresses } from './DeliveryAddresses'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
@@ -19,6 +20,10 @@ export const patientDashboardRoutes: RouteObject[] = [
       {
         path: 'viewPatients/info/:id',
         element: <PatientInfo />,
+      },
+      {
+        path: 'delivery-addresses',
+        element: <DeliveryAddresses />,
       },
     ],
   },
