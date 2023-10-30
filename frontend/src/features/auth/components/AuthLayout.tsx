@@ -2,7 +2,7 @@ import { useSidebar } from '../../../hooks/sidebar'
 import { AppRegistrationRounded, Login } from '@mui/icons-material'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
-import  {Outlet} from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 export function AuthLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -20,7 +20,6 @@ export function AuthLayout() {
         text: 'Register',
         icon: <AppRegistrationRounded />,
       },
-      
 
       {
         to: '/auth/register-request',
@@ -31,9 +30,8 @@ export function AuthLayout() {
   }, [setSidebarLinks])
 
   return (
-   
-      <Container maxWidth="xs">
-        <Outlet />
-      </Container>
+    <Container maxWidth="xs">
+      <Outlet />
+    </Container>
   )
 }
