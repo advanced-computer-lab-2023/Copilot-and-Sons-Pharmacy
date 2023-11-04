@@ -20,7 +20,7 @@ const MedicinalUses = () => {
 
   return (
     <Container>
-      <Grid container columnSpacing={4}>
+      <Grid container spacing={4}>
         {medicinalUses?.data.map((use) => (
           <Grid item key={use} xs={12}>
             <Card variant="outlined">
