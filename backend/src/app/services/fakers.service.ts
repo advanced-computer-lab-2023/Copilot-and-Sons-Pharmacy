@@ -5,6 +5,10 @@ import Medicine from '../schemas/medicine.model'
 import Patient from '../schemas/patient.schema'
 import User from '../schemas/user.model'
 import mongoose from 'mongoose'
+import { UserType } from 'pharmacy-common/types/user.types'
+import { hash } from 'bcrypt'
+
+const bcryptSalt = process.env.BCRYPT_SALT ?? '$2b$10$13bXTGGukQXsCf5hokNe2u'
 
 // Generate a random long number to be used in usernames to avoid duplicated usernames
 function randomLongId() {
@@ -33,9 +37,8 @@ export async function createFakeAdmin({
 } = {}) {
   const user = await User.create({
     username,
-    password: 'admin',
-    email: randomEmail(),
-    role: 'ADMINISTRATOR',
+    password: await hash('admin', bcryptSalt),
+    type: UserType.Admin,
   })
 
   const admin = await Administrator.create({
@@ -54,9 +57,8 @@ export async function createFakePharmacist({
 } = {}) {
   const user = await User.create({
     username,
-    password: 'pharmacist',
-    email: randomEmail(),
-    role: 'PHARMACIST',
+    password: await hash('pharmacist', bcryptSalt),
+    type: UserType.Pharmacist,
   })
 
   const pharmacist = await Pharmacist.create({
@@ -98,9 +100,8 @@ export async function createFakePatient({
 } = {}) {
   const user = await User.create({
     username,
-    password: 'patient',
-    email: randomEmail(),
-    role: 'PATIENT',
+    password: await hash('patient', bcryptSalt),
+    type: UserType.Patient,
   })
 
   const patient = await Patient.create({

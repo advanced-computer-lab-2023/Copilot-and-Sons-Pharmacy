@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 
-import axios from 'axios'
 import PharmacistDetails from '../../../components/pharmacistDetails'
 import { Container, Grid } from '@mui/material'
+import { api } from '@/api'
 
 const GetPharmacists = () => {
   const [pharmacists, setPharmacists] = useState<any[]>([])
@@ -10,9 +10,7 @@ const GetPharmacists = () => {
   useEffect(() => {
     const fetchPharmacists = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:3000/api/admin/getPendingPharmacists'
-        )
+        const response = await api.get('/admin/getPendingPharmacists')
 
         if (response.status === 200) {
           setPharmacists(response.data)

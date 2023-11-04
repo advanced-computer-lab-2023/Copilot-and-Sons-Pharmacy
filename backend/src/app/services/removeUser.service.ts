@@ -3,6 +3,7 @@ import User from '../schemas/user.model'
 import AppError from '../utils/appError'
 import { ERROR } from '../utils/httpStatusText'
 import Pharmacist from '../schemas/pharmacist'
+import { UserType } from 'pharmacy-common/types/user.types'
 
 export async function removeUser(username: string): Promise<void> {
   const user = await User.findOne({ username })
@@ -10,7 +11,7 @@ export async function removeUser(username: string): Promise<void> {
   console.log(user)
 
   if (user) {
-    if (user.role == 'ADMINISTRATOR') {
+    if (user.type == UserType.Admin) {
       throw new AppError('cannot delete an admin', 406, ERROR)
     }
 

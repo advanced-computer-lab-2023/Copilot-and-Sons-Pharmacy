@@ -29,11 +29,7 @@ const ViewPatients = () => {
               <CardContent>
                 <Typography>
                   User:
-                  <Link
-                    to={`/patient-dashboard/viewPatients/info/${patient._id}`}
-                  >
-                    {patient.name}
-                  </Link>
+                  <Link to={`info/${patient._id}`}>{patient.name}</Link>
                 </Typography>
               </CardContent>
             </Card>
