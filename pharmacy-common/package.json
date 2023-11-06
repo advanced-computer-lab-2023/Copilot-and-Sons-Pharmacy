@@ -1,0 +1,6 @@
+{
+  "name": "pharmacy-common",
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}

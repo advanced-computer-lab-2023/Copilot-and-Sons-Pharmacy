@@ -1,13 +1,23 @@
-import Button from "@mui/material/Button";
-import { Typography } from "@mui/material";
-
+import { login } from '@/api/auth'
+import { useAuth } from '@/hooks/auth'
+import { LoginRequest } from 'pharmacy-common/types/auth.types'
+import { LoginRequestValidator } from 'pharmacy-common/validators/auth.validator'
+import { ApiForm } from '@/components/ApiForm'
 
 export const Login = () => {
+  const { refreshUser } = useAuth()
+
   return (
-    <div>
-      <Typography variant="h4">Login now</Typography>
-      <Button variant="contained">Contained</Button>
-    </div>
-  
-  );
-};
+    <ApiForm<LoginRequest>
+      fields={[
+        { label: 'Username', property: 'username' },
+        { label: 'Password', property: 'password' },
+      ]}
+      validator={LoginRequestValidator}
+      successMessage="Logged in successfully."
+      action={login}
+      onSuccess={() => refreshUser()}
+      buttonText="Login"
+    />
+  )
+}

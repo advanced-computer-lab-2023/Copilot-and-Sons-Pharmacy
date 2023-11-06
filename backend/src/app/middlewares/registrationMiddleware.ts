@@ -14,28 +14,27 @@
 //   const { error, value } = validation.validate(req.body);
 
 //   if (error) {
-//    const err=new AppError(error.details[0].message,400,ERROR) 
+//    const err=new AppError(error.details[0].message,400,ERROR)
 //    next(err)
 //   }
 
 //   // If validation passed, continue to the next middleware or route handler
 //   else next();
 // };
-import { Request, Response, NextFunction } from 'express';
-import Joi from 'joi';
-import AppError from '../utils/appError';
-import { ERROR } from '../utils/httpStatusText';
+import { Request, Response, NextFunction } from 'express'
+import Joi from 'joi'
+import AppError from '../utils/appError'
+import { ERROR } from '../utils/httpStatusText'
 
 export const validateRegistrationData = (validation: Joi.ObjectSchema) => {
-  
   return (req: Request, res: Response, next: NextFunction) => {
-    const { error, value } = validation.validate(req.body);
+    const { error } = validation.validate(req.body)
 
     if (error) {
-      const err = new AppError(error.details[0].message, 400, ERROR);
-      next(err);
+      const err = new AppError(error.details[0].message, 400, ERROR)
+      next(err)
     } else {
-      next();
+      next()
     }
-  };
-};
+  }
+}

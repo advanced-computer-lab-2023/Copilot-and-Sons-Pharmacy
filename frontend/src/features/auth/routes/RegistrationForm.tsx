@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { z } from "zod";
-import { registerUser } from "../../../api/auth.ts";
-import React, { useState, FormEvent } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { z } from 'zod'
+import { registerUser } from '../../../api/auth.ts'
+import React, { useState, FormEvent } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import {
   TextField,
@@ -17,146 +16,146 @@ import {
   FormLabel,
   Radio,
   FormControlLabel,
-} from "@mui/material";
+} from '@mui/material'
 import {
   RegisterRequestValidator,
   emergencyContactValidator,
-} from "../../../validators/user.validator.ts";
-import { format, isDate } from "date-fns";
+} from '../../../validators/user.validator.ts'
+import { format, isDate } from 'date-fns'
 type errors = {
-  [key: string]: string;
-};
+  [key: string]: string
+}
 type FormState = {
-  username: string;
-  name: string;
-  email: string;
-  password: string;
-  dateOfBirth: string | null;
-  gender: string;
-  mobileNumber: string;
+  username: string
+  name: string
+  email: string
+  password: string
+  dateOfBirth: string | null
+  gender: string
+  mobileNumber: string
   emergencyContact: {
-    fullName: string;
-    mobileNumber: string;
-    relation: string;
-  };
-};
+    fullName: string
+    mobileNumber: string
+    relation: string
+  }
+}
+
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<FormState>({
-    username: "",
-    name: "",
-    email: "",
-    password: "",
-    dateOfBirth: "",
-    gender: "",
-    mobileNumber: "",
+    username: '',
+    name: '',
+    email: '',
+    password: '',
+    dateOfBirth: '',
+    gender: '',
+    mobileNumber: '',
     emergencyContact: {
-      fullName: "",
-      mobileNumber: "",
-      relation: "",
+      fullName: '',
+      mobileNumber: '',
+      relation: '',
     },
-  });
+  })
 
-  const [errors, setErrors] = useState<errors>({});
+  const [errors, setErrors] = useState<errors>({})
 
-  const [emergencyContactError, setEmergencyError] = useState<errors>({});
+  const [emergencyContactError, setEmergencyError] = useState<errors>({})
+
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      RegisterRequestValidator.parse(formData);
-      setErrors({});
-      setEmergencyError({});
-      try {
-        await registerUser(formData);
-        toast.success("Registration was successful!", {
-          position: "top-right",
-        });
+      RegisterRequestValidator.parse(formData)
+      setErrors({})
+      setEmergencyError({})
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      try {
+        await registerUser(formData)
+        toast.success('Registration was successful!', {
+          position: 'top-right',
+        })
       } catch (e: any) {
         toast.error(e.response.data.message, {
-          position: "top-right",
-        });
+          position: 'top-right',
+        })
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
-        const fieldErrors: errors = {};
+        const fieldErrors: errors = {}
         err.errors.forEach((validationError) => {
-          const fieldName = validationError.path[0];
-          if (typeof fieldName === "string") {
-            if (fieldName.startsWith("emergencyContact.")) {
+          const fieldName = validationError.path[0]
+
+          if (typeof fieldName === 'string') {
+            if (fieldName.startsWith('emergencyContact.')) {
               // Error in emergency contact fields
-              const subField = fieldName.split(".")[1];
-              emergencyContactError[subField] = validationError.message;
+              const subField = fieldName.split('.')[1]
+              emergencyContactError[subField] = validationError.message
             } else {
               // Error in other fields
-              fieldErrors[fieldName] = validationError.message;
+              fieldErrors[fieldName] = validationError.message
             }
           }
-        });
-        setErrors(fieldErrors);
-        setEmergencyError(emergencyContactError);
+        })
+        setErrors(fieldErrors)
+        setEmergencyError(emergencyContactError)
       }
     }
-  };
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as {
-      name: keyof FormState;
-      value: string;
-    };
+      name: keyof FormState
+      value: string
+    }
 
-    if (name.startsWith("emergencyContact.")) {
-      const fieldName = name.split(".")[1];
+    if (name.startsWith('emergencyContact.')) {
+      const fieldName = name.split('.')[1]
       const updatedEmergencyContact = {
         ...formData.emergencyContact,
         [fieldName]: value,
-      };
+      }
 
       setFormData({
         ...formData,
         emergencyContact: updatedEmergencyContact,
-      });
+      })
 
       try {
         emergencyContactValidator
           .pick({
             [fieldName]: true,
           })
-          .parse({ [fieldName]: value });
+          .parse({ [fieldName]: value })
 
-        setEmergencyError((prevErrors) => ({ ...prevErrors, [fieldName]: "" }));
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setEmergencyError((prevErrors) => ({ ...prevErrors, [fieldName]: '' }))
       } catch (err: any) {
         const message: string = err.errors.find(
           (error: any) => error.path[0] === fieldName
-        ).message;
+        ).message
         setEmergencyError((prevErrors) => ({
           ...prevErrors,
           [fieldName]: message,
-        }));
+        }))
       }
     } else {
       setFormData({
         ...formData,
         [name]: value,
-      });
+      })
     }
 
     try {
       RegisterRequestValidator.pick({
         [name]: true,
-      }).parse({ [name]: value });
+      }).parse({ [name]: value })
 
-      setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }))
     } catch (error: any) {
       const message: string = error.errors.find(
         (err: any) => err.path[0] === name
-      ).message;
-      setErrors((prevErrors) => ({ ...prevErrors, [name]: message }));
+      ).message
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: message }))
     }
-  };
+  }
 
   return (
     <Container maxWidth="sm">
@@ -176,7 +175,7 @@ const RegistrationForm: React.FC = () => {
                 value={formData.username}
                 onChange={handleInputChange}
                 error={Boolean(errors?.username)}
-                helperText={errors?.username || ""}
+                helperText={errors?.username || ''}
               />
             </Grid>
             <Grid item xs={12}>
@@ -228,15 +227,15 @@ const RegistrationForm: React.FC = () => {
                 value={formData.dateOfBirth}
                 onChange={(e) => {
                   try {
-                    isDate(format(new Date(e.target.value), "MM-dd-yyyy"));
-                    setErrors({ ...errors, dateOfBirth: "" });
-                    setFormData({ ...formData, dateOfBirth: e.target.value });
+                    isDate(format(new Date(e.target.value), 'MM-dd-yyyy'))
+                    setErrors({ ...errors, dateOfBirth: '' })
+                    setFormData({ ...formData, dateOfBirth: e.target.value })
                   } catch (error) {
                     setErrors({
                       ...errors,
-                      dateOfBirth: "please choose a date",
-                    });
-                    setFormData({ ...formData, dateOfBirth: e.target.value });
+                      dateOfBirth: 'please choose a date',
+                    })
+                    setFormData({ ...formData, dateOfBirth: e.target.value })
                   }
                 }}
                 error={Boolean(errors.dateOfBirth)}
@@ -244,14 +243,14 @@ const RegistrationForm: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12}>
-            <FormControl>
+              <FormControl>
                 <FormLabel id="demo-controlled-radio-buttons-group">
                   Gender
                 </FormLabel>
                 <RadioGroup
-                row
-                aria-label="gender"
-                name="gender"
+                  row
+                  aria-label="gender"
+                  name="gender"
                   value={formData.gender}
                   onChange={handleInputChange}
                 >
@@ -330,6 +329,7 @@ const RegistrationForm: React.FC = () => {
         </form>
       </Box>
     </Container>
-  );
-};
-export default RegistrationForm;
+  )
+}
+
+export default RegistrationForm

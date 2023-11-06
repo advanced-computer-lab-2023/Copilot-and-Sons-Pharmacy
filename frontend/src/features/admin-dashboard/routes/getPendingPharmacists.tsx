@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 
-import axios from "axios";
-import PharmacistDetails from "../../../components/pharmacistDetails";
-import { Container, Grid } from "@mui/material";
-
+import PharmacistDetails from '../../../components/pharmacistDetails'
+import { Container, Grid } from '@mui/material'
+import { api } from '@/api'
 
 const GetPharmacists = () => {
-  const [pharmacists, setPharmacists] = useState(null);
+  const [pharmacists, setPharmacists] = useState<any[]>([])
 
   useEffect(() => {
     const fetchPharmacists = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/admin/getPendingPharmacists');
+        const response = await api.get('/admin/getPendingPharmacists')
+
         if (response.status === 200) {
-          setPharmacists(response.data);
+          setPharmacists(response.data)
         }
       } catch (error) {
         // Handle errors here
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error)
       }
-    };
+    }
 
-    fetchPharmacists();
-  }, []);
+    fetchPharmacists()
+  }, [])
 
   return (
-    <Container>  
+    <Container>
       {/* can replace container with civ */}
       {/* <div>
         {pharmacists && pharmacists.map((pharmacist) => (
@@ -34,15 +34,15 @@ const GetPharmacists = () => {
       </div> */}
       {/* to allign vertically  */}
       <Grid container>
-            {pharmacists && pharmacists.map((pharmacist:any) => (
-        <Grid item sm ={6} md={3}  >
+        {pharmacists &&
+          pharmacists.map((pharmacist: any) => (
+            <Grid item sm={6} md={3}>
               <PharmacistDetails key={pharmacist._id} pharmacist={pharmacist} />
-        </Grid>
-            ))}
-      
+            </Grid>
+          ))}
       </Grid>
     </Container>
-  );
-};
+  )
+}
 
-export default GetPharmacists;
+export default GetPharmacists

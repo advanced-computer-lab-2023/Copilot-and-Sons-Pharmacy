@@ -1,51 +1,64 @@
-import { useSidebar } from "../../../hooks/sidebar";
-import { PersonAdd, PersonRemove } from "@mui/icons-material";
-import { Container } from "@mui/material";
-import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
-import MedicationIcon from '@mui/icons-material/Medication';
+import { useSidebar } from '../../../hooks/sidebar'
+import { Healing, PersonAdd, PersonRemove } from '@mui/icons-material'
+import { Container } from '@mui/material'
+import { useEffect } from 'react'
+import { Outlet } from 'react-router-dom'
+import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
+import { UserType } from 'pharmacy-common/types/user.types'
 
 export function AdminDashboardLayout() {
-  const { setSidebarLinks } = useSidebar();
+  const { setSidebarLinks } = useSidebar()
 
   useEffect(() => {
     setSidebarLinks([
       {
-        to: "/admin-dashboard/add-admin",
-        text: "adding Admin ",
+        to: '/admin-dashboard/add-admin',
+        text: 'Add Admin ',
         icon: <PersonAdd />,
       },
       {
-        to: "/admin-dashboard/remove-user",
-        text: "Remove user ",
+        to: '/admin-dashboard/remove-user',
+        text: 'Remove User',
         icon: <PersonRemove />,
       },
       {
-        to: "/admin-dashboard/get-approved-pharmacists",
-        text: "View Accepted Pharmacists",
+        to: '/admin-dashboard/get-approved-pharmacists',
+        text: 'View Accepted Pharmacists',
         icon: <PersonAdd />,
       },
       {
-        to: "/admin-dashboard/get-pending-pharmacists",
-        text: "View Pending Pharmacists",
+        to: '/admin-dashboard/get-pending-pharmacists',
+        text: 'View Pending Pharmacists',
         icon: <PersonAdd />,
       },
       {
-        to: "/patient-dashboard/viewPatients",
-        text: "View Patients",
+        to: '/admin-dashboard/viewPatients',
+        text: 'View Patients',
         icon: <PersonAdd />,
       },
       {
-        to: "/medicines/",
-        text: "Medicines",
-        icon:<MedicationIcon/>
+        to: '/admin-dashboard/medicines/',
+        text: 'View All Available Medicines',
+        icon: <Healing />,
       },
-    ]);
-  }, [setSidebarLinks]);
+      {
+        to: '/admin-dashboard/medicines/search-for-medicine/',
+        text: 'Search For Medicine',
+        icon: <Healing />,
+      },
+      {
+        to: '/admin-dashboard/medicines/allUses',
+        text: 'Filter By Medicinal Use',
+        icon: <Healing />,
+      },
+    ])
+  }, [setSidebarLinks])
 
   return (
-    <Container maxWidth="xl">
-      <Outlet />
-    </Container>
-  );
+    <AuthenticatedRoute requiredUserType={UserType.Admin}>
+      <Container maxWidth="xl">
+        <Outlet />
+      </Container>
+    </AuthenticatedRoute>
+  )
 }

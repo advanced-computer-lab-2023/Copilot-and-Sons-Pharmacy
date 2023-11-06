@@ -1,16 +1,14 @@
-import { Document, model, Schema } from 'mongoose';
-import User, { IUser } from'./user.model'
+import { HydratedDocument, InferSchemaType, model, Schema } from 'mongoose'
+import User from './user.model'
 
-export interface IAdministrator extends Document {
-    user:IUser;
-}
+const administratorSchema = new Schema({
+  user: { type: Schema.Types.ObjectId, ref: User },
+})
 
+export type IAdministrator = HydratedDocument<
+  InferSchemaType<typeof administratorSchema>
+>
 
-const administratorSchema = new Schema<IAdministrator>({
-user:{
-    type: Schema.Types.ObjectId,
-    ref: User,
-},
-});
+const Administrator = model('Administrator', administratorSchema)
 
-export default model<IAdministrator>('Administrator', administratorSchema);
+export default Administrator

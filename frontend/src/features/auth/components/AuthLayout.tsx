@@ -1,8 +1,9 @@
+import { GuestRoute } from '@/components/GuestRoute'
 import { useSidebar } from '../../../hooks/sidebar'
 import { AppRegistrationRounded, Login } from '@mui/icons-material'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
-import  {Outlet} from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 export function AuthLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -17,23 +18,23 @@ export function AuthLayout() {
 
       {
         to: '/auth/register',
-        text: 'Register',
+        text: 'Patient Register',
         icon: <AppRegistrationRounded />,
       },
-      
 
       {
         to: '/auth/register-request',
-        text: 'Pharmacist request',
+        text: 'Pharmacist Register',
         icon: <AppRegistrationRounded />,
       },
     ])
   }, [setSidebarLinks])
 
   return (
-   
+    <GuestRoute>
       <Container maxWidth="xs">
         <Outlet />
       </Container>
+    </GuestRoute>
   )
 }

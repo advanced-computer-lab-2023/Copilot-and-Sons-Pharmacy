@@ -1,28 +1,29 @@
-import Patient, { IPatient } from '../schemas/patient.schema';
-import User,{IUser} from '../schemas/user.model';
-import bcrypt from 'bcryptjs';
-import generateJWT from '../utils/generateJWT';
-import AppError from '../utils/appError';
-import { ERROR } from '../utils/httpStatusText';
-import { CartModel } from '../schemas/cart.model';
-type Info = {
-    username: string;
-    name: string;
-    email: string;
-    password: string;
-    dateOfBirth: Date;
-    gender: string;
-    mobileNumber: string;
-    emergencyContact: {
-      fullName: string;
-      mobileNumber: string;
-      relation: string;
-    };
-  };
-  
+import Patient from '../schemas/patient.schema'
+import User from '../schemas/user.model'
+import bcrypt from 'bcryptjs'
+import AppError from '../utils/appError'
+import { ERROR } from '../utils/httpStatusText'
+import { CartModel } from '../schemas/cart.model'
 
-const registerPatient = async (info:Info) => {
- 
+import { UserType } from 'pharmacy-common/types/user.types'
+import { JwtPayload, generateJWTToken } from './auth.service'
+
+type Info = {
+  username: string
+  name: string
+  email: string
+  password: string
+  dateOfBirth: Date
+  gender: string
+  mobileNumber: string
+  emergencyContact: {
+    fullName: string
+    mobileNumber: string
+    relation: string
+  }
+}
+
+const registerPatient = async (info: Info) => {
   const {
     username,
     name,
@@ -36,52 +37,46 @@ const registerPatient = async (info:Info) => {
       mobileNumber: emergencyMobileNumber,
       relation: emergencyRelation,
     },
-  } = info;
+  } = info
 
-  const patientDuplicate = (await User.findOne({ username }))||(await Patient.findOne({ email }));
+  const patientDuplicate =
+    (await User.findOne({ username })) || (await Patient.findOne({ email }))
+
   if (patientDuplicate) {
-   
-    throw new AppError('User already exists',409,ERROR);
+    throw new AppError('User already exists', 409, ERROR)
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10)
 
-const hashedPassword = await bcrypt.hash(password, 10);
+  const user = new User({
+    username,
+    password: hashedPassword,
+    type: UserType.Patient,
+  })
+  await user.save()
 
-const user=new User ({
-    username,password,role:"PATIENT"
-})
-
-await user.save();
-const patient = new Patient({
+  const patient = new Patient({
     name,
     email,
-    user:user._id,
+    user: user._id,
     dateOfBirth,
     gender,
     mobileNumber,
     emergencyContact: {
-    fullName,
-    mobileNumber: emergencyMobileNumber,
-    relation: emergencyRelation,
+      fullName,
+      mobileNumber: emergencyMobileNumber,
+      relation: emergencyRelation,
     },
-  });
+  })
 
-  const newCart = new CartModel({ items: new Array() });
-  await newCart.save();
-  patient.cart = newCart._id;
-  await patient.save();
+  const newCart = new CartModel({ items: [] })
+  await newCart.save()
+  patient.cart = newCart._id
+  await patient.save()
 
+  await patient.save()
 
-  const newToken = await generateJWT({
-    username,
-    id: patient._id,
-    role: 'PATIENT',
-  });
+  return await generateJWTToken(new JwtPayload(username))
+}
 
-  user.token = newToken;
-
-
-  return {username,password:hashedPassword,...patient,token:newToken};
-};
-
-export default registerPatient;
+export default registerPatient

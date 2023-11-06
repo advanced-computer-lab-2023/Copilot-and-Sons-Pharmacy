@@ -1,6 +1,21 @@
-const RedirectToDashboard=()=>{
-    return(
-        <h1>Dashboard</h1>
-    )
+import { useAuth } from '@/hooks/auth'
+import { UserType } from 'pharmacy-common/types/user.types'
+import { Navigate } from 'react-router-dom'
+
+export function RedirectToDashboard() {
+  const { user } = useAuth()
+
+  switch (user?.type) {
+    case UserType.Admin:
+      return <Navigate to="/admin-dashboard" />
+
+    case UserType.Pharmacist:
+      return <Navigate to="/pharmacist-dashboard" />
+
+    case UserType.Patient:
+      return <Navigate to="/patient-dashboard" />
+
+    default:
+      return <Navigate to="/auth/login" />
+  }
 }
-export default RedirectToDashboard;
