@@ -8,21 +8,15 @@ import pharmacistRoute from './app/routes/pharmacist.route'
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
 import debugRouter from './app/controllers/debug.controller'
 import { deliveryAddressRouter } from './app/controllers/deliveryAddress.controller'
-import { authRouter } from './app/controllers/auth.controller'
-import { authenticate } from './app/middlewares/auth.middleware'
-
 const app: Application = express()
 
 app.use(cors())
 app.use(express.json())
-app.use(authenticate)
-
 app.use('/api/medicine', medicinesRoute)
 app.use('/api/patient', patientsRoute)
 app.use('/api/admin', adminsRoute)
 app.use('/api/pharmacist', pharmacistRoute)
 app.use('/api/debug', debugRouter)
-app.use('/api', authRouter)
 app.use('/api', deliveryAddressRouter)
 
 //global error handler

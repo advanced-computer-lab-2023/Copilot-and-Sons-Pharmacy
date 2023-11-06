@@ -16,7 +16,7 @@ const FilteredMedicines = () => {
 
   return (
     <Container>
-      <Grid container spacing={4}>
+      <Grid container rowSpacing={4}>
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error fetching patient</p>}
         {medicines && Array.isArray(medicines.data) ? (

@@ -22,7 +22,7 @@ const ViewAllMedicines = () => {
 
   return (
     <Container>
-      <Grid container spacing={4}>
+      <Grid container rowSpacing={4}>
         {medicines.map((medicine: IMedicine) => (
           <Grid item xs={12} md={6} lg={4} key={medicine._id}>
             <MedicineCard medicine={medicine} />

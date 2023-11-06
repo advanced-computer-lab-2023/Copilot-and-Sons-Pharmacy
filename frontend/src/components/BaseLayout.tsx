@@ -14,8 +14,9 @@ import {
 
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { OnlyAuthenticated } from './OnlyAuthenticated'
-import { Logout } from '@mui/icons-material'
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import PersonIcon from '@mui/icons-material/Person'
 
 interface ListItemLinkProps {
   icon?: React.ReactElement
@@ -88,15 +89,7 @@ export function BaseLayout() {
               icon={link.icon}
             />
           ))}
-          <OnlyAuthenticated>
-            <ListItemLink
-              to="/auth/logout"
-              primary="Logout"
-              icon={<Logout />}
-            />
-          </OnlyAuthenticated>
 
-          {/* 
           <ListItemLink
             to="/pharmacist-dashboard"
             primary="pharmacist"
@@ -117,7 +110,7 @@ export function BaseLayout() {
             to="/auth/register"
             primary="Authorization"
             icon={<AppRegistrationIcon />}
-          /> */}
+          />
         </List>
       </Drawer>
       <Box

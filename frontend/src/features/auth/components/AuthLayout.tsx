@@ -1,4 +1,3 @@
-import { GuestRoute } from '@/components/GuestRoute'
 import { useSidebar } from '../../../hooks/sidebar'
 import { AppRegistrationRounded, Login } from '@mui/icons-material'
 import { Container } from '@mui/material'
@@ -18,23 +17,21 @@ export function AuthLayout() {
 
       {
         to: '/auth/register',
-        text: 'Patient Register',
+        text: 'Register',
         icon: <AppRegistrationRounded />,
       },
 
       {
         to: '/auth/register-request',
-        text: 'Pharmacist Register',
+        text: 'Pharmacist request',
         icon: <AppRegistrationRounded />,
       },
     ])
   }, [setSidebarLinks])
 
   return (
-    <GuestRoute>
-      <Container maxWidth="xs">
-        <Outlet />
-      </Container>
-    </GuestRoute>
+    <Container maxWidth="xs">
+      <Outlet />
+    </Container>
   )
 }

@@ -1,10 +1,9 @@
 import { useSidebar } from '../../../hooks/sidebar'
-import { Healing, PersonAdd, PersonRemove } from '@mui/icons-material'
+import { PersonAdd, PersonRemove } from '@mui/icons-material'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
-import { UserType } from 'pharmacy-common/types/user.types'
+import MedicationIcon from '@mui/icons-material/Medication'
 
 export function AdminDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -13,12 +12,12 @@ export function AdminDashboardLayout() {
     setSidebarLinks([
       {
         to: '/admin-dashboard/add-admin',
-        text: 'Add Admin ',
+        text: 'adding Admin ',
         icon: <PersonAdd />,
       },
       {
         to: '/admin-dashboard/remove-user',
-        text: 'Remove User',
+        text: 'Remove user ',
         icon: <PersonRemove />,
       },
       {
@@ -32,33 +31,21 @@ export function AdminDashboardLayout() {
         icon: <PersonAdd />,
       },
       {
-        to: '/admin-dashboard/viewPatients',
+        to: '/patient-dashboard/viewPatients',
         text: 'View Patients',
         icon: <PersonAdd />,
       },
       {
-        to: '/admin-dashboard/medicines/',
-        text: 'View All Available Medicines',
-        icon: <Healing />,
-      },
-      {
-        to: '/admin-dashboard/medicines/search-for-medicine/',
-        text: 'Search For Medicine',
-        icon: <Healing />,
-      },
-      {
-        to: '/admin-dashboard/medicines/allUses',
-        text: 'Filter By Medicinal Use',
-        icon: <Healing />,
+        to: '/medicines/',
+        text: 'Medicines',
+        icon: <MedicationIcon />,
       },
     ])
   }, [setSidebarLinks])
 
   return (
-    <AuthenticatedRoute requiredUserType={UserType.Admin}>
-      <Container maxWidth="xl">
-        <Outlet />
-      </Container>
-    </AuthenticatedRoute>
+    <Container maxWidth="xl">
+      <Outlet />
+    </Container>
   )
 }

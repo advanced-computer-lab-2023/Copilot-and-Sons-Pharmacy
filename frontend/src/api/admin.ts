@@ -1,7 +1,6 @@
-import { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { useMutation } from 'react-query'
-import { api } from '.'
-
+const BASE_URL = 'http://localhost:3000'
 interface AddAdminData {
   username: string
   password: string
@@ -19,8 +18,8 @@ interface AddadminResponse {
 export async function AddAdmin(
   adminData: AddAdminData
 ): Promise<AxiosResponse<AddadminResponse>> {
-  const response = await api.post<AddadminResponse>(
-    `/admin/add-admin`,
+  const response = await axios.post<AddadminResponse>(
+    `${BASE_URL}/api/admin/add-admin`,
     adminData
   )
 
@@ -29,8 +28,8 @@ export async function AddAdmin(
 
 //Calling the remove user function using axios
 function removeUser(username: string) {
-  return api
-    .delete(`/admin/removeUser`, { data: { username } })
+  return axios
+    .delete(`${BASE_URL}/api/admin/removeUser`, { data: { username } })
     .then((response) => response)
     .catch((error) => {
       throw new Error(error)

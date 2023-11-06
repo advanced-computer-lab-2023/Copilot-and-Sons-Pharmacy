@@ -11,7 +11,6 @@ import { AlertsProvider } from './providers/AlertsProvider'
 import { SnackbarProvider } from 'notistack'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers'
-import { AuthProvider } from './providers/AuthProvider'
 
 const queryClient = new QueryClient()
 
@@ -26,13 +25,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           horizontal: 'right',
         }}
       />
-      <AuthProvider>
-        <AlertsProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <RouterProvider router={router} />
-          </LocalizationProvider>
-        </AlertsProvider>
-      </AuthProvider>
+      <AlertsProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
+      </AlertsProvider>
     </React.StrictMode>
   </QueryClientProvider>
 )

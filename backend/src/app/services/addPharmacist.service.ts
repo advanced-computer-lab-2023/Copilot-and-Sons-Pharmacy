@@ -2,7 +2,6 @@ import Pharmacist from '../schemas/pharmacist'
 import AppError from '../utils/appError'
 import { FAIL } from '../utils/httpStatusText'
 import User, { IUser } from '../schemas/user.model'
-import { UserType } from 'pharmacy-common/types/user.types'
 
 type Pharmacist = {
   user: IUser
@@ -42,7 +41,7 @@ export const addPharmacistService = async (pharmacist: Pharmacist) => {
   const user = new User({
     username: pharmacist.username,
     password: pharmacist.password,
-    type: UserType.Pharmacist,
+    role: 'PHARMACIST',
   })
   await user.save()
 

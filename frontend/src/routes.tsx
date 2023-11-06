@@ -4,7 +4,7 @@ import { pharmacistDashboardRoutes } from './features/pharmacist-dashboard/route
 import { adminDashboardRoutes } from './features/admin-dashboard/routes'
 import { patientDashboardRoutes } from './features/patient-dashboard/routes'
 import { BaseLayout } from './components/BaseLayout'
-import { RedirectToDashboard } from './components/RedirectToDashboard'
+import RedirectToDashboard from './components/RedirectToDashboard'
 import { medicineRoutes } from './features/medicine-dashboard/routes'
 
 export const routes: RouteObject[] = [

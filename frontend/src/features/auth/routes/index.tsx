@@ -3,7 +3,6 @@ import { Login } from './Login'
 import RegistrationForm from './RegistrationForm'
 import { Register } from './pharmacistRequest'
 import { AuthLayout } from '../components/AuthLayout'
-import { Logout } from './Logout'
 
 export const authRoutes: RouteObject[] = [
   {
@@ -22,9 +21,5 @@ export const authRoutes: RouteObject[] = [
         element: <Register />,
       },
     ],
-  },
-  {
-    path: 'logout',
-    element: <Logout />,
   },
 ]
