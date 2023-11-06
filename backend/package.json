@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "dependencies": {
+    "pharmacy-common": "*",
     "@types/bcryptjs": "^2.4.4",
     "@types/joi": "^17.2.3",
     "bcryptjs": "^2.4.3",

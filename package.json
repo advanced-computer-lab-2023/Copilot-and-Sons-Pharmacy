@@ -24,7 +24,8 @@
   },
   "workspaces": [
     "backend",
-    "frontend"
+    "frontend",
+    "pharmacy-common"
   ],
   "lint-staged": {
     "**/*.{js,ts,jsx,tsx}": [

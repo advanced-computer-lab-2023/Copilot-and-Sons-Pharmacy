@@ -1,4 +1,4 @@
-import Administrator, { IAdministrator } from '../schemas/administrator.model'
+import Administrator from '../schemas/administrator.model'
 import User from '../schemas/user.model'
 import bcrypt from 'bcryptjs'
 import generateJWT from '../utils/generateJWT'
@@ -24,7 +24,7 @@ export const addAdminService = async (info: Info) => {
     role: 'ADMINISTRATOR',
   })
   await user.save()
-  const newAdmin: IAdministrator = new Administrator({
+  const newAdmin = new Administrator({
     user: user._id,
   })
 
