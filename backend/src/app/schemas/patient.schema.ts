@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import validator from "validator";
-import User from './user.model';
+import User, { IUser } from './user.model';
+import { ICart } from './cart.model';
 const PatientSchema = new mongoose.Schema({
 
     user:{
@@ -46,26 +47,24 @@ const PatientSchema = new mongoose.Schema({
         },
       }, 
 
-
+      cart: { type: Schema.Types.ObjectId, ref: 'Cart' },
 
     
 
 })
 export interface IPatient extends Document {
-    // username: string;
-    token:String;
-    name: string;
-    email: string;
-    // password: string;
-    dateOfBirth: Date;
-    gender: 'Male' | 'Female';
+  user: IUser; // Change this to the correct type based on your User model
+  name: string;
+  email: string;
+  dateOfBirth: Date;
+  gender: 'Male' | 'Female';
+  mobileNumber: string;
+  emergencyContact: {
+    fullName: string;
     mobileNumber: string;
-    emergencyContact: {
-      fullName: string;
-      mobileNumber: string;
-      relation: string;
-    
-};
+    relation: string;
+  };
+  cart: ICart; // Change this to the correct type based on your Cart model
 }
 const Patient: Model<IPatient> = mongoose.model<IPatient>('Patient', PatientSchema);
 

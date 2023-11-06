@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import generateJWT from '../utils/generateJWT';
 import AppError from '../utils/appError';
 import { ERROR } from '../utils/httpStatusText';
+import { CartModel } from '../schemas/cart.model';
 type Info = {
     username: string;
     name: string;
@@ -65,7 +66,9 @@ const patient = new Patient({
     },
   });
 
-
+  const newCart = new CartModel({ items: new Array() });
+  await newCart.save();
+  patient.cart = newCart._id;
   await patient.save();
 
 
@@ -76,6 +79,8 @@ const patient = new Patient({
   });
 
   user.token = newToken;
+
+
   return {username,password:hashedPassword,...patient,token:newToken};
 };
 
