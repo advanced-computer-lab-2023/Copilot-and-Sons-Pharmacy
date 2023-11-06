@@ -1,9 +1,10 @@
 import Patient from '../schemas/patient.schema'
 import User from '../schemas/user.model'
 import bcrypt from 'bcryptjs'
-import generateJWT from '../utils/generateJWT'
 import AppError from '../utils/appError'
 import { ERROR } from '../utils/httpStatusText'
+import { UserType } from 'pharmacy-common/types/user.types'
+import { JwtPayload, generateJWTToken } from './auth.service'
 type Info = {
   username: string
   name: string
@@ -46,11 +47,11 @@ const registerPatient = async (info: Info) => {
 
   const user = new User({
     username,
-    password,
-    role: 'PATIENT',
+    password: hashedPassword,
+    type: UserType.Patient,
   })
-
   await user.save()
+
   const patient = new Patient({
     name,
     email,
@@ -64,18 +65,9 @@ const registerPatient = async (info: Info) => {
       relation: emergencyRelation,
     },
   })
-
   await patient.save()
 
-  const newToken = await generateJWT({
-    username,
-    id: patient._id,
-    role: 'PATIENT',
-  })
-
-  user.token = newToken
-
-  return { username, password: hashedPassword, ...patient, token: newToken }
+  return await generateJWTToken(new JwtPayload(username))
 }
 
 export default registerPatient

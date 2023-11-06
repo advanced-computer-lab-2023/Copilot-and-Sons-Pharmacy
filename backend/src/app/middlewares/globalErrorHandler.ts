@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import { APIError } from '../errors'
 
 export default (
   error: Error,
@@ -15,6 +16,12 @@ export default (
       message: error.message,
       code: 400,
       data: null,
+    })
+  }
+
+  if (error instanceof APIError) {
+    return res.status(error.status).json({
+      message: error.message,
     })
   }
 

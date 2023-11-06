@@ -1,9 +1,10 @@
 import { useSidebar } from '../../../hooks/sidebar'
-import { PersonAdd, PersonRemove } from '@mui/icons-material'
+import { Healing, PersonAdd, PersonRemove } from '@mui/icons-material'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import MedicationIcon from '@mui/icons-material/Medication'
+import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
+import { UserType } from 'pharmacy-common/types/user.types'
 
 export function AdminDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -12,12 +13,12 @@ export function AdminDashboardLayout() {
     setSidebarLinks([
       {
         to: '/admin-dashboard/add-admin',
-        text: 'adding Admin ',
+        text: 'Add Admin ',
         icon: <PersonAdd />,
       },
       {
         to: '/admin-dashboard/remove-user',
-        text: 'Remove user ',
+        text: 'Remove User',
         icon: <PersonRemove />,
       },
       {
@@ -31,21 +32,33 @@ export function AdminDashboardLayout() {
         icon: <PersonAdd />,
       },
       {
-        to: '/patient-dashboard/viewPatients',
+        to: '/admin-dashboard/viewPatients',
         text: 'View Patients',
         icon: <PersonAdd />,
       },
       {
-        to: '/medicines/',
-        text: 'Medicines',
-        icon: <MedicationIcon />,
+        to: '/admin-dashboard/medicines/',
+        text: 'View All Available Medicines',
+        icon: <Healing />,
+      },
+      {
+        to: '/admin-dashboard/medicines/search-for-medicine/',
+        text: 'Search For Medicine',
+        icon: <Healing />,
+      },
+      {
+        to: '/admin-dashboard/medicines/allUses',
+        text: 'Filter By Medicinal Use',
+        icon: <Healing />,
       },
     ])
   }, [setSidebarLinks])
 
   return (
-    <Container maxWidth="xl">
-      <Outlet />
-    </Container>
+    <AuthenticatedRoute requiredUserType={UserType.Admin}>
+      <Container maxWidth="xl">
+        <Outlet />
+      </Container>
+    </AuthenticatedRoute>
   )
 }
