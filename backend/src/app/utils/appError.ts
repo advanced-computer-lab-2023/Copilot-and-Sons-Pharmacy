@@ -9,4 +9,10 @@ class AppError extends Error {
   }
 }
 
+export class NotFoundError extends AppError {
+  constructor() {
+    super('Not Found', 404, 'Not Found')
+  }
+}
+
 export default AppError

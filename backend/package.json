@@ -1,7 +1,6 @@
 {
   "name": "backend",
   "dependencies": {
-    "pharmacy-common": "*",
     "@types/bcryptjs": "^2.4.4",
     "@types/joi": "^17.2.3",
     "bcryptjs": "^2.4.3",
@@ -12,7 +11,9 @@
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.3",
-    "validator": "^13.11.0"
+    "pharmacy-common": "*",
+    "validator": "^13.11.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",

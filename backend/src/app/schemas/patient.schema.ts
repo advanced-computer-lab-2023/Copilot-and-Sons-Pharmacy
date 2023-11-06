@@ -20,6 +20,13 @@ const PatientSchema = new Schema({
     mobileNumber: { type: String, required: true },
     relation: { type: String, required: true },
   },
+  deliveryAddresses: [
+    {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      country: { type: String, required: true },
+    },
+  ],
 })
 
 export type IPatient = HydratedDocument<InferSchemaType<typeof PatientSchema>>
