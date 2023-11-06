@@ -5,7 +5,7 @@ import medicinesRoute from './app/routes/medicines.route'
 import patientsRoute from './app/routes/patient.route'
 import adminsRoute from './app/routes/admin.route'
 import pharmacistRoute from './app/routes/pharmacist.route'
-import cartsRoute from'./app/routes/cart.route'
+import cartsRoute from './app/routes/cart.route'
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
 import debugRouter from './app/controllers/debug.controller'
 import { deliveryAddressRouter } from './app/controllers/deliveryAddress.controller'
@@ -22,7 +22,7 @@ app.use('/api/medicine', medicinesRoute)
 app.use('/api/patient', patientsRoute)
 app.use('/api/admin', adminsRoute)
 app.use('/api/pharmacist', pharmacistRoute)
-app.use('/api/cart',cartsRoute)
+app.use('/api/cart', cartsRoute)
 app.use('/api/debug', debugRouter)
 app.use('/api', authRouter)
 app.use('/api', deliveryAddressRouter)

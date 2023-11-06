@@ -67,12 +67,12 @@ const registerPatient = async (info: Info) => {
       mobileNumber: emergencyMobileNumber,
       relation: emergencyRelation,
     },
-  });
+  })
 
-  const newCart = new CartModel({ items: [] });
-  await newCart.save();
-  patient.cart = newCart._id;
-  await patient.save();
+  const newCart = new CartModel({ items: [] })
+  await newCart.save()
+  patient.cart = newCart._id
+  await patient.save()
 
   await patient.save()
 
