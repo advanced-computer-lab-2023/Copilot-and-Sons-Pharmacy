@@ -7,6 +7,7 @@ import User from '../schemas/user.model'
 import mongoose from 'mongoose'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { hash } from 'bcrypt'
+import { CartModel } from '../schemas/cart.model'
 
 const bcryptSalt = process.env.BCRYPT_SALT ?? '$2b$10$13bXTGGukQXsCf5hokNe2u'
 
@@ -103,6 +104,8 @@ export async function createFakePatient({
     password: await hash('patient', bcryptSalt),
     type: UserType.Patient,
   })
+  const newCart = new CartModel({ items: [] })
+  await newCart.save()
 
   const patient = await Patient.create({
     user: user.id,
@@ -111,6 +114,7 @@ export async function createFakePatient({
     dateOfBirth: faker.date.past(),
     gender: faker.helpers.arrayElement(['Male', 'Female']),
     mobileNumber: faker.phone.number(),
+    cart :newCart._id,
     emergencyContact: {
       fullName: faker.person.fullName(),
       mobileNumber: faker.phone.number(),
@@ -154,7 +158,7 @@ export async function createFakeMedicine() {
 }
 
 export async function seed() {
-  mongoose.connection.db.dropDatabase()
+  //mongoose.connection.db.dropDatabase()
 
   const admin = await createFakeAdmin({ username: 'admin' })
   const pharmacist = await createFakePharmacist({ username: 'pharmacist' })

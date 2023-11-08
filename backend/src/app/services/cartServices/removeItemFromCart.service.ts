@@ -14,7 +14,7 @@ export async function removeItemFromCartService(
   const cart = await CartModel.findOne({ _id: user?.cart })
 
   const medicineIndex = cart?.items.findIndex(
-    (item) => item.medicine == medicineId
+    (item:any) => item.medicine == medicineId
   )
 
   if (medicineIndex != undefined && medicineIndex == -1) {

@@ -1,4 +1,6 @@
+import { APIError } from '../../errors'
 import { CartModel } from '../../schemas/cart.model'
+import Medicine from '../../schemas/medicine.model'
 import Patient from '../../schemas/patient.schema'
 import userModel from '../../schemas/user.model'
 import AppError from '../../utils/appError'
@@ -25,14 +27,23 @@ export async function changeCartItemQuantityService(
   }
 
   const medicineIndex = cart.items.findIndex(
-    (item) => item.medicine == medicineId
+    (item:any) => item.medicine == medicineId
   )
 
+  const medicneWithThisId=await Medicine.findOne({_id:medicineId});
+  const medicineStock=medicneWithThisId?.quantity;
   if (medicineIndex === -1) {
     throw new AppError('No medicine with this id in the cart!', 404, FAIL)
   } else {
     // Ensure that cart.items and the item being updated are defined
     if (cart.items && cart.items[medicineIndex]) {
+    
+      if(medicineStock&& medicineStock< quantity )
+      {
+      throw new APIError("this quantity is not available in stock",404,FAIL);
+     
+      }
+   
       cart.items[medicineIndex].quantity = quantity
       await cart.save()
 

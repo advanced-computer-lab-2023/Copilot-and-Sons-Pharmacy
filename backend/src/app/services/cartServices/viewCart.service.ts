@@ -15,6 +15,5 @@ export async function viewCartService(username: any) {
       model: 'Medicine', // Replace with the correct model name
     },
   })
-
   return user?.cart.items
 }
