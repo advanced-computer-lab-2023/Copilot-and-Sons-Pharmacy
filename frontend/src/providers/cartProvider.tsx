@@ -1,11 +1,5 @@
 import IMedicine from '@/types/medicine.type'
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from 'react'
+import { createContext, useState, ReactNode, useEffect } from 'react'
 
 interface CartItem {
   medicine: IMedicine
@@ -24,7 +18,7 @@ interface CartContextType {
   calculateTotalPrice: (cartData: any) => void
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined)
+export const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
@@ -133,14 +127,4 @@ export function CartProvider({ children }: { children: ReactNode }) {
       {children}
     </CartContext.Provider>
   )
-}
-
-export function useCart() {
-  const context = useContext(CartContext)
-
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider')
-  }
-
-  return context
 }

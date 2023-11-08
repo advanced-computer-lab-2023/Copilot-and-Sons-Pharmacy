@@ -9,7 +9,7 @@ import { UserType } from 'pharmacy-common/types/user.types'
 import { OnlyAuthenticated } from './OnlyAuthenticated'
 import { Stack } from '@mui/system'
 import { addToCartApi } from '@/api/cart'
-import { useCart } from '@/providers/cartProvider'
+import { useCart } from '@/hooks/cartHook'
 import { ToastContainer, toast } from 'react-toastify'
 
 export default function MedicineCard(props: { medicine: IMedicine }) {

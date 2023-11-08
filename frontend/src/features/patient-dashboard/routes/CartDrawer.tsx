@@ -17,7 +17,7 @@ import {
   removeFromCartApi,
   updateQuantityApi,
 } from '@/api/cart'
-import { useCart } from '../../../providers/cartProvider'
+import { useCart } from '../../../hooks/cartHook'
 import { ArrowRightAltOutlined, Close } from '@mui/icons-material'
 import { ToastContainer, toast } from 'react-toastify'
 
