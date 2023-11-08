@@ -22,7 +22,9 @@ const CheckoutForm: React.FC = () => {
         }
 
         // Trigger form validation and wallet collection
+
         const { error: submitError } = await elements.submit();
+
         if (submitError) {
             // Show error to your customer
             setErrorMessage(submitError.message);
