@@ -42,6 +42,7 @@ export function PatientDashboardLayout() {
 
       { action: toggleCart, text: 'Cart', icon: <ShoppingCart /> },
     ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSidebarLinks])
 
   return (

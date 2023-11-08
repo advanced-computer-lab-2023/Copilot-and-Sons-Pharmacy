@@ -40,6 +40,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     viewCart()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Fetch the cart data from the backend when the component mounts
