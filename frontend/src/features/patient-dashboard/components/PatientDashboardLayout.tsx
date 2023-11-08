@@ -1,6 +1,6 @@
 import { Container } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useSidebar } from '../../../hooks/sidebar'
 import { Healing, LocationCity, ShoppingCart } from '@mui/icons-material'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'

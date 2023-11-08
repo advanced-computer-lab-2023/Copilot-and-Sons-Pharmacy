@@ -10,8 +10,8 @@ interface CartContextType {
   cart: CartItem[];
   addToCartProvider: (item: CartItem) => void;
   removeFromCartProvider: (productId: any) => void;
-  incrementQuantityProvider: (productId: any, quantity: number) => void;
-  decrementQuantityProvider: (productId: any, quantity: number) => void;
+  incrementQuantityProvider: (productId: any) => void;
+  decrementQuantityProvider: (productId: any) => void;
   clearCartProvider:()=>void;
   updateQuantityProvider:(productId:any,quantity:number)=>void;
   totalPrice:number;
@@ -67,7 +67,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     calculateTotalPrice([]);
 
   };
-  const incrementQuantityProvider = (productId: any, quantity: number) => {
+  const incrementQuantityProvider = (productId: any) => {
     const updatedCart = cart.map((item: any) => {
         if (item.medicine._id === productId) {
           return { ...item, quantity: item.quantity + 1 };
@@ -78,7 +78,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       calculateTotalPrice(updatedCart);
   };
 
-  const decrementQuantityProvider = (productId: any, quantity: number) => {
+  const decrementQuantityProvider = (productId: any) => {
     const updatedCart = cart.map((item: any) => {
         if (item.medicine._id === productId) {
           return { ...item, quantity: item.quantity - 1 };

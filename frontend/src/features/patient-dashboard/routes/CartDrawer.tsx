@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Drawer, Button, IconButton,  CardActions, Grid, Card, CardContent, Typography, TextField } from '@mui/material';
 import {fetchCartApi,incrementQuantityApi,decrementQuantityApi,removeFromCartApi, updateQuantityApi} from '@/api/cart'
 import { useCart } from '../../../providers/cartProvider';
-import { ArrowRightAltOutlined, Close, MarginOutlined} from '@mui/icons-material';
+import { ArrowRightAltOutlined, Close} from '@mui/icons-material';
 import { ToastContainer, toast } from 'react-toastify';
 
 interface CartProps {
@@ -37,7 +37,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
       position: 'top-right',
     })
   else{
-   incrementQuantityProvider(medicine._id,quantity);
+   incrementQuantityProvider(medicine._id);
     await incrementQuantityApi(medicine._id,quantity);
   }
   };
@@ -46,7 +46,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
     if(quantity==1)
     removeFromCart(productId);
 else{
-    decrementQuantityProvider(productId,quantity);
+    decrementQuantityProvider(productId);
     await decrementQuantityApi(productId,quantity);
 }
   };
