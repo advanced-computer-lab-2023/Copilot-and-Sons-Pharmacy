@@ -11,6 +11,7 @@ import debugRouter from './app/controllers/debug.controller'
 import { deliveryAddressRouter } from './app/controllers/deliveryAddress.controller'
 import { authRouter } from './app/controllers/auth.controller'
 import { authenticate } from './app/middlewares/auth.middleware'
+import orderRouter from './app/routes/order.route'
 
 const app: Application = express()
 
@@ -26,6 +27,7 @@ app.use('/api/cart', cartsRoute)
 app.use('/api/debug', debugRouter)
 app.use('/api', authRouter)
 app.use('/api', deliveryAddressRouter)
+app.use('/api/order', orderRouter)
 
 //global error handler
 app.use(globalErrorHandler)
