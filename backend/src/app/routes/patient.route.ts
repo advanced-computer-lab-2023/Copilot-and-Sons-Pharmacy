@@ -1,5 +1,6 @@
 import express from 'express'
 import {
+  changeUserPassword,
   getAllPatients,
   registerController,
 } from '../controllers/patient.controller'
@@ -12,5 +13,6 @@ router.route('/viewAllPatients').get(getAllPatients)
 router
   .route('/register')
   .post(validateRegistrationData(registrationValidator), registerController)
+router.route('/changePassword').put(changeUserPassword)
 
 export default router

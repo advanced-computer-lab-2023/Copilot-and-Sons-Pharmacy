@@ -3,6 +3,19 @@ import registerService from '../services/register.service'
 import { SUCCESS } from '../utils/httpStatusText'
 import asyncWrapper from '../middlewares/asyncWrapper'
 import { fetchAllPatients } from '../services/viewAllPatients'
+import { changePassowrd } from '../services/changePassword'
+
+export const changeUserPassword = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const { username, oldPassword, newPassword } = req.body
+    await changePassowrd(username, oldPassword, newPassword)
+    res.json({
+      success: SUCCESS,
+      message: 'Password changed successfulu',
+      username,
+    })
+  }
+)
 
 export const getAllPatients = asyncWrapper(
   async (req: Request, res: Response) => {
