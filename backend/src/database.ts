@@ -1,7 +1,10 @@
 import mongoose, { Connection } from 'mongoose'
 import dotenv from 'dotenv'
 dotenv.config()
-const url: string = process.env.MONGO_URI || process.env.Mongo_URL || ''
+const url: string =
+  process.env.MONGO_URI ||
+  process.env.Mongo_URL ||
+  'mongodb+srv://admin:admin@cluster0.ugek6la.mongodb.net/'
 
 // Connect to MongoDB
 try {

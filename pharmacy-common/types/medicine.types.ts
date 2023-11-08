@@ -16,7 +16,7 @@ export interface IAddMedicineRequest {
   description: string
   quantity: number
   Image: File
-  activeIngredients: string[]
-  medicinalUse: string[]
+  activeIngredients: string
+  medicinalUse: string
   sales: number
 }

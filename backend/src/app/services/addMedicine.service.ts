@@ -20,15 +20,30 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       medicinalUse,
       activeIngredients,
     } = info
+
+    if (!Image) throw new AppError('No image provided', 400, ERROR)
+    const fileBlob = new Blob([Image], { type: Image.type })
     const fileRef = ref(storageRef, name)
-    await uploadBytes(fileRef, Image)
+    console.log('HERRRRREEE')
+    console.log('Image:', fileBlob)
+    // console.log('fileBlob:', fileBlob)
+    uploadBytes(fileRef, Image)
+      .then((snapshot) => {
+        console.log('File uploaded successfully:', snapshot)
+        // You can handle success here
+      })
+      .catch((error) => {
+        console.error('Error uploading file:', error)
+        // Handle any errors
+      })
+    const fullPath = fileRef.fullPath
 
     const newMedicine: IMedicine = new Medicine({
       name,
       price,
       description,
       quantity,
-      fileRef,
+      fullPath,
       activeIngredients,
       medicinalUse,
     })
@@ -37,6 +52,7 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
 
     return newMedicine
   } catch (error) {
+    console.log(error)
     throw new AppError('Could not add medicine', 400, ERROR)
   }
 }

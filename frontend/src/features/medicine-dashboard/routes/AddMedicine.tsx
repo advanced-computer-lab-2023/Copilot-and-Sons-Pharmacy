@@ -18,7 +18,7 @@ interface newMedicine {
   price: number
   description: string
   quantity: number
-  Image: string
+  Image: File
   activeIngredients: string
   medicinalUse: string
   sales: number
@@ -62,7 +62,7 @@ export function AddMedicine() {
     price: 0,
     description: '',
     quantity: 0,
-    Image: '',
+    Image: new File([], ''),
     activeIngredients: '',
     medicinalUse: '',
     sales: 0,
@@ -76,7 +76,7 @@ export function AddMedicine() {
     quantity: Yup.number()
       .required('quantity is required')
       .min(1, 'quantity cannot be less than 1'),
-    Image: Yup.string().required('Image is required'),
+    Image: Yup.mixed().required('Image is required'),
     activeIngredients: Yup.string()
       .required('activeIngredients is required')
       .matches(
@@ -170,21 +170,7 @@ export function AddMedicine() {
                   ''
                 )}
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Image"
-                  name="Image"
-                  value={formik.values.Image}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.errors.Image && formik.touched.Image ? (
-                  <Alert severity="warning">{formik.errors.Image}</Alert>
-                ) : (
-                  ''
-                )}
-              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -223,6 +209,33 @@ export function AddMedicine() {
                 )}
               </Grid>
             </Grid>
+            <Grid item xs={12}>
+              <label>Upload Medicine Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                name="Image"
+                onChange={(event) => {
+                  const files = event.currentTarget.files
+
+                  if (files && files.length > 0) {
+                    // Set the file object directly to Formik's state
+                    const file = files[0]
+                    formik.setFieldValue('Image', file)
+                    console.log(formik.values.Image)
+                    formik.setFieldTouched('Image', true, false) // should not trigger validation yet
+                    formik.handleChange(event)
+                  }
+                }}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.Image && formik.touched.Image ? (
+                <div className="error-message">
+                  {formik.errors.Image.toString()}
+                </div>
+              ) : null}
+            </Grid>
+
             <Button
               type="submit"
               variant="contained"
