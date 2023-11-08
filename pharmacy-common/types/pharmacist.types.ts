@@ -11,6 +11,24 @@ export enum PharmacistDegree {
   Doctoral = 'Doctoral degree',
 }
 
+export type AddPharmacistRequest = {
+  username: string
+  password: string
+  name: string
+  email: string
+  dateOfBirth: Date
+  hourlyRate: string
+  affilation: string
+  status: string
+  educationalBackground: {
+    major: string
+    university: string
+    graduationYear: string
+    degree: string
+  }
+  documents: FileList
+}
+
 export interface IPharmacist {
   id: string
   user: string
@@ -26,4 +44,5 @@ export interface IPharmacist {
     graduationYear: number
     degree: PharmacistDegree
   }
+  documents: string[]
 }

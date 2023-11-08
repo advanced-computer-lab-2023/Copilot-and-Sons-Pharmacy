@@ -4,7 +4,7 @@ import Medicine from '../schemas/medicine.model'
 import AppError from '../utils/appError'
 import { ERROR } from '../utils/httpStatusText'
 import FireBase from 'pharmacy-common/firebase.config'
-import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 const storage = getStorage(FireBase)
 const storageRef = ref(storage, 'medicines/')
@@ -20,12 +20,11 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       medicinalUse,
       activeIngredients,
     } = info
-
+    console.log('Image:', Image)
     if (!Image) throw new AppError('No image provided', 400, ERROR)
-    const fileBlob = new Blob([Image], { type: Image.type })
+
     const fileRef = ref(storageRef, name)
-    console.log('HERRRRREEE')
-    console.log('Image:', fileBlob)
+
     // console.log('fileBlob:', fileBlob)
     uploadBytes(fileRef, Image)
       .then((snapshot) => {
@@ -37,7 +36,7 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
         // Handle any errors
       })
     const fullPath = fileRef.fullPath
-
+    getDownloadURL(fileRef)
     const newMedicine: IMedicine = new Medicine({
       name,
       price,
