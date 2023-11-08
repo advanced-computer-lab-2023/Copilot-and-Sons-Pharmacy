@@ -21,23 +21,28 @@ interface ListItemLinkProps {
   icon?: React.ReactElement
   primary: string
   to?: string
-  action?:{() : void}; 
+  action?: { (): void }
 }
 
 function ListItemLink(props: ListItemLinkProps) {
-  const { icon, primary, to, action } = props;
+  const { icon, primary, to, action } = props
+
   return (
     <li>
-     {action ? <ListItemButton onClick={action}>
-        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-        <ListItemText primary={primary} />
-      </ListItemButton>:to ?<ListItemButton component={Link} to={to} onClick={action}>
-        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-        <ListItemText primary={primary} /></ListItemButton>:null}
+      {action ? (
+        <ListItemButton onClick={action}>
+          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+          <ListItemText primary={primary} />
+        </ListItemButton>
+      ) : to ? (
+        <ListItemButton component={Link} to={to} onClick={action}>
+          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+          <ListItemText primary={primary} />
+        </ListItemButton>
+      ) : null}
     </li>
-  );
+  )
 }
-
 
 export type OutletContextType = {
   setSidebarLinks: React.Dispatch<React.SetStateAction<SidebarLink[]>>
@@ -50,8 +55,7 @@ interface SidebarLink {
   to?: string
   text: string
   icon?: React.ReactElement
-  action?: {() : void}; 
-
+  action?: { (): void }
 }
 
 export function BaseLayout() {
@@ -92,7 +96,6 @@ export function BaseLayout() {
               to={link.to}
               primary={link.text}
               icon={link.icon}
-       
             />
           ))}
           <OnlyAuthenticated>

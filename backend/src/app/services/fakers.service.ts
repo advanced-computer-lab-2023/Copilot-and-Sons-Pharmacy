@@ -4,7 +4,6 @@ import Pharmacist from '../schemas/pharmacist'
 import Medicine from '../schemas/medicine.model'
 import Patient from '../schemas/patient.schema'
 import User from '../schemas/user.model'
-import mongoose from 'mongoose'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { hash } from 'bcrypt'
 import { CartModel } from '../schemas/cart.model'
@@ -114,7 +113,7 @@ export async function createFakePatient({
     dateOfBirth: faker.date.past(),
     gender: faker.helpers.arrayElement(['Male', 'Female']),
     mobileNumber: faker.phone.number(),
-    cart :newCart._id,
+    cart: newCart._id,
     emergencyContact: {
       fullName: faker.person.fullName(),
       mobileNumber: faker.phone.number(),

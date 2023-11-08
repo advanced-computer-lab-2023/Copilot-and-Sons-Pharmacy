@@ -12,15 +12,12 @@ export const addToCart = asyncWrapper(async (req: Request, res: Response) => {
 })
 
 export const viewCart = asyncWrapper(async (req: Request, res: Response) => {
-
   const cartItems = await viewCartService(req.username)
   res.json({ success: SUCCESS, data: cartItems })
-
 })
 
 export const removeItemFromCart = asyncWrapper(
   async (req: Request, res: Response) => {
-
     const cart = await removeItemFromCartService(
       req.query.medicineId,
       req.username
@@ -31,8 +28,6 @@ export const removeItemFromCart = asyncWrapper(
 
 export const changeCartItemQuantity = asyncWrapper(
   async (req: Request, res: Response) => {
-
-   
     const cart = await changeCartItemQuantityService(req.body, req.username)
     res.json({ success: SUCCESS, data: cart })
   }

@@ -27,23 +27,21 @@ export async function changeCartItemQuantityService(
   }
 
   const medicineIndex = cart.items.findIndex(
-    (item:any) => item.medicine == medicineId
+    (item: any) => item.medicine == medicineId
   )
 
-  const medicneWithThisId=await Medicine.findOne({_id:medicineId});
-  const medicineStock=medicneWithThisId?.quantity;
+  const medicneWithThisId = await Medicine.findOne({ _id: medicineId })
+  const medicineStock = medicneWithThisId?.quantity
+
   if (medicineIndex === -1) {
     throw new AppError('No medicine with this id in the cart!', 404, FAIL)
   } else {
     // Ensure that cart.items and the item being updated are defined
     if (cart.items && cart.items[medicineIndex]) {
-    
-      if(medicineStock&& medicineStock< quantity )
-      {
-      throw new APIError("this quantity is not available in stock",404,FAIL);
-     
+      if (medicineStock && medicineStock < quantity) {
+        throw new APIError('this quantity is not available in stock', 404, FAIL)
       }
-   
+
       cart.items[medicineIndex].quantity = quantity
       await cart.save()
 

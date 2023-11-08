@@ -10,11 +10,12 @@ import { CartProvider } from '@/providers/cartProvider'
 
 export function PatientDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
-  const [isCartOpen, setCartOpen] = useState(false);
+  const [isCartOpen, setCartOpen] = useState(false)
 
   const toggleCart = () => {
-    setCartOpen(!isCartOpen);
-  };
+    setCartOpen(!isCartOpen)
+  }
+
   useEffect(() => {
     setSidebarLinks([
       {
@@ -38,24 +39,19 @@ export function PatientDashboardLayout() {
         text: 'Delivery Addresses',
         icon: <LocationCity />,
       },
-      
-      { action:toggleCart,
-        text: 'Cart',
-        icon: <ShoppingCart />,
-    
-      },
 
+      { action: toggleCart, text: 'Cart', icon: <ShoppingCart /> },
     ])
   }, [setSidebarLinks])
 
   return (
-<CartProvider>
-  <AuthenticatedRoute requiredUserType={UserType.Patient}>
-    <Container maxWidth="xl">
-      <CartDrawer isOpen={isCartOpen} onClose={toggleCart} />
-      <Outlet />
-    </Container>
-  </AuthenticatedRoute>
-</CartProvider>
+    <CartProvider>
+      <AuthenticatedRoute requiredUserType={UserType.Patient}>
+        <Container maxWidth="xl">
+          <CartDrawer isOpen={isCartOpen} onClose={toggleCart} />
+          <Outlet />
+        </Container>
+      </AuthenticatedRoute>
+    </CartProvider>
   )
 }

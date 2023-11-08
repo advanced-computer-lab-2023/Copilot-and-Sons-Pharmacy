@@ -13,28 +13,27 @@ import { useCart } from '@/providers/cartProvider'
 import { ToastContainer, toast } from 'react-toastify'
 
 export default function MedicineCard(props: { medicine: IMedicine }) {
-  const {addToCartProvider } = useCart();
-async function buy(medicine:any) {
-  const item = {
-    medicine: medicine,
-    quantity: 1,
-  };
-  try{
-   await addToCartApi(medicine._id,1);
-  toast.success('Added to cart!', {
-    position: 'top-right',
-  })
-  addToCartProvider(item);
-  }catch(e){
-    toast.error('There is not enough stock for this product!', {
-      position: 'top-right',
-    })
+  const { addToCartProvider } = useCart()
+
+  async function buy(medicine: any) {
+    const item = {
+      medicine,
+      quantity: 1,
+    }
+
+    try {
+      await addToCartApi(medicine._id, 1)
+      toast.success('Added to cart!', {
+        position: 'top-right',
+      })
+      addToCartProvider(item)
+    } catch (e) {
+      toast.error('There is not enough stock for this product!', {
+        position: 'top-right',
+      })
+    }
   }
 
-
-
-
-  }
   return (
     <Card>
       <CardMedia
@@ -44,7 +43,7 @@ async function buy(medicine:any) {
         alt=""
       />
       <CardContent>
-        <ToastContainer/>
+        <ToastContainer />
         <Typography gutterBottom variant="h5" component="div">
           {props.medicine.name}
         </Typography>
@@ -61,7 +60,12 @@ async function buy(medicine:any) {
       <CardActions sx={{ justifyContent: 'center' }}>
         <Stack direction="row" spacing={2}>
           <OnlyAuthenticated requiredUserType={UserType.Patient}>
-            <Button color="primary" disabled={false} variant="contained" onClick={() => buy(props.medicine)}>
+            <Button
+              color="primary"
+              disabled={false}
+              variant="contained"
+              onClick={() => buy(props.medicine)}
+            >
               Add to Cart
             </Button>
           </OnlyAuthenticated>

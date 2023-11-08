@@ -18,22 +18,22 @@ export async function addToCartService(item: any, username: any) {
   const user = await Patient.findOne({ user: patientUser?._id })
   const cart = await CartModel.findOne({ _id: user?.cart })
   const medicineIndex = cart?.items.findIndex(
-    (item:any) => item.medicine == medicineId
+    (item: any) => item.medicine == medicineId
   )
 
   if (medicineIndex != undefined && medicineIndex > -1) {
     const medicineItem = cart?.items[medicineIndex]
 
     if (medicineItem != undefined && cart) {
-      if(medicine.quantity< ~~quantity + ~~medicineItem.quantity)
-      throw new APIError("this quantity is not available in stock",404,FAIL);
+      if (medicine.quantity < ~~quantity + ~~medicineItem.quantity)
+        throw new APIError('this quantity is not available in stock', 404, FAIL)
       medicineItem.quantity = ~~quantity + ~~medicineItem.quantity
-      
+
       cart.items[medicineIndex] = medicineItem
     }
   } else {
-    if(medicine.quantity< ~~quantity )
-    throw new APIError("this quantity is not available in stock",404,FAIL);
+    if (medicine.quantity < ~~quantity)
+      throw new APIError('this quantity is not available in stock', 404, FAIL)
     cart?.items?.push({ medicine: medicineId, quantity })
   }
 
