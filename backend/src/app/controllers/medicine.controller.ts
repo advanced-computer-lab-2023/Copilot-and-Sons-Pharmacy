@@ -21,7 +21,7 @@ export const medicinalUses = asyncWrapper(
   }
 )
 
-export const addMedicine = asyncWrapper(async (req: Request, res: Response) => {
+export const addMedicine = asyncWrapper(async (req: any, res: Response) => {
   const medicine = await addMedicineService(req.body)
   res.json({ success: SUCCESS, data: medicine })
 })

@@ -26,7 +26,7 @@ export async function login(
   }
 
   const hashedPassword = await bcrypt.hash(password, bcryptSalt)
-
+  console.log(user.password, hashedPassword)
   if (user.password !== hashedPassword) {
     throw new APIError('Password is incorrect', 400)
   }
