@@ -11,7 +11,7 @@ export const changeUserPassword = asyncWrapper(
     await changePassowrd(username, oldPassword, newPassword)
     res.json({
       success: SUCCESS,
-      message: 'Password changed successfulu',
+      message: 'Password changed successfully',
       username,
     })
   }
