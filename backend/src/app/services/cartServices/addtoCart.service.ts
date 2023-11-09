@@ -32,7 +32,9 @@ export async function addToCartService(item: any, username: any) {
       cart.items[medicineIndex] = medicineItem
     }
   } else {
-    if (medicine.quantity < ~~quantity)
+    if (medicine.requiresPrescription)
+      throw new APIError('this medicine requires Prescription', 404, FAIL)
+    else if (medicine.quantity < ~~quantity)
       throw new APIError('this quantity is not available in stock', 404, FAIL)
     cart?.items?.push({ medicine: medicineId, quantity })
   }
