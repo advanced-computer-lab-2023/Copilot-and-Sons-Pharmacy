@@ -39,10 +39,10 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       name,
       price,
       description,
-      quantity,
-      fullPath,
-      activeIngredients,
       medicinalUse,
+      quantity,
+      activeIngredients,
+      Image: fullPath,
     })
 
     await newMedicine.save()
