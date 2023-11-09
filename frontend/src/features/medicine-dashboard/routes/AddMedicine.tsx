@@ -10,6 +10,21 @@ import {
     Box,
     Alert,
 } from '@mui/material'
+import {styled} from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
+
 import {ToastContainer, toast} from 'react-toastify'
 import {useAddMedicineService} from '@/api/medicine'
 import {useState} from "react";
@@ -29,11 +44,15 @@ interface newMedicine {
 export function AddMedicine() {
     //calling the custom useRemoveUser hook to return the mutation from
     const mutation = useAddMedicineService()
-    const [fieldValue, setFieldValue] = useState({file: null} as any);
-    const [file, setFile] = useState(null as any);
+    const [imageValue, setImageValue] = useState({file: null} as any);
+    const [imageError, setImageError] = useState(false);
     const handleAddNewMedicine = (Medicine: newMedicine) => {
         const formData = new FormData();
-        formData.append('Image', fieldValue.file)
+        if (!imageValue.file) {
+            setImageError(true);
+            return;
+        }
+        formData.append('Image', imageValue.file)
         formData.append('name', Medicine.name)
         formData.append('price', Medicine.price.toString())
         formData.append('description', Medicine.description)
@@ -41,8 +60,7 @@ export function AddMedicine() {
         formData.append('activeIngredients', Medicine.activeIngredients)
         formData.append('medicinalUse', Medicine.medicinalUse)
         formData.append('sales', Medicine.sales.toString())
-        mutation
-            .mutateAsync(formData)
+        mutation.mutateAsync(formData)
             .then(() => {
                 toast.success('Medicine Added Successfuly!', {
                     position: 'top-right',
@@ -216,34 +234,44 @@ export function AddMedicine() {
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <label>Upload Medicine Image</label>
-                            <input id="file" name="file" type="file" onChange={(event) => {
-                                if (event.currentTarget.files && event.currentTarget.files.length > 0)
-                                    setFieldValue({"file": event.currentTarget.files[0]});
-                            }}/>
-                            {/*<input*/}
-                            {/*    type="file"*/}
-                            {/*    accept="image/*"*/}
-                            {/*    name="Image"*/}
-                            {/*    onChange={(event) => {*/}
-                            {/*        console.log("heelo")*/}
-                            {/*        console.log(event.currentTarget.files)*/}
-                            {/*        const files = event.currentTarget.files*/}
-                            {/*        if (files && files.length > 0) {*/}
-                            {/*            console.log("yes more than 1")*/}
-                            {/*            const file = files[0]*/}
-                            {/*            formik.setFieldValue('Image', file)*/}
-                            {/*            formik.setFieldTouched('Image', true, false) // should not trigger validation yet*/}
-                            {/*            formik.handleChange(handeChange)*/}
-                            {/*        }*/}
-                            {/*    }}*/}
-                            {/*    onBlur={formik.handleBlur}*/}
-                            {/*/>*/}
-                            {formik.errors.Image && formik.touched.Image ? (
-                                <div className="error-message">
-                                    {formik.errors.Image.toString()}
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginTop: '10px',
+
+                                }}
+                            >
+
+                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon/>}>
+                                    Upload Image
+                                    <VisuallyHiddenInput type="file"
+                                                         accept="image/*"
+                                                         onChange={(event) => {
+                                                             setImageError(false)
+                                                             if (event.currentTarget.files && event.currentTarget.files.length > 0)
+                                                                 setImageValue({"file": event.currentTarget.files[0]});
+                                                         }}
+                                    />
+                                </Button>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '16px',
+                                        color: 'grey',
+
+                                    }}
+                                >
+                                    {imageValue.file ? imageValue.file.name : 'No file selected'}
                                 </div>
-                            ) : null}
+                            </div>
+                            {
+                                imageError ? <Alert severity="warning">Image is required</Alert> : null
+                            }
                         </Grid>
 
                         <Button
