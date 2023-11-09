@@ -22,11 +22,21 @@ export const Register = () => {
   const [university, setUniversity] = useState('')
   const [graduationYear, setGraduationYear] = useState('')
   const [degree, setDegree] = useState('')
+  const [documents, setDocuments] = useState<FileList | null>(null)
 
   async function submit(e: any) {
     console.log('submit')
 
     e.preventDefault()
+
+    const formData = new FormData()
+
+    if (documents) {
+      for (let i = 0; i < documents.length; i++) {
+        formData.append('documents', documents[i])
+        console.log(documents[i])
+      }
+    }
 
     await axios
       .post('http://localhost:3000/api/pharmacist/addPharmacist', {
@@ -44,6 +54,7 @@ export const Register = () => {
           graduationYear,
           degree,
         },
+        documents: formData.get('documents'),
       })
       .then(() => {
         history('/')
@@ -255,6 +266,23 @@ export const Register = () => {
             label="Doctoral degree"
           />
         </RadioGroup>
+        <br />
+        <input
+          type="file"
+          multiple
+          onChange={(e) => {
+            const formData = new FormData()
+
+            if (e.target.files) {
+              for (let i = 0; i < e.target.files.length; i++) {
+                formData.append('documents', e.target.files[i])
+              }
+            }
+
+            console.log(e.target.files)
+            setDocuments(e.target.files)
+          }}
+        />
         <br />
 
         <div className="d-grid">

@@ -2,7 +2,6 @@ import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt'
 import { TokenError, LoginError } from '../errors/auth.errors'
 import User from '../schemas/user.model'
-
 import { APIError, NotFoundError } from '../errors'
 import { UserType } from 'pharmacy-common/types/user.types'
 import Pharmacist from '../schemas/pharmacist'
@@ -27,6 +26,7 @@ export async function login(
 
   const hashedPassword = await bcrypt.hash(password, bcryptSalt)
   console.log(user.password, hashedPassword)
+
   if (user.password !== hashedPassword) {
     throw new APIError('Password is incorrect', 400)
   }

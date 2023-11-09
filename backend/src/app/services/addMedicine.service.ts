@@ -49,7 +49,6 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
         })
 
         await newMedicine.save()
-
         return newMedicine
     } catch (error) {
         console.log(error)

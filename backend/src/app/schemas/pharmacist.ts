@@ -24,6 +24,7 @@ const pharmacistSchema = new Schema(
       graduationYear: { type: Number, required: true },
       degree: { type: String, enum: PharmacistDegree, required: true },
     },
+    documents: [{ type: String, required: true }],
   },
   { timestamps: true }
 )

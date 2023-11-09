@@ -3,7 +3,9 @@ import AppError from '../utils/appError'
 import { FAIL } from '../utils/httpStatusText'
 import User, { IUser } from '../schemas/user.model'
 import { UserType } from 'pharmacy-common/types/user.types'
-
+import { AddPharmacistRequest } from 'pharmacy-common/types/pharmacist.types'
+import FireBase from 'pharmacy-common/firebase.config'
+import { getStorage, ref, uploadBytes } from 'firebase/storage'
 type Pharmacist = {
   user: IUser
   username: string
@@ -22,12 +24,16 @@ type Pharmacist = {
   }
 }
 
-export const addPharmacistService = async (pharmacist: Pharmacist) => {
+export const addPharmacistService = async (
+  pharmacist: AddPharmacistRequest
+) => {
   const existingEmail = await Pharmacist.findOne({ email: pharmacist.email })
 
   if (existingEmail) {
     throw new AppError('Pharmacist with this email already exists', 400, FAIL)
   }
+
+  console.log('DOCUMENTS', pharmacist.documents)
 
   const existingUsername = await User.findOne({ username: pharmacist.username })
 
@@ -45,6 +51,16 @@ export const addPharmacistService = async (pharmacist: Pharmacist) => {
     type: UserType.Pharmacist,
   })
   await user.save()
+  const documentsPaths: string[] = []
+  const storage = getStorage(FireBase)
+  const storageRef = ref(storage, 'pharmacists/')
+
+  for (let i = 0; i < pharmacist.documents.length; i++) {
+    const fileRef = ref(storageRef, pharmacist.name + [i])
+    await uploadBytes(fileRef, pharmacist.documents[i])
+    const fullPath = fileRef.fullPath
+    documentsPaths.push(fullPath)
+  }
 
   const newPharmacist = new Pharmacist({
     name: pharmacist.name,
@@ -59,6 +75,7 @@ export const addPharmacistService = async (pharmacist: Pharmacist) => {
       graduationYear: pharmacist.educationalBackground.graduationYear,
       degree: pharmacist.educationalBackground.degree,
     },
+    documents: documentsPaths,
     user: user.id,
   })
   await newPharmacist.save()
