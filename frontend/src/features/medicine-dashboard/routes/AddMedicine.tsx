@@ -12,6 +12,8 @@ import {
 } from '@mui/material'
 import {ToastContainer, toast} from 'react-toastify'
 import {useAddMedicineService} from '@/api/medicine'
+import {useState} from "react";
+import {api} from "@/api";
 
 interface newMedicine {
     name: string
@@ -27,22 +29,20 @@ interface newMedicine {
 export function AddMedicine() {
     //calling the custom useRemoveUser hook to return the mutation from
     const mutation = useAddMedicineService()
-
+    const [fieldValue, setFieldValue] = useState({file: null} as any);
+    const [file, setFile] = useState(null as any);
     const handleAddNewMedicine = (Medicine: newMedicine) => {
-        // Call the mutation function with the username you want to delete
-        const newMedicine = {
-            name: Medicine.name,
-            price: Number(Medicine.price),
-            description: Medicine.description,
-            quantity: Number(Medicine.quantity),
-            Image: Medicine.Image,
-            activeIngredients: Medicine.activeIngredients.split(', '),
-            medicinalUse: Medicine.medicinalUse.split(', '),
-            sales: 0,
-        }
-        console.log(newMedicine)
+        const formData = new FormData();
+        formData.append('Image', fieldValue.file)
+        formData.append('name', Medicine.name)
+        formData.append('price', Medicine.price.toString())
+        formData.append('description', Medicine.description)
+        formData.append('quantity', Medicine.quantity.toString())
+        formData.append('activeIngredients', Medicine.activeIngredients)
+        formData.append('medicinalUse', Medicine.medicinalUse)
+        formData.append('sales', Medicine.sales.toString())
         mutation
-            .mutateAsync(newMedicine)
+            .mutateAsync(formData)
             .then(() => {
                 toast.success('Medicine Added Successfuly!', {
                     position: 'top-right',
@@ -217,24 +217,28 @@ export function AddMedicine() {
                         </Grid>
                         <Grid item xs={12}>
                             <label>Upload Medicine Image</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                name="Image"
-                                onChange={(event) => {
-                                    console.log("heelo")
-                                    console.log(event.currentTarget.files)
-                                    const files = event.currentTarget.files
-                                    if (files && files.length > 0) {
-                                        console.log("yes more than 1")
-                                        const file = files[0]
-                                        formik.setFieldValue('Image', file)
-                                        formik.setFieldTouched('Image', true, false) // should not trigger validation yet
-                                        formik.handleChange(handeChange)
-                                    }
-                                }}
-                                onBlur={formik.handleBlur}
-                            />
+                            <input id="file" name="file" type="file" onChange={(event) => {
+                                if (event.currentTarget.files && event.currentTarget.files.length > 0)
+                                    setFieldValue({"file": event.currentTarget.files[0]});
+                            }}/>
+                            {/*<input*/}
+                            {/*    type="file"*/}
+                            {/*    accept="image/*"*/}
+                            {/*    name="Image"*/}
+                            {/*    onChange={(event) => {*/}
+                            {/*        console.log("heelo")*/}
+                            {/*        console.log(event.currentTarget.files)*/}
+                            {/*        const files = event.currentTarget.files*/}
+                            {/*        if (files && files.length > 0) {*/}
+                            {/*            console.log("yes more than 1")*/}
+                            {/*            const file = files[0]*/}
+                            {/*            formik.setFieldValue('Image', file)*/}
+                            {/*            formik.setFieldTouched('Image', true, false) // should not trigger validation yet*/}
+                            {/*            formik.handleChange(handeChange)*/}
+                            {/*        }*/}
+                            {/*    }}*/}
+                            {/*    onBlur={formik.handleBlur}*/}
+                            {/*/>*/}
                             {formik.errors.Image && formik.touched.Image ? (
                                 <div className="error-message">
                                     {formik.errors.Image.toString()}

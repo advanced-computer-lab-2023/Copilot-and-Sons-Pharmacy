@@ -1,4 +1,8 @@
+// import * as fileUpload from '@types/express-fileupload';
 import express, { Application } from 'express'
+import multer from 'multer';
+
+import busboy from 'connect-busboy'
 import cors from 'cors'
 import { ERROR } from './app/utils/httpStatusText'
 import medicinesRoute from './app/routes/medicines.route'
@@ -11,12 +15,12 @@ import debugRouter from './app/controllers/debug.controller'
 import { deliveryAddressRouter } from './app/controllers/deliveryAddress.controller'
 import { authRouter } from './app/controllers/auth.controller'
 import { authenticate } from './app/middlewares/auth.middleware'
-
 const app: Application = express()
 
 app.use(cors())
 app.use(express.json())
 app.use(authenticate)
+// app.use(busboy());
 
 app.use('/api/medicine', medicinesRoute)
 app.use('/api/patient', patientsRoute)
