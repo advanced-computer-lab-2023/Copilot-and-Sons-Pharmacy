@@ -7,20 +7,13 @@ import { initializeApp } from 'firebase/app'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  // apiKey: 'AIzaSyBwlUiRYQuJq-PmhpeEJcqxXTERgOJl_Zk',
-  // authDomain: 'copilot-clinic.firebaseapp.com',
-  // projectId: 'copilot-clinic',
-  // storageBucket: 'copilot-clinic.appspot.com',
-  // messagingSenderId: '189542708109',
-  // appId: '1:189542708109:web:38d1da3fe2c163ca55c3c4',
-  // measurementId: 'G-3BN3438ES4',
-  apiKey: "AIzaSyCwae0VoDxJ3UKaR5NotOx8pGMrcpIui5E",
-  authDomain: "e-learning-16148.firebaseapp.com",
-  projectId: "e-learning-16148",
-  storageBucket: "e-learning-16148.appspot.com",
-  messagingSenderId: "777807118707",
-  appId: "1:777807118707:web:af9134efa569ba836bc506",
-  measurementId: "G-9C9ZK69MJQ"
+  apiKey: 'AIzaSyBwlUiRYQuJq-PmhpeEJcqxXTERgOJl_Zk',
+  authDomain: 'copilot-clinic.firebaseapp.com',
+  projectId: 'copilot-clinic',
+  storageBucket: 'copilot-clinic.appspot.com',
+  messagingSenderId: '189542708109',
+  appId: '1:189542708109:web:38d1da3fe2c163ca55c3c4',
+  measurementId: 'G-3BN3438ES4',
 }
 
 // Initialize Firebase
