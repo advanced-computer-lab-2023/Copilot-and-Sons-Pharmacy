@@ -153,6 +153,7 @@ export async function createFakeMedicine() {
       min: 0,
       max: 100,
     }),
+    requiresPrescription: faker.helpers.arrayElement([true, false]),
   })
 }
 
