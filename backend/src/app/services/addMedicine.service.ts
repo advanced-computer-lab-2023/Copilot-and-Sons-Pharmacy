@@ -5,6 +5,7 @@ import AppError from '../utils/appError'
 import { ERROR } from '../utils/httpStatusText'
 import FireBase from '../../../../firebase.config'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getDownloadURL } from 'firebase/storage'
 
 const storage = getStorage(FireBase)
 const storageRef = ref(storage, 'medicines/')
@@ -33,7 +34,8 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       .catch((error) => {
         console.log('Error uploading file:', error)
       })
-    const fullPath = fileRef.fullPath
+
+    const fullPath = await getDownloadURL(fileRef)
 
     const newMedicine: IMedicine = new Medicine({
       name,
@@ -42,7 +44,7 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       medicinalUse,
       quantity,
       activeIngredients,
-      Image: fullPath,
+      Image: fullPath.toString(),
     })
 
     await newMedicine.save()

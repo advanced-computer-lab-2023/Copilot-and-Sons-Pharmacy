@@ -6,6 +6,7 @@ import { UserType } from 'pharmacy-common/types/user.types'
 import { AddPharmacistRequest } from 'pharmacy-common/types/pharmacist.types'
 import FireBase from '../../../../firebase.config'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getDownloadURL } from 'firebase/storage'
 type Pharmacist = {
   user: IUser
   username: string
@@ -60,8 +61,8 @@ export const addPharmacistService = async (
     uploadBytes(fileRef, pharmacist.documents[i].buffer, {
       contentType: pharmacist.documents[i].mimetype,
     })
-    const fullPath = fileRef.fullPath
-    documentsPaths.push(fullPath)
+    const fullPath = await getDownloadURL(fileRef)
+    documentsPaths.push(fullPath.toString())
   }
 
   const newPharmacist = new Pharmacist({
