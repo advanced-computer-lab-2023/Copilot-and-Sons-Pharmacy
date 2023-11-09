@@ -12,6 +12,8 @@ const upload = multer({ storage: storage })
 const router = express.Router()
 router.use(cors())
 router.use(express.json())
-router.route('/addPharmacist').post(upload.single('documents'), addPharmacist)
+router
+  .route('/addPharmacist')
+  .post(upload.array('documents', 50), addPharmacist)
 
 export default router

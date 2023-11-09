@@ -45,7 +45,10 @@ export const Register = () => {
     formData.append('educationalBackground[degree]', degree)
     formData.append('status', 'Pending')
 
-    formData.append('documents', fieldValue.files)
+    // formData.append('documents', fieldValue.files)
+    for (let i = 0; i < fieldValue.files.length; i++) {
+      formData.append('documents', fieldValue.files[i])
+    }
 
     await axios
       .post('http://localhost:3000/api/pharmacist/addPharmacist', formData, {
