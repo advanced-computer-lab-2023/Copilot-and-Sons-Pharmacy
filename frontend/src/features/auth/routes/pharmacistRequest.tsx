@@ -22,39 +22,36 @@ export const Register = () => {
   const [university, setUniversity] = useState('')
   const [graduationYear, setGraduationYear] = useState('')
   const [degree, setDegree] = useState('')
-  const [documents, setDocuments] = useState<FileList | null>(null)
+
+  const [fieldValue, setFieldValue] = useState({ files: [] } as any)
 
   async function submit(e: any) {
     console.log('submit')
-
+    console.log(fieldValue.files)
     e.preventDefault()
 
     const formData = new FormData()
 
-    if (documents) {
-      for (let i = 0; i < documents.length; i++) {
-        formData.append('documents', documents[i])
-        console.log(documents[i])
-      }
-    }
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('username', username)
+    formData.append('password', password)
+    formData.append('dateOfBirth', dateOfBirth)
+    formData.append('hourlyRate', hourlyRate)
+    formData.append('affilation', affilation)
+    formData.append('educationalBackground[major]', major)
+    formData.append('educationalBackground[university]', university)
+    formData.append('educationalBackground[graduationYear]', graduationYear)
+    formData.append('educationalBackground[degree]', degree)
+    formData.append('status', 'Pending')
+
+    formData.append('documents', fieldValue.files)
 
     await axios
-      .post('http://localhost:3000/api/pharmacist/addPharmacist', {
-        name,
-        email,
-        username,
-        password,
-        dateOfBirth,
-        hourlyRate,
-        affilation,
-        status: 'Pending',
-        educationalBackground: {
-          major,
-          university,
-          graduationYear,
-          degree,
+      .post('http://localhost:3000/api/pharmacist/addPharmacist', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data; ${formData.getBoundary()}', // Axios sets the correct Content-Type header with the boundary.
         },
-        documents: formData.get('documents'),
       })
       .then(() => {
         history('/')
@@ -267,20 +264,19 @@ export const Register = () => {
           />
         </RadioGroup>
         <br />
+        <label>Upload Certificate and documents</label>
+        <br />
         <input
+          id="file"
+          name="file"
           type="file"
           multiple
-          onChange={(e) => {
-            const formData = new FormData()
-
-            if (e.target.files) {
-              for (let i = 0; i < e.target.files.length; i++) {
-                formData.append('documents', e.target.files[i])
-              }
-            }
-
-            console.log(e.target.files)
-            setDocuments(e.target.files)
+          onChange={(event) => {
+            if (
+              event.currentTarget.files &&
+              event.currentTarget.files.length > 0
+            )
+              setFieldValue({ files: event.currentTarget.files })
           }}
         />
         <br />

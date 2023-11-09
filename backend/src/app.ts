@@ -1,8 +1,6 @@
 // import * as fileUpload from '@types/express-fileupload';
 import express, { Application } from 'express'
-import multer from 'multer';
 
-import busboy from 'connect-busboy'
 import cors from 'cors'
 import { ERROR } from './app/utils/httpStatusText'
 import medicinesRoute from './app/routes/medicines.route'
@@ -20,7 +18,6 @@ const app: Application = express()
 app.use(cors())
 app.use(express.json())
 app.use(authenticate)
-// app.use(busboy());
 
 app.use('/api/medicine', medicinesRoute)
 app.use('/api/patient', patientsRoute)

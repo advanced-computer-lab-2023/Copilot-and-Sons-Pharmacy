@@ -26,7 +26,7 @@ export type AddPharmacistRequest = {
     graduationYear: string
     degree: string
   }
-  documents: FileList
+  documents: Express.Multer.File[]
 }
 
 export interface IPharmacist {
