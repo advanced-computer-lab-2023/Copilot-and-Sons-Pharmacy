@@ -17,12 +17,11 @@ export async function viewMedicinesQuantityAndSales(): Promise<AxiosResponse> {
 //Calling the add Medicine function using axios
 function addMedicineService(formData: any) {
   return api
-    .post(`/medicine/addMedicine`, formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
+    .post(`/medicine/addMedicine`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     .then((response) => response)
     .catch((error) => {
       throw new Error(error)
