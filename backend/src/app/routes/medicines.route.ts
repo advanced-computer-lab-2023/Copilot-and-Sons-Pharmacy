@@ -14,8 +14,7 @@ router.route('/').get(getAllMedicines)
 router.route('/quantity-sales').get(viewMedicinesQuantityAndSales)
 router.route('/allMedicinalUses').get(medicinalUses)
 const storage = multer.memoryStorage() // You can choose a different storage method
-// eslint-disable-next-line object-shorthand
-const upload = multer({ storage: storage })
+const upload = multer({ storage })
 
 router.route('/addMedicine').post(upload.single('Image'), addMedicine)
 router.route('/editMedicine/:name').put(editMedicine)
