@@ -4,7 +4,7 @@ import { FAIL } from '../utils/httpStatusText'
 import User, { IUser } from '../schemas/user.model'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { AddPharmacistRequest } from 'pharmacy-common/types/pharmacist.types'
-import FireBase from 'pharmacy-common/firebase.config'
+import FireBase from '../../../../firebase.config'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
 type Pharmacist = {
   user: IUser

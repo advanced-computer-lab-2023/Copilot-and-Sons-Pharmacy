@@ -3,7 +3,7 @@ import { IAddMedicineRequest } from 'pharmacy-common/types/medicine.types'
 import Medicine from '../schemas/medicine.model'
 import AppError from '../utils/appError'
 import { ERROR } from '../utils/httpStatusText'
-import FireBase from 'pharmacy-common/firebase.config'
+import FireBase from '../../../../firebase.config'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
 
 const storage = getStorage(FireBase)
