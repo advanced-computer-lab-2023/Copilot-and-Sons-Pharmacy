@@ -11,6 +11,15 @@ export enum PharmacistDegree {
   Doctoral = 'Doctoral degree',
 }
 
+type MulterFile = {
+  fieldname: string
+  originalname: string
+  encoding: string
+  mimetype: string
+  buffer: Buffer
+  size: number
+}
+
 export type AddPharmacistRequest = {
   username: string
   password: string
@@ -26,7 +35,7 @@ export type AddPharmacistRequest = {
     graduationYear: string
     degree: string
   }
-  documents: Express.Multer.File[]
+  documents: MulterFile[]
 }
 
 export interface IPharmacist {
