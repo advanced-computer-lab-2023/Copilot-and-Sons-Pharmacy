@@ -20,8 +20,7 @@ import {
 import { useCart } from '../../../hooks/cartHook'
 import { ArrowRightAltOutlined, Close } from '@mui/icons-material'
 import { ToastContainer, toast } from 'react-toastify'
-import axios from 'axios'
-import { addOrderApi } from '@/api/order'
+import { addOrderApi, getPatientApi } from '@/api/order'
 import { useAuth } from '@/hooks/auth'
 // import { useParams } from 'react-router-dom'
 
@@ -125,17 +124,12 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
   }
 
   const username = useAuth().user?.username
-  console.log(username)
 
   async function getPatientId() {
-    const response = await axios.get(
-      `http://localhost:3000/api/patient/getPatient/${username}`
-    )
-    console.log(response)
-    const patient = response.data.data
-    console.log('patient id is ' + patient._id)
+    const response = await getPatientApi(username)
+    const patientID = response.data.data._id
 
-    return patient._id
+    return patientID
   }
 
   async function handleCheckOut() {
