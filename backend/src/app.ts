@@ -1,4 +1,6 @@
+// import * as fileUpload from '@types/express-fileupload';
 import express, { Application } from 'express'
+
 import cors from 'cors'
 import { ERROR } from './app/utils/httpStatusText'
 import medicinesRoute from './app/routes/medicines.route'
@@ -11,7 +13,6 @@ import debugRouter from './app/controllers/debug.controller'
 import { deliveryAddressRouter } from './app/controllers/deliveryAddress.controller'
 import { authRouter } from './app/controllers/auth.controller'
 import { authenticate } from './app/middlewares/auth.middleware'
-
 const app: Application = express()
 
 app.use(cors())

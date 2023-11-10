@@ -23,26 +23,37 @@ export const Register = () => {
   const [graduationYear, setGraduationYear] = useState('')
   const [degree, setDegree] = useState('')
 
+  const [fieldValue, setFieldValue] = useState({ files: [] } as any)
+
   async function submit(e: any) {
     console.log('submit')
-
+    console.log(fieldValue.files)
     e.preventDefault()
 
+    const formData = new FormData()
+
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('username', username)
+    formData.append('password', password)
+    formData.append('dateOfBirth', dateOfBirth)
+    formData.append('hourlyRate', hourlyRate)
+    formData.append('affilation', affilation)
+    formData.append('educationalBackground[major]', major)
+    formData.append('educationalBackground[university]', university)
+    formData.append('educationalBackground[graduationYear]', graduationYear)
+    formData.append('educationalBackground[degree]', degree)
+    formData.append('status', 'Pending')
+
+    // formData.append('documents', fieldValue.files)
+    for (let i = 0; i < fieldValue.files.length; i++) {
+      formData.append('documents', fieldValue.files[i])
+    }
+
     await axios
-      .post('http://localhost:3000/api/pharmacist/addPharmacist', {
-        name,
-        email,
-        username,
-        password,
-        dateOfBirth,
-        hourlyRate,
-        affilation,
-        status: 'Pending',
-        educationalBackground: {
-          major,
-          university,
-          graduationYear,
-          degree,
+      .post('http://localhost:3000/api/pharmacist/addPharmacist', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data; ${formData.getBoundary()}', // Axios sets the correct Content-Type header with the boundary.
         },
       })
       .then(() => {
@@ -255,6 +266,22 @@ export const Register = () => {
             label="Doctoral degree"
           />
         </RadioGroup>
+        <br />
+        <label>Upload Certificate and documents</label>
+        <br />
+        <input
+          id="file"
+          name="file"
+          type="file"
+          multiple
+          onChange={(event) => {
+            if (
+              event.currentTarget.files &&
+              event.currentTarget.files.length > 0
+            )
+              setFieldValue({ files: event.currentTarget.files })
+          }}
+        />
         <br />
 
         <div className="d-grid">

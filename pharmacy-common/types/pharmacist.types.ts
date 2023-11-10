@@ -11,6 +11,33 @@ export enum PharmacistDegree {
   Doctoral = 'Doctoral degree',
 }
 
+type MulterFile = {
+  fieldname: string
+  originalname: string
+  encoding: string
+  mimetype: string
+  buffer: Buffer
+  size: number
+}
+
+export type AddPharmacistRequest = {
+  username: string
+  password: string
+  name: string
+  email: string
+  dateOfBirth: Date
+  hourlyRate: string
+  affilation: string
+  status: string
+  educationalBackground: {
+    major: string
+    university: string
+    graduationYear: string
+    degree: string
+  }
+  documents: MulterFile[]
+}
+
 export interface IPharmacist {
   id: string
   user: string
@@ -26,4 +53,5 @@ export interface IPharmacist {
     graduationYear: number
     degree: PharmacistDegree
   }
+  documents: string[]
 }
