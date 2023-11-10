@@ -1,19 +1,21 @@
 import { HydratedDocument, InferSchemaType, Schema, model } from 'mongoose'
-import { ICart } from './cart.model'
 
 const orderSchema = new Schema(
   {
     patientID: { type: Schema.Types.ObjectId, ref: 'Patient', required: true },
-    cart: { type: Schema.Types.ObjectId, ref: 'Cart', required: true },
     total: { type: Number, required: true },
     date: { type: Date, required: true },
+    status: {
+      type: String,
+      enum: ['pending', 'delivered', 'cancelled'],
+      default: 'pending',
+    },
   },
   { timestamps: true }
 )
 
 export interface IOrder {
   patientID: string
-  cart: ICart
   total: number
   date: Date
 }

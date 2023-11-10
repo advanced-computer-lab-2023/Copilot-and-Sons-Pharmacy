@@ -20,6 +20,10 @@ import {
 import { useCart } from '../../../hooks/cartHook'
 import { ArrowRightAltOutlined, Close } from '@mui/icons-material'
 import { ToastContainer, toast } from 'react-toastify'
+import axios from 'axios'
+import { addOrderApi } from '@/api/order'
+import { useAuth } from '@/hooks/auth'
+// import { useParams } from 'react-router-dom'
 
 interface CartProps {
   isOpen: boolean
@@ -98,6 +102,76 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
     await updateQuantityApi(medicine._id, newQuantity)
   }
 
+  const removeallitems = async () => {
+    clearCartProvider()
+  }
+
+  // const patientID = useParams<{ id: string }>().id
+
+  // console.log(patientID)
+  // console.log(typeof(patientID))
+
+  function calculateTwoDaysFromNow(): string {
+    const currentDate = new Date()
+    currentDate.setDate(currentDate.getDate() + 2) // Add 2 days
+
+    const year = currentDate.getFullYear()
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0') // Month is zero-based, so we add 1 and format
+    const day = String(currentDate.getDate()).padStart(2, '0')
+
+    const formattedDate = `${year}-${month}-${day}`
+
+    return formattedDate
+  }
+
+  const username = useAuth().user?.username
+  console.log(username)
+
+  async function getPatientId() {
+    const response = await axios.get(
+      `http://localhost:3000/api/patient/getPatient/${username}`
+    )
+    console.log(response)
+    const patient = response.data.data
+    console.log('patient id is ' + patient._id)
+
+    return patient._id
+  }
+
+  async function handleCheckOut() {
+    if (cart.length === 0) {
+      toast.error('Please add some items to your cart first!', {
+        position: 'top-right',
+      })
+    } else {
+      const patientID = await getPatientId()
+      console.log('this is the patient id ' + patientID)
+
+      const total = totalPrice
+      const date = calculateTwoDaysFromNow()
+      console.log(date)
+
+      const order = {
+        patientID,
+        total,
+        date,
+      }
+      console.log(order)
+
+      await addOrderApi(order)
+        .then(() => {
+          clearCartProvider()
+          toast.success('Your order has been sent successfully', {
+            position: 'top-right',
+          })
+        })
+        .catch((err) => {
+          alert(err.response.data.message)
+          // console.log(err.response.data.message)
+        })
+    }
+  }
+
   return (
     <Drawer
       anchor="right"
@@ -105,6 +179,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
       onClose={onClose}
       style={{ height: '100%' }}
     >
+      <Button variant="contained" onClick={removeallitems}>
+        remove all items
+      </Button>
       <IconButton color="primary" onClick={onClose} style={{ right: 150 }}>
         <Close />
       </IconButton>
@@ -193,8 +270,13 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
             </CardContent>
           </Card>
         </Grid>
-        <Button variant="contained" color="primary" fullWidth>
-          Checkout{' '}
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleCheckOut}
+        >
+          Checkout
           <ArrowRightAltOutlined style={{ marginLeft: 20, fontSize: 40 }} />
         </Button>
       </div>
