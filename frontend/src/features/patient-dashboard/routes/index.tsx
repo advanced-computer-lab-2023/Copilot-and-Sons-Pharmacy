@@ -6,6 +6,7 @@ import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedici
 import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
+import AllOrders from '@/features/patient-dashboard/routes/AllOrders'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
@@ -18,6 +19,10 @@ export const patientDashboardRoutes: RouteObject[] = [
       {
         path: 'delivery-addresses',
         element: <DeliveryAddresses />,
+      },
+      {
+        path: 'orders',
+        element: <AllOrders />,
       },
       {
         path: 'medicines',
