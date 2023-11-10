@@ -13,10 +13,12 @@ export const addOrderService = async (info: IOrder) => {
     const cartObj = await CartModel.findById(patient.cart)
     if (!cartObj) throw new AppError('Cart not found', 404, ERROR)
 
+    const cartID = patient.cart
     const newOrder: IOrderDocument = new OrderModel({
       patientID,
       total,
       date,
+      cartID,
     })
     const cartItems = cartObj.items // array of cart items
     console.log('cart items are ')
@@ -49,6 +51,7 @@ export const addOrderService = async (info: IOrder) => {
     await newCart.save()
     patient.orders = orders
     patient.cart = newCart.id
+    console.log('new cart id is ' + newCart.id)
     await patient.save()
 
     return newOrder
