@@ -5,6 +5,8 @@ import {
   isStrongPassword,
   getPasswordStrengthReason,
 } from '../validators/password.validator'
+import { bcryptSalt } from './auth.service'
+import bcrypt from 'bcrypt'
 
 export async function changePassowrd(
   username: string,
@@ -12,13 +14,15 @@ export async function changePassowrd(
   newPassword: string
 ): Promise<void> {
   const user = await User.findOne({ username })
-
-  console.log(user)
+  // verifyOTP("789","5678","Lon_Boehm12_2610@gmail.com");
 
   if (user) {
-    if (user.password === oldPassword) {
+    const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password)
+
+    if (isPasswordCorrect) {
       if (isStrongPassword(newPassword)) {
-        user.password = newPassword
+        user.password = await bcrypt.hash(newPassword, bcryptSalt)
+
         await user.save()
 
         return

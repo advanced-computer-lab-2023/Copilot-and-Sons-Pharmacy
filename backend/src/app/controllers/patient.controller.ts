@@ -4,6 +4,48 @@ import { SUCCESS } from '../utils/httpStatusText'
 import asyncWrapper from '../middlewares/asyncWrapper'
 import { fetchAllPatients } from '../services/viewAllPatients'
 import { changePassowrd } from '../services/changePassword'
+import { sendOTP, verifyOTP, updatePassword } from '../services/forgotPassowrd'
+import { ERROR } from './../utils/httpStatusText'
+
+export const requestOTP = asyncWrapper(async (req: Request, res: Response) => {
+  const { email } = req.body
+
+  if (email) {
+    await sendOTP(email)
+    res.json({ success: SUCCESS, message: 'OTP sent successfully' })
+  }
+})
+
+export const verifyOTPController = asyncWrapper(
+  async (req: Request, res: Response) => {
+    console.log('heyy i entered')
+    const { otp, email } = req.body
+
+    const isOTPValid = await verifyOTP(email, otp)
+
+    if (isOTPValid) {
+      res.json({ success: SUCCESS, message: 'OTP verified successfully' })
+    } else {
+      res.json({ error: ERROR, message: 'not verified' })
+    }
+  }
+)
+
+export const updatePasswordController = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const { newPassword, email } = req.body
+
+    if (!email) {
+      res.json({ error: 'Email not provided' })
+
+      return
+    }
+
+    await updatePassword(email, newPassword)
+
+    res.json({ success: SUCCESS, message: 'Password updated successfully' })
+  }
+)
 
 export const changeUserPassword = asyncWrapper(
   async (req: Request, res: Response) => {

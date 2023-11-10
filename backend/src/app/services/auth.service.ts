@@ -9,7 +9,9 @@ import Pharmacist from '../schemas/pharmacist'
 import { PharmacistStatus } from 'pharmacy-common/types/pharmacist.types'
 
 const jwtSecret = process.env.JWT_TOKEN ?? 'secret'
-const bcryptSalt = process.env.BCRYPT_SALT ?? '$2b$10$13bXTGGukQXsCf5hokNe2u'
+
+export const bcryptSalt =
+  process.env.BCRYPT_SALT ?? '$2b$10$13bXTGGukQXsCf5hokNe2u'
 
 export class JwtPayload {
   constructor(public username: string) {}
