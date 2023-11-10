@@ -10,6 +10,7 @@ const orderSchema = new Schema(
       enum: ['pending', 'delivered', 'cancelled'],
       default: 'pending',
     },
+    cartID: { type: Schema.Types.ObjectId, ref: 'Cart', required: true },
   },
   { timestamps: true }
 )
@@ -18,6 +19,8 @@ export interface IOrder {
   patientID: string
   total: number
   date: Date
+  status: 'pending' | 'delivered' | 'cancelled'
+  cartID: string
 }
 
 export type IOrderDocument = HydratedDocument<
