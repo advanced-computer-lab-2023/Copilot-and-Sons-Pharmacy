@@ -1,4 +1,6 @@
+// import * as fileUpload from '@types/express-fileupload';
 import express, { Application } from 'express'
+
 import cors from 'cors'
 import { ERROR } from './app/utils/httpStatusText'
 import medicinesRoute from './app/routes/medicines.route'

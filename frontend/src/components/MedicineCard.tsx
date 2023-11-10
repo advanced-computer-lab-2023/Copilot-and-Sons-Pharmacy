@@ -2,7 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { CardActions, Button } from '@mui/material'
+import { CardActions, Button, Paper } from '@mui/material'
 import IMedicine from '../types/medicine.type'
 import { Link } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -19,6 +19,43 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
     const item = {
       medicine,
       quantity: 1,
+    }
+
+    if (medicine.requiresPrescription) {
+      const prescriptionButton = document.createElement('button')
+      prescriptionButton.textContent = 'Have Prescription'
+      prescriptionButton.addEventListener('click', () => {
+        console.log('User has prescription')
+      })
+      toast.warning(
+        <Paper>
+          <h4>This medicine requires a prescription.</h4>
+          <div style={{ marginTop: '8px' }}>
+            <Button
+              variant="outlined"
+              fullWidth
+              color="success"
+              style={{ marginBottom: '10px' }}
+              onClick={handlePrescriptionClick}
+            >
+              Have Prescription
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              fullWidth
+              onClick={() => toast.dismiss()}
+            >
+              Close
+            </Button>
+          </div>
+        </Paper>,
+        {
+          position: toast.POSITION.TOP_RIGHT,
+        }
+      )
+
+      return
     }
 
     try {
@@ -80,4 +117,12 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
       </CardActions>
     </Card>
   )
+}
+
+function handlePrescriptionClick(): void {
+  console.log('User has prescription')
+  toast.dismiss()
+  toast.error('Sorry we can not accept a prescription now', {
+    position: 'top-right',
+  })
 }

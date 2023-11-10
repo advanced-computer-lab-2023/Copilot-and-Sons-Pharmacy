@@ -10,15 +10,31 @@ import {
   Box,
   Alert,
 } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+})
+
 import { ToastContainer, toast } from 'react-toastify'
-import { useAddMedicineService } from '../../../api/medicine'
+import { useAddMedicineService } from '@/api/medicine'
+import { useState } from 'react'
 
 interface newMedicine {
   name: string
   price: number
   description: string
   quantity: number
-  Image: string
+  Image: File
   activeIngredients: string
   medicinalUse: string
   sales: number
@@ -27,21 +43,28 @@ interface newMedicine {
 export function AddMedicine() {
   //calling the custom useRemoveUser hook to return the mutation from
   const mutation = useAddMedicineService()
+  const [imageValue, setImageValue] = useState({ file: null } as any)
+  const [imageError, setImageError] = useState(false)
 
   const handleAddNewMedicine = (Medicine: newMedicine) => {
-    // Call the mutation function with the username you want to delete
-    const newMedicine = {
-      name: Medicine.name,
-      price: Number(Medicine.price),
-      description: Medicine.description,
-      quantity: Number(Medicine.quantity),
-      Image: Medicine.Image,
-      activeIngredients: Medicine.activeIngredients.split(', '),
-      medicinalUse: Medicine.medicinalUse.split(', '),
-      sales: 0,
+    const formData = new FormData()
+
+    if (!imageValue.file) {
+      setImageError(true)
+
+      return
     }
+
+    formData.append('Image', imageValue.file)
+    formData.append('name', Medicine.name)
+    formData.append('price', Medicine.price.toString())
+    formData.append('description', Medicine.description)
+    formData.append('quantity', Medicine.quantity.toString())
+    formData.append('activeIngredients', Medicine.activeIngredients)
+    formData.append('medicinalUse', Medicine.medicinalUse)
+    formData.append('sales', Medicine.sales.toString())
     mutation
-      .mutateAsync(newMedicine)
+      .mutateAsync(formData)
       .then(() => {
         toast.success('Medicine Added Successfuly!', {
           position: 'top-right',
@@ -62,7 +85,7 @@ export function AddMedicine() {
     price: 0,
     description: '',
     quantity: 0,
-    Image: '',
+    Image: new File([], ''),
     activeIngredients: '',
     medicinalUse: '',
     sales: 0,
@@ -76,7 +99,7 @@ export function AddMedicine() {
     quantity: Yup.number()
       .required('quantity is required')
       .min(1, 'quantity cannot be less than 1'),
-    Image: Yup.string().required('Image is required'),
+    Image: Yup.mixed().required('Image is required'),
     activeIngredients: Yup.string()
       .required('activeIngredients is required')
       .matches(
@@ -170,21 +193,7 @@ export function AddMedicine() {
                   ''
                 )}
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Image"
-                  name="Image"
-                  value={formik.values.Image}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.errors.Image && formik.touched.Image ? (
-                  <Alert severity="warning">{formik.errors.Image}</Alert>
-                ) : (
-                  ''
-                )}
-              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -223,6 +232,52 @@ export function AddMedicine() {
                 )}
               </Grid>
             </Grid>
+            <Grid item xs={12}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: '10px',
+                }}
+              >
+                <Button
+                  component="label"
+                  variant="contained"
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Upload Image
+                  <VisuallyHiddenInput
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      setImageError(false)
+                      if (
+                        event.currentTarget.files &&
+                        event.currentTarget.files.length > 0
+                      )
+                        setImageValue({ file: event.currentTarget.files[0] })
+                    }}
+                  />
+                </Button>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '16px',
+                    color: 'grey',
+                  }}
+                >
+                  {imageValue.file ? imageValue.file.name : 'No file selected'}
+                </div>
+              </div>
+              {imageError ? (
+                <Alert severity="warning">Image is required</Alert>
+              ) : null}
+            </Grid>
+
             <Button
               type="submit"
               variant="contained"

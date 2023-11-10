@@ -75,4 +75,7 @@ export const pharmacistValidator = Joi.object({
         'any.only': `Degree must be one of the following values: Associate degree, Bachelor's degree, Master's degree, Doctoral degree`,
       }),
   },
+  documents: Joi.any().required().messages({
+    'any.required': `Documents is a required field`,
+  }),
 })
