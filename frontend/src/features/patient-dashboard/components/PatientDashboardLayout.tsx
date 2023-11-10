@@ -1,13 +1,20 @@
 import { Container } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useSidebar } from '../../../hooks/sidebar'
-import { Healing, LocationCity } from '@mui/icons-material'
+import { Healing, LocationCity, ShoppingCart } from '@mui/icons-material'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
+import CartDrawer from '../routes/CartDrawer'
+import { CartProvider } from '@/providers/cartProvider'
 
 export function PatientDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
+  const [isCartOpen, setCartOpen] = useState(false)
+
+  const toggleCart = () => {
+    setCartOpen(!isCartOpen)
+  }
 
   useEffect(() => {
     setSidebarLinks([
@@ -32,14 +39,20 @@ export function PatientDashboardLayout() {
         text: 'Delivery Addresses',
         icon: <LocationCity />,
       },
+
+      { action: toggleCart, text: 'Cart', icon: <ShoppingCart /> },
     ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSidebarLinks])
 
   return (
-    <AuthenticatedRoute requiredUserType={UserType.Patient}>
-      <Container maxWidth="xl">
-        <Outlet />
-      </Container>
-    </AuthenticatedRoute>
+    <CartProvider>
+      <AuthenticatedRoute requiredUserType={UserType.Patient}>
+        <Container maxWidth="xl">
+          <CartDrawer isOpen={isCartOpen} onClose={toggleCart} />
+          <Outlet />
+        </Container>
+      </AuthenticatedRoute>
+    </CartProvider>
   )
 }

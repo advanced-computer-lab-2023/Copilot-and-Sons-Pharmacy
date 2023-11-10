@@ -3,6 +3,7 @@ import registerService from '../services/register.service'
 import { SUCCESS } from '../utils/httpStatusText'
 import asyncWrapper from '../middlewares/asyncWrapper'
 import { fetchAllPatients } from '../services/viewAllPatients'
+import getPatientByUsername from '../services/getPatient.service'
 import { changePassowrd } from '../services/changePassword'
 import { sendOTP, verifyOTP, updatePassword } from '../services/forgotPassowrd'
 import { ERROR } from './../utils/httpStatusText'
@@ -79,3 +80,8 @@ export const registerController = asyncWrapper(
     res.status(201).json({ status: SUCCESS, data: patient })
   }
 )
+
+export const getPatient = asyncWrapper(async (req: Request, res: Response) => {
+  const patient = await getPatientByUsername(req.params.username)
+  res.status(201).json({ status: SUCCESS, data: patient })
+})

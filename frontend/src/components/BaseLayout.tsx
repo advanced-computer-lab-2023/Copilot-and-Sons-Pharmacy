@@ -20,18 +20,26 @@ import { Logout } from '@mui/icons-material'
 interface ListItemLinkProps {
   icon?: React.ReactElement
   primary: string
-  to: string
+  to?: string
+  action?: { (): void }
 }
 
 function ListItemLink(props: ListItemLinkProps) {
-  const { icon, primary, to } = props
+  const { icon, primary, to, action } = props
 
   return (
     <li>
-      <ListItemButton component={Link} to={to}>
-        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-        <ListItemText primary={primary} />
-      </ListItemButton>
+      {action ? (
+        <ListItemButton onClick={action}>
+          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+          <ListItemText primary={primary} />
+        </ListItemButton>
+      ) : to ? (
+        <ListItemButton component={Link} to={to} onClick={action}>
+          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+          <ListItemText primary={primary} />
+        </ListItemButton>
+      ) : null}
     </li>
   )
 }
@@ -44,9 +52,10 @@ export type OutletContextType = {
 const drawerWidth = 240
 
 interface SidebarLink {
-  to: string
+  to?: string
   text: string
   icon?: React.ReactElement
+  action?: { (): void }
 }
 
 export function BaseLayout() {
@@ -82,6 +91,7 @@ export function BaseLayout() {
         <List aria-label="main mailbox folders">
           {sidebarLinks.map((link) => (
             <ListItemLink
+              action={link.action}
               key={link.to}
               to={link.to}
               primary={link.text}
