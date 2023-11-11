@@ -4,8 +4,6 @@ import {
   deleteUser,
   adminViewsPatientInfo,
   serachForMedicine,
-  acceptPharmacistRequest,
-  rejectPharmacistRequest,
 } from '../controllers/admin.controller'
 import {
   getAllPharmacists,
@@ -29,8 +27,5 @@ router.route('/getPharmacistByID/:id').get(getPharmacistByID)
 router.route('/getMedicineByName/:name').get(serachForMedicine)
 router.route('/patientInfo/:id').get(adminViewsPatientInfo)
 router.route('/removeUser').delete(deleteUser)
-
-router.route('/acceptPharmacistRequest/:id').patch(acceptPharmacistRequest)
-router.route('/rejectPharmacistRequest/:id').patch(rejectPharmacistRequest)
 
 export default router

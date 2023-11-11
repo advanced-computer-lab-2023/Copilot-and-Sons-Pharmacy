@@ -42,3 +42,9 @@ function removeUser(username: string) {
 export function useRemoveUser() {
   return useMutation(removeUser)
 }
+
+export async function getPendingPharmacists() {
+  const response = await api.get<any[]>(`/admin/getPendingPharmacists`)
+
+  return response.data as any[]
+}
