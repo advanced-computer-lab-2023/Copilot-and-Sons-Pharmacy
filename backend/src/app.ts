@@ -14,12 +14,13 @@ import { deliveryAddressRouter } from './app/controllers/deliveryAddress.control
 import { authRouter } from './app/controllers/auth.controller'
 import { authenticate } from './app/middlewares/auth.middleware'
 import orderRouter from './app/routes/order.route'
+import asyncWrapper from './app/middlewares/asyncWrapper'
 
 const app: Application = express()
 
 app.use(cors())
 app.use(express.json())
-app.use(authenticate)
+app.use(asyncWrapper(authenticate))
 
 app.use('/api/medicine', medicinesRoute)
 app.use('/api/patient', patientsRoute)
