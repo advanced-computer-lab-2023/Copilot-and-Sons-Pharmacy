@@ -81,6 +81,7 @@ export function ApiForm<Request extends ObjectWithStringKeys>({
   action,
   onSuccess,
   buttonText,
+  noCard = false,
 }: {
   fields: Field<Request>[]
   validator: Zod.AnyZodObject
@@ -91,6 +92,7 @@ export function ApiForm<Request extends ObjectWithStringKeys>({
   onSuccess?: () => void
   buttonText?: string
   resetAfterSuccess?: boolean
+  noCard?: boolean
 }) {
   const { handleSubmit, control, reset } = useForm<Request>({
     resolver: zodResolver(validator),
@@ -136,62 +138,62 @@ export function ApiForm<Request extends ObjectWithStringKeys>({
     return <CardPlaceholder />
   }
 
+  const formContent = (
+    <Stack spacing={2}>
+      <AlertsBox scope={alertScope} />
+      {fields.map((field, i) => {
+        return (
+          <Controller
+            key={i}
+            name={field.property}
+            control={control}
+            render={({ field: fieldItem, fieldState }) => (
+              <>
+                {field.selectedValues ? (
+                  <SelectInputField
+                    field={field}
+                    fieldState={fieldState}
+                    fieldItem={fieldItem}
+                    defaultValue={query.data && query.data[field.property]}
+                  />
+                ) : field.type === 'date' ? (
+                  <DateInputField
+                    field={field}
+                    fieldState={fieldState}
+                    fieldItem={fieldItem}
+                    defaultValue={query.data && query.data[field.property]}
+                  />
+                ) : field.customComponent ? (
+                  field.customComponent
+                ) : !field.type ? (
+                  <TextInputField
+                    field={field}
+                    fieldState={fieldState}
+                    fieldItem={fieldItem}
+                    defaultValue={query.data && query.data[field.property]}
+                  />
+                ) : null}
+              </>
+            )}
+          />
+        )
+      })}
+
+      <LoadingButton loading={mutation.isLoading} type="submit">
+        {buttonText ?? 'Submit'}
+      </LoadingButton>
+    </Stack>
+  )
+
   return (
     <form onSubmit={handleSubmit((data) => mutation.mutateAsync(data))}>
-      <Card>
-        <CardContent>
-          <Stack spacing={2}>
-            <AlertsBox scope={alertScope} />
-            {fields.map((field, i) => {
-              return (
-                <Controller
-                  key={i}
-                  name={field.property}
-                  control={control}
-                  render={({ field: fieldItem, fieldState }) => (
-                    <>
-                      {field.selectedValues ? (
-                        <SelectInputField
-                          field={field}
-                          fieldState={fieldState}
-                          fieldItem={fieldItem}
-                          defaultValue={
-                            query.data && query.data[field.property]
-                          }
-                        />
-                      ) : field.type === 'date' ? (
-                        <DateInputField
-                          field={field}
-                          fieldState={fieldState}
-                          fieldItem={fieldItem}
-                          defaultValue={
-                            query.data && query.data[field.property]
-                          }
-                        />
-                      ) : field.customComponent ? (
-                        field.customComponent
-                      ) : !field.type ? (
-                        <TextInputField
-                          field={field}
-                          fieldState={fieldState}
-                          fieldItem={fieldItem}
-                          defaultValue={
-                            query.data && query.data[field.property]
-                          }
-                        />
-                      ) : null}
-                    </>
-                  )}
-                />
-              )
-            })}
-
-            <LoadingButton loading={mutation.isLoading} type="submit">
-              {buttonText ?? 'Submit'}
-            </LoadingButton>
-          </Stack>
-        </CardContent>
-      </Card>
+      {noCard ? (
+        formContent
+      ) : (
+        <Card>
+          <CardContent>{formContent}</CardContent>
+        </Card>
+      )}
     </form>
   )
 }
