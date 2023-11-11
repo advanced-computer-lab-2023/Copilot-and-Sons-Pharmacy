@@ -48,3 +48,9 @@ export async function getPendingPharmacists() {
 
   return response.data as any[]
 }
+
+export async function getApprovedPharmacists() {
+  const response = await api.get<any[]>(`/admin/getApprovedPharmacists`)
+
+  return response.data as any[]
+}
