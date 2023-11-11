@@ -20,6 +20,7 @@ const PatientSchema = new Schema({
     mobileNumber: { type: String, required: true },
     relation: { type: String, required: true },
   },
+  orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }],
   cart: { type: Schema.Types.ObjectId, ref: 'Cart' },
   deliveryAddresses: [
     {
