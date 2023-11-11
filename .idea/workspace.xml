@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e9f5e9d-deb5-4443-980c-281f5eec50e0" name="Changes" comment="" />
+    <list default="true" id="7e9f5e9d-deb5-4443-980c-281f5eec50e0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/features/patient-dashboard/components/Checkout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/database.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/database.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/patient-dashboard/routes/CartDrawer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/patient-dashboard/routes/CartDrawer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/patient-dashboard/routes/Checkout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/patient-dashboard/routes/Checkout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/patient-dashboard/routes/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/patient-dashboard/routes/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,36 +28,24 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/projects/ACL_Project/Pharmacy",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "D:\\Programs\\IntelliJ IDEA 2022.2.1\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/projects/ACL_Project/Pharmacy&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;D:\\projects\\ACL_Project\\Pharmacy\\Copilot-and-Sons-Pharmacy\\node_modules\\prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\projects\\ACL_Project\\Pharmacy\\Copilot-and-Sons-Pharmacy\\node_modules\\typescript\\lib&quot;
   }
-}]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="Copilot-and-Sons-Pharmacy" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Copilot-and-Sons-Pharmacy" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -61,6 +57,8 @@
       <workItem from="1697354188599" duration="15000" />
       <workItem from="1699442110171" duration="10890000" />
       <workItem from="1699467554540" duration="473000" />
+      <workItem from="1699700512806" duration="2790000" />
+      <workItem from="1699730911364" duration="4114000" />
     </task>
     <servers />
   </component>

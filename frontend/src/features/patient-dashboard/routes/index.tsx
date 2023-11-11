@@ -6,7 +6,7 @@ import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedici
 import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
-import Checkout from "@/features/patient-dashboard/routes/Checkout";
+import Checkout from '@/features/patient-dashboard/routes/Checkout'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
@@ -40,9 +40,9 @@ export const patientDashboardRoutes: RouteObject[] = [
             element: <FilteredMedicines />,
           },
           {
-            path:'checkout',
-            element: <Checkout/>
-          }
+            path: 'checkout/:jsonString',
+            element: <Checkout />,
+          },
         ],
       },
     ],

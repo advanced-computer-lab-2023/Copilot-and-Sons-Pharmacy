@@ -2,6 +2,7 @@ import {
   addMedicine,
   getAllMedicines,
   medicinalUses,
+  patchWallet,
   viewMedicinesQuantityAndSales,
 } from '../controllers/medicine.controller'
 import express from 'express'
@@ -21,5 +22,7 @@ router.route('/editMedicine/:name').put(editMedicine)
 router
   .route('/filterByMedicinalUse/:medicinalUse')
   .get(filterMedicineByMedicinalUse)
+
+router.route('/wallet/:totalMoney').patch(patchWallet)
 
 export default router

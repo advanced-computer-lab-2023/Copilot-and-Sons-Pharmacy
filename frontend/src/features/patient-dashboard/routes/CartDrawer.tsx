@@ -33,7 +33,7 @@ import {
 import { useCart } from '../../../hooks/cartHook'
 import { ArrowRightAltOutlined, Close, ExpandMore } from '@mui/icons-material'
 import { ToastContainer, toast } from 'react-toastify'
-import { addOrderApi, getPatientApi } from '@/api/order'
+import { getPatientApi } from '@/api/order'
 import { useAuth } from '@/hooks/auth'
 import { useQuery } from 'react-query'
 import {
@@ -47,6 +47,7 @@ import {
 import { Box, Stack } from '@mui/system'
 import { ApiForm } from '@/components/ApiForm'
 import { AddDeliveryAddressValidator } from 'pharmacy-common/validators/deliveryAddress.validator'
+
 // import { useParams } from 'react-router-dom'
 
 interface CartProps {
@@ -146,7 +147,6 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
 
   const [addressDialogOpen, setAddressDialogOpen] = useState(false)
   const [address, setAddress] = useState<DeliveryAddress>()
-
   useEffect(() => {
     viewCart()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -245,11 +245,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
       })
     } else {
       const patientID = await getPatientId()
-      console.log('this is the patient id ' + patientID)
 
       const total = totalPrice
       const date = calculateTwoDaysFromNow()
-      console.log(date)
 
       const order = {
         patientID,
@@ -257,19 +255,11 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
         date,
         address,
       }
-      console.log(order)
+      const jsonString = JSON.stringify(order)
+      //navigate to checkout page
+      window.location.href = `/patient-dashboard/medicines/checkout/${jsonString}`
 
-      await addOrderApi(order)
-        .then(() => {
-          clearCartProvider()
-          toast.success('Your order has been sent successfully', {
-            position: 'top-right',
-          })
-        })
-        .catch((err) => {
-          alert(err.response.data.message)
-          // console.log(err.response.data.message)
-        })
+      console.log('order', order)
     }
   }
 
@@ -410,7 +400,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
               } else {
                 console.log(address)
                 setAddressDialogOpen(false)
-                setAddress(undefined)
+                setAddress(address)
                 handleCheckOut()
               }
             }}

@@ -6,6 +6,8 @@ import { viewMedicineQuantityAndSales } from '../services/viewQuantityAndSales.s
 import { addMedicineService } from '../services/addMedicine.service'
 import { editMedicineService } from '../services/editMedicine.service'
 import { getAllMedicinalUses } from '../services/getAllMedicinalUses'
+import getPatientByUsername from '../services/getPatient.service'
+import { APIError, NotFoundError } from '../errors'
 
 export const getAllMedicines = asyncWrapper(
   async (req: Request, res: Response) => {
@@ -42,3 +44,16 @@ export const editMedicine = asyncWrapper(
     res.json({ success: SUCCESS, data: medicine })
   }
 )
+
+export const patchWallet = asyncWrapper(async (req: Request, res: Response) => {
+  console.log('patch wallet')
+  const totalMoney = parseInt(req.params.totalMoney)
+  const userName = req.username
+  const patient = await getPatientByUsername(userName!)
+  if (!patient || !patient.walletMoney) throw new NotFoundError()
+  if (patient.walletMoney - totalMoney < 0)
+    throw new APIError('Not enough money in wallet', 400)
+  patient.walletMoney -= totalMoney
+  patient.save()
+  res.send({ success: SUCCESS, data: patient.walletMoney })
+})
