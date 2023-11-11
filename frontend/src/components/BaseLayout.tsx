@@ -12,7 +12,7 @@ import {
   ListItemText,
 } from '@mui/material'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { OnlyAuthenticated } from './OnlyAuthenticated'
 import { Logout } from '@mui/icons-material'
@@ -59,7 +59,7 @@ interface SidebarLink {
 }
 
 export function BaseLayout() {
-  const [sidebarLinks, setSidebarLinks] = React.useState<SidebarLink[]>([])
+  const [sidebarLinks, setSidebarLinks] = useState<SidebarLink[]>([])
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -89,10 +89,10 @@ export function BaseLayout() {
         <Toolbar />
         <Divider />
         <List aria-label="main mailbox folders">
-          {sidebarLinks.map((link) => (
+          {sidebarLinks.map((link, i) => (
             <ListItemLink
               action={link.action}
-              key={link.to}
+              key={i}
               to={link.to}
               primary={link.text}
               icon={link.icon}

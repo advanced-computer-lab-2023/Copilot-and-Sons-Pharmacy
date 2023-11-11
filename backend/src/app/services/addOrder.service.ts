@@ -7,7 +7,7 @@ import { CartModel } from '../schemas/cart.model'
 
 export const addOrderService = async (info: IOrder) => {
   try {
-    const { patientID, total, date } = info
+    const { patientID, total, date, address } = info
     const patient = await Patient.findById(patientID)
     if (!patient) throw new AppError('Patient not found', 404, ERROR)
     const cartObj = await CartModel.findById(patient.cart)
@@ -19,6 +19,7 @@ export const addOrderService = async (info: IOrder) => {
       total,
       date,
       cartID,
+      address,
     })
     const cartItems = cartObj.items // array of cart items
     console.log('cart items are ')
