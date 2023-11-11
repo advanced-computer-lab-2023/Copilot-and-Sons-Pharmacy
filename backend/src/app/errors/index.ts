@@ -1,11 +1,9 @@
-export class APIError extends Error {
+export class APIError {
   constructor(
-    message: string,
+    public message: string,
     public status: number,
     public type: string = 'APIError'
-  ) {
-    super(message)
-  }
+  ) {}
 }
 
 export class NotFoundError extends APIError {

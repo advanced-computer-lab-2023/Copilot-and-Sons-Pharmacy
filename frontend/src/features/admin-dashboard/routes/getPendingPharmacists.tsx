@@ -36,8 +36,8 @@ const GetPharmacists = () => {
       <Grid container>
         {pharmacists &&
           pharmacists.map((pharmacist: any) => (
-            <Grid item sm={6} md={3}>
-              <PharmacistDetails key={pharmacist._id} pharmacist={pharmacist} />
+            <Grid item sm={6} md={3} key={pharmacist._id}>
+              <PharmacistDetails pharmacist={pharmacist} />
             </Grid>
           ))}
       </Grid>

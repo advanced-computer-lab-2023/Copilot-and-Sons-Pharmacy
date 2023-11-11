@@ -20,7 +20,7 @@ export class EmailAlreadyTakenError extends APIError {
 
 export class TokenError extends APIError {
   constructor() {
-    super('Token error', 401)
+    super('Token error', 401, 'TokenError')
   }
 }
 
