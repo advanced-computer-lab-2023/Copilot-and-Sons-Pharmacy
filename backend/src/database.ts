@@ -6,7 +6,6 @@ const url: string =
   process.env.Mongo_URL ||
   'mongodb+srv://darinmfadel:Darin2002@cluster0.ghfjumf.mongodb.net/project1?retryWrites=true&w=majority'
 
-
 try {
   mongoose.connect(url).then(() => {
     console.log('connected to server')
