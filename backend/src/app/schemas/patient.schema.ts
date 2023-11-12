@@ -29,6 +29,7 @@ const PatientSchema = new Schema({
       country: { type: String, required: true },
     },
   ],
+  walletMoney: { type: Number, default: 0 },
 })
 
 export type IPatient = HydratedDocument<InferSchemaType<typeof PatientSchema>>
