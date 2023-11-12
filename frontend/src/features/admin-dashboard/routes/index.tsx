@@ -15,6 +15,7 @@ import PatientInfo from '@/features/patient-dashboard/routes/viewPatient'
 import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
+import ChangePassword from '@/features/auth/routes/ChangePassowrd'
 
 export const adminDashboardRoutes: RouteObject[] = [
   {
@@ -23,6 +24,10 @@ export const adminDashboardRoutes: RouteObject[] = [
       {
         path: '',
         element: <AdminDashboardHome />,
+      },
+      {
+        path: 'change-password',
+        element: <ChangePassword />,
       },
       {
         path: 'add-admin',

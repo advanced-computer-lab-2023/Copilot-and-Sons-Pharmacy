@@ -91,22 +91,25 @@ export async function sendOTP(emailAddress: string) {
 }
 
 export async function verifyOTP(email: string, enteredOtp: string) {
-  const sentOtp = await OTPModel.findOne({ email })
-  console.log('sent Otp' + sentOtp)
+  const allOTPs = await OTPModel.find({ email })
+
+  const nonExpiredOTPs = allOTPs.filter((otp) => !isExpired(otp.expiresAt))
+
+  const sentOtp = nonExpiredOTPs.find((otp) => otp.otp === enteredOtp)
 
   if (sentOtp) {
-    const isOtpValid = sentOtp.otp === enteredOtp
+    await OTPModel.deleteMany({ email })
 
-    const isNotExpired = sentOtp.expiresAt > new Date()
-
-    if (isOtpValid && isNotExpired) {
-      await OTPModel.findOneAndDelete({ email })
-
-      return true
-    } else if (!isNotExpired) {
-      await OTPModel.findOneAndDelete({ email })
-    }
+    return true
   }
+
+  return false
+}
+
+function isExpired(expiryDate: Date) {
+  const currentDateTime = new Date()
+
+  return currentDateTime > expiryDate
 }
 
 export async function updatePassword(email: string, newPassowrd: string) {

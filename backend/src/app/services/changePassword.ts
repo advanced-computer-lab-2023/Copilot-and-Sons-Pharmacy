@@ -14,10 +14,11 @@ export async function changePassowrd(
   newPassword: string
 ): Promise<void> {
   const user = await User.findOne({ username })
-  // verifyOTP("789","5678","Lon_Boehm12_2610@gmail.com");
+  console.log(username)
 
   if (user) {
     const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password)
+    console.log(isPasswordCorrect)
 
     if (isPasswordCorrect) {
       if (isStrongPassword(newPassword)) {

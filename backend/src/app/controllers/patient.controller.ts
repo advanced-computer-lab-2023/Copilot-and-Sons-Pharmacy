@@ -7,6 +7,7 @@ import getPatientByUsername from '../services/getPatient.service'
 import { changePassowrd } from '../services/changePassword'
 import { sendOTP, verifyOTP, updatePassword } from '../services/forgotPassowrd'
 import { ERROR } from './../utils/httpStatusText'
+import AppError from '../utils/appError'
 
 export const requestOTP = asyncWrapper(async (req: Request, res: Response) => {
   const { email } = req.body
@@ -37,25 +38,33 @@ export const updatePasswordController = asyncWrapper(
     const { newPassword, email } = req.body
 
     if (!email) {
-      res.json({ error: 'Email not provided' })
+      res.status(400).json({ error: 'Email not provided' })
 
       return
     }
 
-    await updatePassword(email, newPassword)
-
-    res.json({ success: SUCCESS, message: 'Password updated successfully' })
+    try {
+      const result = await updatePassword(email, newPassword)
+      res.json({ success: SUCCESS, message: result })
+    } catch (error) {
+      if (error instanceof AppError) {
+        res.status(error.statusCode).json({ error: error.message })
+      } else {
+        res.status(500).json({ error: 'Internal Server Error' })
+      }
+    }
   }
 )
 
 export const changeUserPassword = asyncWrapper(
   async (req: Request, res: Response) => {
-    const { username, oldPassword, newPassword } = req.body
-    await changePassowrd(username, oldPassword, newPassword)
+    const { oldPassword, newPassword } = req.body
+    const username = req.username
+    await changePassowrd(username!, oldPassword, newPassword)
+    console.log(username)
     res.json({
       success: SUCCESS,
       message: 'Password changed successfulu',
-      username,
     })
   }
 )

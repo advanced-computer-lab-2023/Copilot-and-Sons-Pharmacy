@@ -6,6 +6,7 @@ import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedici
 import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
+import ChangePassword from '@/features/auth/routes/ChangePassowrd'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
@@ -16,9 +17,14 @@ export const patientDashboardRoutes: RouteObject[] = [
         element: <PatientDashboardHome />,
       },
       {
+        path: 'change-password',
+        element: <ChangePassword />,
+      },
+      {
         path: 'delivery-addresses',
         element: <DeliveryAddresses />,
       },
+
       {
         path: 'medicines',
         children: [

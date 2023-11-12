@@ -20,8 +20,8 @@ router
   .post(validateRegistrationData(registrationValidator), registerController)
 router.route('/changePassword').put(changeUserPassword)
 
-router.route('/requestOtp').get(requestOTP)
-router.route('/verifyOtp').get(verifyOTPController)
+router.route('/requestOtp').post(requestOTP)
+router.route('/verifyOtp').post(verifyOTPController)
 router.route('/updatePassword').put(updatePasswordController)
 
 export default router

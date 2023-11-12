@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
-import { Healing, LocalPharmacy } from '@mui/icons-material'
+import { Healing, LocalPharmacy, VpnKey } from '@mui/icons-material'
 
 export function PharmacistDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -36,6 +36,11 @@ export function PharmacistDashboardLayout() {
         to: '/pharmacist-dashboard/medicines/allUses',
         text: 'Filter By Medicinal Use',
         icon: <Healing />,
+      },
+      {
+        to: '/pharmacist-dashboard/change-password',
+        text: 'Change Password',
+        icon: <VpnKey />,
       },
     ])
   }, [setSidebarLinks])
