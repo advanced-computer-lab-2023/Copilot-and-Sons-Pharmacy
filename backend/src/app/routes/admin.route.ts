@@ -22,31 +22,15 @@ const router = express.Router()
 router.use(express.json())
 router
   .route('/add-admin')
-  .post(
-    validateRegistrationData(userValidator),
-    asyncWrapper(allowAdmins),
-    addAdmin
-  )
-router
-  .route('/getAllPharmacists')
-  .get(asyncWrapper(allowAdmins), getAllPharmacists)
-router
-  .route('/getPendingPharmacists')
-  .get(asyncWrapper(allowAdmins), getPendingPharmacists)
-router
-  .route('/getAcceptedPharmacists')
-  .get(asyncWrapper(allowAdmins), getAcceptedPharmacists)
-router
-  .route('/getPharmacistByID/:id')
-  .get(asyncWrapper(allowAdmins), getPharmacistByID)
+  .post(validateRegistrationData(userValidator), addAdmin)
+router.route('/getAllPharmacists').get(getAllPharmacists)
+router.route('/getPendingPharmacists').get(getPendingPharmacists)
+router.route('/getAcceptedPharmacists').get(getAcceptedPharmacists)
+router.route('/getPharmacistByID/:id').get(getPharmacistByID)
 
-router
-  .route('/getMedicineByName/:name')
-  .get(asyncWrapper(allowAdmins), serachForMedicine)
-router
-  .route('/patientInfo/:id')
-  .get(asyncWrapper(allowAdmins), adminViewsPatientInfo)
-router.route('/removeUser').delete(asyncWrapper(allowAdmins), deleteUser)
+router.route('/getMedicineByName/:name').get(serachForMedicine)
+router.route('/patientInfo/:id').get(adminViewsPatientInfo)
+router.route('/removeUser').delete(deleteUser)
 
 router
   .route('/acceptPharmacistRequest/:id')
