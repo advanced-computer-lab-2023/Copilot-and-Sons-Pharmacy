@@ -10,7 +10,7 @@ import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedici
 import AllOrders from '@/features/patient-dashboard/routes/AllOrders'
 
 import Checkout from '@/features/patient-dashboard/routes/Checkout'
-import ViewOrder from './viewOrder'
+import ViewOrder from './ViewOrder'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
