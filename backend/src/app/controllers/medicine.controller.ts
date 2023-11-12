@@ -40,7 +40,10 @@ export const viewMedicinesQuantityAndSales = asyncWrapper(
 
 export const editMedicine = asyncWrapper(
   async (req: Request, res: Response) => {
-    const medicine = await editMedicineService(req.params.name, req.body.edits)
+    const medicine = await editMedicineService(req.params.name, {
+      ...req.body,
+      Image: req.file,
+    })
     res.json({ success: SUCCESS, data: medicine })
   }
 )
