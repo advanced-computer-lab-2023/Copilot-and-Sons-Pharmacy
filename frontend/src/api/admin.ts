@@ -50,7 +50,7 @@ export async function getPendingPharmacists() {
 }
 
 export async function getApprovedPharmacists() {
-  const response = await api.get<any[]>(`/admin/getApprovedPharmacists`)
+  const response = await api.get<any[]>(`/admin/getAcceptedPharmacists`)
 
   return response.data as any[]
 }

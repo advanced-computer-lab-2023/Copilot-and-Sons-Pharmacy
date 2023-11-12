@@ -24,15 +24,17 @@ export const filterMedicineByMedicinalUse = async (
   }
 }
 
-export const serachForMedicine = async (req: Request, res: Response) => {
-  const medicine = await getMedicineByName(req.params.name)
+export const serachForMedicine = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const medicine = await getMedicineByName(req.params.name)
 
-  if (medicine.length == 0)
-    res.json("There's no available medicines with this name")
-  else {
-    res.json({ success: SUCCESS, data: medicine })
+    if (medicine.length == 0)
+      res.json("There's no available medicines with this name")
+    else {
+      res.json({ success: SUCCESS, data: medicine })
+    }
   }
-}
+)
 
 export const adminViewsPatientInfo = asyncWrapper(
   async (req: Request, res: Response) => {

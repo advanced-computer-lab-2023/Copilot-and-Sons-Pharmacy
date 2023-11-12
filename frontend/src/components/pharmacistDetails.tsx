@@ -146,30 +146,32 @@ export default function PharmacistDetails({
             </p>
           </Typography>
         </CardContent>
-        <CardActions>
-          <Button
-            size="small"
-            variant="contained"
-            color="success"
-            onClick={() => {
-              handleAccept(pharmacist._id)
-            }}
-          >
-            {' '}
-            Accept
-          </Button>
-          <Button
-            size="small"
-            variant="contained"
-            color="error"
-            onClick={() => {
-              handleReject(pharmacist._id)
-            }}
-          >
-            {' '}
-            Reject
-          </Button>
-        </CardActions>
+        {pharmacist.status === 'Pending' && (
+          <CardActions>
+            <Button
+              size="small"
+              variant="contained"
+              color="success"
+              onClick={() => {
+                handleAccept(pharmacist._id)
+              }}
+            >
+              {' '}
+              Accept
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="error"
+              onClick={() => {
+                handleReject(pharmacist._id)
+              }}
+            >
+              {' '}
+              Reject
+            </Button>
+          </CardActions>
+        )}
       </Collapse>
     </Card>
   )
