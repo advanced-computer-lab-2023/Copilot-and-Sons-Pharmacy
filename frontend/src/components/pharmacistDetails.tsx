@@ -7,10 +7,15 @@ import Typography from '@mui/material/Typography'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { styled } from '@mui/material/styles'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { CardActions } from '@mui/material'
+import { Button, CardActions } from '@mui/material'
 import { Collapse } from '@mui/material'
 import MailIcon from '@mui/icons-material/Mail'
 import format from 'date-fns/format'
+import {
+  acceptPharmacistRequest,
+  rejectPharmacistRequest,
+} from '@/api/pharmacist'
+import { toast } from 'react-toastify'
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean
@@ -28,7 +33,13 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }))
 
-export default function PharmacistDetails({ pharmacist }: { pharmacist: any }) {
+export default function PharmacistDetails({
+  pharmacist,
+  query,
+}: {
+  pharmacist: any
+  query: any
+}) {
   const dateOfBirthFormatted = format(
     new Date(pharmacist.dateOfBirth),
     'MMMM d, yyyy'
@@ -37,6 +48,28 @@ export default function PharmacistDetails({ pharmacist }: { pharmacist: any }) {
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
+  }
+
+  function handleAccept(id: any) {
+    const promise = acceptPharmacistRequest(id).then(() => {
+      query.refetch()
+    })
+    toast.promise(promise, {
+      pending: 'Loading',
+      success: 'Pharmacist Request Accepted Successfully!',
+      error: 'error',
+    })
+  }
+
+  function handleReject(id: any) {
+    const promise = rejectPharmacistRequest(id).then(() => {
+      query.refetch()
+    })
+    toast.promise(promise, {
+      pending: 'Loading',
+      success: 'Pharmacist Request Rejected Successfully!',
+      error: 'error',
+    })
   }
 
   return (
@@ -113,6 +146,32 @@ export default function PharmacistDetails({ pharmacist }: { pharmacist: any }) {
             </p>
           </Typography>
         </CardContent>
+        {pharmacist.status === 'Pending' && (
+          <CardActions>
+            <Button
+              size="small"
+              variant="contained"
+              color="success"
+              onClick={() => {
+                handleAccept(pharmacist._id)
+              }}
+            >
+              {' '}
+              Accept
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="error"
+              onClick={() => {
+                handleReject(pharmacist._id)
+              }}
+            >
+              {' '}
+              Reject
+            </Button>
+          </CardActions>
+        )}
       </Collapse>
     </Card>
   )

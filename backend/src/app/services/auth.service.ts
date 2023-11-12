@@ -102,3 +102,13 @@ export async function isPharmacistAndApproved(
 
   return pharmacist != null && pharmacist.status === PharmacistStatus.Accepted
 }
+
+export async function isAdmin(username: string): Promise<boolean> {
+  const user = await User.findOne({ username })
+
+  if (user == null) {
+    return false
+  }
+
+  return user.type === UserType.Admin
+}
