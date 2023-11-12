@@ -11,6 +11,7 @@ const orderSchema = new Schema(
       default: 'pending',
     },
     cartID: { type: Schema.Types.ObjectId, ref: 'Cart', required: true },
+    paymentMethod: { type: String, required: true },
 
     /**
      * I didn't use a reference to the delivery address of the user,
@@ -38,6 +39,7 @@ export interface IOrder {
     city: string
     country: string
   }
+  paymentMethod: string
 }
 
 export type IOrderDocument = HydratedDocument<
