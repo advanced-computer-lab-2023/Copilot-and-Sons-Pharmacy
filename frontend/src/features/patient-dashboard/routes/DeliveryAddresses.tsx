@@ -8,6 +8,7 @@ import { ApiForm } from '@/components/ApiForm'
 import { CardPlaceholder } from '@/components/CardPlaceholder'
 import { DetailsCard } from '@/components/DetailsCard'
 import { useAlerts } from '@/hooks/alerts'
+import { useAuth } from '@/hooks/auth'
 import { Delete, Edit } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import { Alert, Button, CardActions, Grid } from '@mui/material'
@@ -23,7 +24,6 @@ import {
 } from 'pharmacy-common/validators/deliveryAddress.validator'
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useSearchParams } from 'react-router-dom'
 
 function DeliveryAddress({
   address,
@@ -31,8 +31,8 @@ function DeliveryAddress({
   address: GetAllDeliveryAddressesResponse[0]
 }) {
   const [editing, setEditing] = useState(false)
-  const [searchParams, _] = useSearchParams()
-  const username = searchParams.get('username')
+  const { user } = useAuth()
+  const username = user!.username
   const queryClient = useQueryClient()
 
   const { addAlert } = useAlerts()
@@ -105,13 +105,12 @@ function DeliveryAddress({
 }
 
 export function DeliveryAddresses() {
-  const [searchParams, _] = useSearchParams()
-  const username = searchParams.get('username')
+  const { user } = useAuth()
+  const username = user!.username
 
   const query = useQuery({
-    queryKey: 'delivery-addresses',
+    queryKey: ['delivery-addresses'],
     queryFn: () => getDeliveryAddresses(username!),
-    enabled: !!username,
   })
 
   if (query.isLoading) {

@@ -8,6 +8,8 @@ import { removeUser } from '../services/removeUser.service'
 import { getPatientById } from '../services/adminViewsPatientInfo'
 import Pharmacist from '../schemas/pharmacist'
 import { ObjectId } from 'mongodb'
+import { acceptPharmacist } from '../services/acceptPharmacist.service'
+import { rejectPharmacist } from '../services/rejectPharmacist.service'
 
 export const filterMedicineByMedicinalUse = async (
   req: Request,
@@ -22,15 +24,17 @@ export const filterMedicineByMedicinalUse = async (
   }
 }
 
-export const serachForMedicine = async (req: Request, res: Response) => {
-  const medicine = await getMedicineByName(req.params.name)
+export const serachForMedicine = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const medicine = await getMedicineByName(req.params.name)
 
-  if (medicine.length == 0)
-    res.json("There's no available medicines with this name")
-  else {
-    res.json({ success: SUCCESS, data: medicine })
+    if (medicine.length == 0)
+      res.json("There's no available medicines with this name")
+    else {
+      res.json({ success: SUCCESS, data: medicine })
+    }
   }
-}
+)
 
 export const adminViewsPatientInfo = asyncWrapper(
   async (req: Request, res: Response) => {
@@ -103,4 +107,26 @@ export const deleteUser = asyncWrapper(async (req: Request, res: Response) => {
   const { username } = req.body // Extract the username from the request body
   await removeUser(username) // Pass the username to the removeUser function
   res.json({ success: SUCCESS, message: 'User deleted successfully', username })
+})
+
+//accept pharmacist request
+export const acceptPharmacistRequest = asyncWrapper(async (req, res) => {
+  const pharmacist = await acceptPharmacist(req.params.id)
+  const name = pharmacist!.name
+  res.json({
+    success: SUCCESS,
+    message: 'Pharmacist Request accepted successfully',
+    name,
+  })
+})
+
+//reject pharmacist request
+export const rejectPharmacistRequest = asyncWrapper(async (req, res) => {
+  const pharmacist = await rejectPharmacist(req.params.id)
+  const name = pharmacist!.name
+  res.json({
+    success: SUCCESS,
+    message: 'Pharmacist Request rejected successfully',
+    name,
+  })
 })

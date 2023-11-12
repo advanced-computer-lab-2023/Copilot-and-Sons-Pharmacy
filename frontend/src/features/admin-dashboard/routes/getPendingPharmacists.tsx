@@ -1,31 +1,27 @@
-import { useState, useEffect } from 'react'
-
 import PharmacistDetails from '../../../components/pharmacistDetails'
 import { Container, Grid } from '@mui/material'
-import { api } from '@/api'
+import { ToastContainer } from 'react-toastify'
+import { CardPlaceholder } from '@/components/CardPlaceholder'
+import { getPendingPharmacists } from '@/api/admin'
+import { useQuery } from 'react-query'
 
 const GetPharmacists = () => {
-  const [pharmacists, setPharmacists] = useState<any[]>([])
+  const query = useQuery({
+    queryKey: ['pending-pharmacists'],
+    queryFn: () => getPendingPharmacists(),
+  })
 
-  useEffect(() => {
-    const fetchPharmacists = async () => {
-      try {
-        const response = await api.get('/admin/getPendingPharmacists')
+  if (query.isLoading) {
+    return <CardPlaceholder />
+  }
 
-        if (response.status === 200) {
-          setPharmacists(response.data)
-        }
-      } catch (error) {
-        // Handle errors here
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchPharmacists()
-  }, [])
+  if (query.data == null) {
+    return <div>error</div>
+  }
 
   return (
     <Container>
+      <ToastContainer />
       {/* can replace container with civ */}
       {/* <div>
         {pharmacists && pharmacists.map((pharmacist) => (
@@ -34,12 +30,11 @@ const GetPharmacists = () => {
       </div> */}
       {/* to allign vertically  */}
       <Grid container>
-        {pharmacists &&
-          pharmacists.map((pharmacist: any) => (
-            <Grid item sm={6} md={3}>
-              <PharmacistDetails key={pharmacist._id} pharmacist={pharmacist} />
-            </Grid>
-          ))}
+        {query.data?.map((pharmacist: any) => (
+          <Grid item sm={6} md={3} key={pharmacist._id}>
+            <PharmacistDetails pharmacist={pharmacist} query={query} />
+          </Grid>
+        ))}
       </Grid>
     </Container>
   )

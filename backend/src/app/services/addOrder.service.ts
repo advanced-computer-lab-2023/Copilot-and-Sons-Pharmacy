@@ -7,20 +7,26 @@ import { CartModel } from '../schemas/cart.model'
 
 export const addOrderService = async (info: IOrder) => {
   try {
-    const { patientID, total, date } = info
+    const { patientID, total, date, address, paymentMethod } = info
     const patient = await Patient.findById(patientID)
     if (!patient) throw new AppError('Patient not found', 404, ERROR)
     const cartObj = await CartModel.findById(patient.cart)
     if (!cartObj) throw new AppError('Cart not found', 404, ERROR)
 
+    const cartID = patient.cart
+    console.log('payment method is ' + paymentMethod)
     const newOrder: IOrderDocument = new OrderModel({
       patientID,
       total,
       date,
+      cartID,
+      address,
+      paymentMethod,
     })
+    console.log('new order is ' + newOrder)
     const cartItems = cartObj.items // array of cart items
-    console.log('cart items are ')
-    console.log(cartItems)
+    // console.log('cart items are ')
+    // console.log(cartItems)
 
     cartItems.forEach(async (item: any) => {
       const medicine = await Medicine.findById(item.medicine)
@@ -49,6 +55,7 @@ export const addOrderService = async (info: IOrder) => {
     await newCart.save()
     patient.orders = orders
     patient.cart = newCart.id
+    console.log('new cart id is ' + newCart.id)
     await patient.save()
 
     return newOrder

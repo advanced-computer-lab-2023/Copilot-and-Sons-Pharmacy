@@ -7,6 +7,7 @@ import { CartModel } from '../schemas/cart.model'
 
 import { UserType } from 'pharmacy-common/types/user.types'
 import { JwtPayload, generateJWTToken } from './auth.service'
+import { bcryptSalt } from '../config'
 
 type Info = {
   username: string
@@ -46,7 +47,7 @@ const registerPatient = async (info: Info) => {
     throw new AppError('User already exists', 409, ERROR)
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const hashedPassword = await bcrypt.hash(password, bcryptSalt)
 
   const user = new User({
     username,

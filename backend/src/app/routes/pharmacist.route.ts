@@ -1,5 +1,9 @@
 import express from 'express'
-import { addPharmacist } from '../controllers/pharmacist.controller'
+import {
+  acceptPharmacistRequest,
+  addPharmacist,
+  rejectPharmacistRequest,
+} from '../controllers/pharmacist.controller'
 import cors from 'cors'
 //import { pharmacistValidator } from '../validators/pharmacist.validator'
 //import { validateRegistrationData } from '../middlewares/registrationMiddleware'
@@ -15,5 +19,8 @@ router.use(express.json())
 router
   .route('/addPharmacist')
   .post(upload.array('documents', 50), addPharmacist)
+
+router.route('/acceptPharmacistRequest/:id').patch(acceptPharmacistRequest)
+router.route('/rejectPharmacistRequest/:id').patch(rejectPharmacistRequest)
 
 export default router

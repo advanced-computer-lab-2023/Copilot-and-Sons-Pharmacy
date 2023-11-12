@@ -7,8 +7,7 @@ import User from '../schemas/user.model'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { hash } from 'bcrypt'
 import { CartModel } from '../schemas/cart.model'
-
-const bcryptSalt = process.env.BCRYPT_SALT ?? '$2b$10$13bXTGGukQXsCf5hokNe2u'
+import { bcryptSalt } from '../config'
 
 // Generate a random long number to be used in usernames to avoid duplicated usernames
 function randomLongId() {
