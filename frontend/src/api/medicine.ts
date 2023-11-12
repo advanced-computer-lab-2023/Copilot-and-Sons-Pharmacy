@@ -67,3 +67,9 @@ export async function filterByMedicinalUse(name: string) {
 
   return response.data
 }
+
+export async function patchWallet(totalMoney: number) {
+  const response = await api.patch(`/medicine/wallet/${totalMoney}`)
+
+  return response.data
+}

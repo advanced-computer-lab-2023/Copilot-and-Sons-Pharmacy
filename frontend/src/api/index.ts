@@ -22,6 +22,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (r) => r,
   (e) => {
+    if (e.response.data.type === 'TokenError') {
+      localStorage.removeItem('token')
+      window.location.href = '/'
+    }
+
     return Promise.reject(e.response.data)
   }
 )

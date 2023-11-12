@@ -5,7 +5,7 @@ const url: string =
   process.env.MONGO_URI ||
   process.env.Mongo_URL ||
   'mongodb+srv://darinmfadel:Darin2002@cluster0.ghfjumf.mongodb.net/project1?retryWrites=true&w=majority'
-// Connect to MongoDB
+
 
 try {
   mongoose.connect(url).then(() => {

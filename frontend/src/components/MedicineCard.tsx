@@ -12,7 +12,7 @@ import { addToCartApi } from '@/api/cart'
 import { useCart } from '@/hooks/cartHook'
 import { ToastContainer, toast } from 'react-toastify'
 
-export default function MedicineCard(props: { medicine: IMedicine }) {
+function BuyButton(props: { medicine: IMedicine }) {
   const { addToCartProvider } = useCart()
 
   async function buy(medicine: any) {
@@ -72,6 +72,19 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
   }
 
   return (
+    <Button
+      color="primary"
+      disabled={false}
+      variant="contained"
+      onClick={() => buy(props.medicine)}
+    >
+      Add to Cart
+    </Button>
+  )
+}
+
+export default function MedicineCard(props: { medicine: IMedicine }) {
+  return (
     <Card>
       <CardMedia
         component="img"
@@ -97,14 +110,7 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
       <CardActions sx={{ justifyContent: 'center' }}>
         <Stack direction="row" spacing={2}>
           <OnlyAuthenticated requiredUserType={UserType.Patient}>
-            <Button
-              color="primary"
-              disabled={false}
-              variant="contained"
-              onClick={() => buy(props.medicine)}
-            >
-              Add to Cart
-            </Button>
+            <BuyButton medicine={props.medicine} />
           </OnlyAuthenticated>
           <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
             <Link to={`editMedicine/${props.medicine.name}`}>

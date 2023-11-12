@@ -5,8 +5,8 @@ import { viewOrderService } from '../services/viewOrder.service'
 import { cancelOrderService } from '../services/cancelOrder.service'
 
 export const addOrder = asyncWrapper(async (req, res) => {
-  console.log(req.body)
-  console.log(req.body.patientID)
+  // console.log(req.body)
+  // console.log(req.body.patientID)
   const order = await addOrderService(req.body)
   res.json({ success: SUCCESS, data: order })
 })

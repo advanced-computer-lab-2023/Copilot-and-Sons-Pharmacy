@@ -4,7 +4,7 @@ import {
   NotAuthorizedError,
   TokenError,
 } from '../errors/auth.errors'
-import { isUserType, verifyJWTToken } from '../services/auth.service'
+import { isAdmin, isUserType, verifyJWTToken } from '../services/auth.service'
 import { UserType } from 'pharmacy-common/types/user.types'
 
 export async function authenticate(
@@ -61,4 +61,22 @@ export async function allow(userType: UserType) {
 
     next()
   }
+}
+
+export async function allowAdmins(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  if (req.username == null) {
+    throw new NotAuthenticatedError()
+  }
+
+  if (await isAdmin(req.username)) {
+    next()
+
+    return
+  }
+
+  throw new NotAuthorizedError()
 }
