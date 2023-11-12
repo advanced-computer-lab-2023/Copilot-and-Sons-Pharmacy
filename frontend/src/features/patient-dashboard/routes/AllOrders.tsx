@@ -1,6 +1,7 @@
 import { getAllOrders } from '@/api/order'
-import { Card, CardContent, Grid, Typography } from '@mui/material'
+import { Button, Card, CardContent, Grid, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 
 export default function AllOrders() {
   const { data, error, isLoading } = useQuery('allOrders', getAllOrders)
@@ -50,6 +51,11 @@ export default function AllOrders() {
               <Typography variant="body2">
                 Created At: {new Date(order.createdAt).toLocaleString()}
               </Typography>
+              <Link to={`/patient-dashboard/viewOrder/${order._id}`}>
+                <Button variant="contained" color="primary">
+                  View Order
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </Grid>

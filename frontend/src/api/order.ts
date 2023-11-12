@@ -11,3 +11,7 @@ export async function getPatientApi(username: any) {
 export async function getAllOrders() {
   return await api.get(`/order/orders`)
 }
+
+export async function getOrderDetails(id: string) {
+  return await api.get(`/order//viewOrder/${id}`)
+}
