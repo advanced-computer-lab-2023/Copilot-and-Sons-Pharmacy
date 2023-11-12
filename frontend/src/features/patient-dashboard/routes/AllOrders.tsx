@@ -20,6 +20,12 @@ export default function AllOrders() {
     total: number
     status: string
     createdAt: string
+    paymentMethod: string
+    address: {
+      address: string
+      city: string
+      country: string
+    }
     // Add other properties as needed
   }
 
@@ -34,6 +40,13 @@ export default function AllOrders() {
               <Typography variant="h6">Order ID: {order._id}</Typography>
               <Typography variant="body2">Total: {order.total}</Typography>
               <Typography variant="body2">Status: {order.status}</Typography>
+              <Typography variant="body2">
+                Payment Method: {order.paymentMethod}
+              </Typography>
+              <Typography variant="body2">
+                Adress: {order.address.address} , {order.address.city} ,{' '}
+                {order.address.country}{' '}
+              </Typography>
               <Typography variant="body2">
                 Created At: {new Date(order.createdAt).toLocaleString()}
               </Typography>

@@ -13,5 +13,4 @@ router.route('/orders').get(viewOrders)
 router.route('/viewOrder/:id').get(viewOrder)
 router.route('/cancelOrder/:id').get(cancelOrder)
 
-
 export default router

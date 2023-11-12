@@ -11,7 +11,6 @@ import AllOrders from '@/features/patient-dashboard/routes/AllOrders'
 
 import Checkout from '@/features/patient-dashboard/routes/Checkout'
 
-
 export const patientDashboardRoutes: RouteObject[] = [
   {
     element: <PatientDashboardLayout />,

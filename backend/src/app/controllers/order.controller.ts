@@ -7,14 +7,12 @@ import { fetchAllOrders } from '../services/viewOrders.service'
 import { viewOrderService } from '../services/viewOrder.service'
 import { cancelOrderService } from '../services/cancelOrder.service'
 
-
 export const addOrder = asyncWrapper(async (req, res) => {
   // console.log(req.body)
   // console.log(req.body.patientID)
   const order = await addOrderService(req.body)
   res.json({ success: SUCCESS, data: order })
 })
-
 
 export const viewOrders = asyncWrapper(async (req, res) => {
   const username = req.username
@@ -31,5 +29,4 @@ export const viewOrder = asyncWrapper(async (req, res) => {
 export const cancelOrder = asyncWrapper(async (req, res) => {
   const order = await cancelOrderService(req.params.id)
   res.json({ success: SUCCESS, data: order })
-
 })
