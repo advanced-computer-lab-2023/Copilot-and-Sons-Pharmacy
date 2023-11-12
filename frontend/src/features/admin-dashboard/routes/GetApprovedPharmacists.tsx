@@ -1,27 +1,22 @@
-import { useState, useEffect } from 'react'
 import PharmacistDetails from '../../../components/pharmacistDetails'
 import { Container, Grid } from '@mui/material'
-import { api } from '@/api'
+import { useQuery } from 'react-query'
+import { CardPlaceholder } from '@/components/CardPlaceholder'
+import { getApprovedPharmacists } from '@/api/admin'
 
 const GetApprovedPharmacists = () => {
-  const [pharmacists, setPharmacists] = useState<any[]>([])
+  const query = useQuery({
+    queryKey: ['approved-pharmacists'],
+    queryFn: () => getApprovedPharmacists(),
+  })
 
-  useEffect(() => {
-    const fetchPharmacists = async () => {
-      try {
-        const response = await api.get('/admin/getAcceptedPharmacists')
+  if (query.isLoading) {
+    return <CardPlaceholder />
+  }
 
-        if (response.status === 200) {
-          setPharmacists(response.data)
-        }
-      } catch (error) {
-        // Handle errors here
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchPharmacists()
-  }, [])
+  if (query.data == null) {
+    return <div>error</div>
+  }
 
   return (
     <Container>
@@ -33,12 +28,11 @@ const GetApprovedPharmacists = () => {
       </div> */}
       {/* to allign vertically  */}
       <Grid container>
-        {pharmacists &&
-          pharmacists.map((pharmacist) => (
-            <Grid item sm={6} md={3} key={pharmacist._id}>
-              <PharmacistDetails pharmacist={pharmacist} />
-            </Grid>
-          ))}
+        {query.data.map((pharmacist) => (
+          <Grid item sm={6} md={3} key={pharmacist._id}>
+            <PharmacistDetails pharmacist={pharmacist} query={query} />
+          </Grid>
+        ))}
       </Grid>
     </Container>
   )
