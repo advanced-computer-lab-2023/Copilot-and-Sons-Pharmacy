@@ -20,9 +20,7 @@ export default (
   }
 
   if (error instanceof APIError) {
-    return res.status(error.status).json({
-      message: error.message,
-    })
+    return res.status(error.status).json(error)
   }
 
   const statusCode = (error as any).statusCode || 500

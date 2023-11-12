@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom'
 import { useSidebar } from '../../../hooks/sidebar'
 import {
   Healing,
+  LocalShipping,
   LocationCity,
   ShoppingCart,
   VpnKey,
@@ -51,6 +52,11 @@ export function PatientDashboardLayout() {
       },
 
       { action: toggleCart, text: 'Cart', icon: <ShoppingCart /> },
+      {
+        to: '/patient-dashboard/orders',
+        text: 'Orders',
+        icon: <LocalShipping />,
+      },
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSidebarLinks])

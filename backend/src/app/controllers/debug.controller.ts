@@ -7,6 +7,7 @@ import {
   createFakePharmacist,
   seed,
 } from '../services/fakers.service'
+import { OrderModel } from '../schemas/order.model'
 
 const debugRouter = Router()
 
@@ -42,6 +43,13 @@ debugRouter.post(
   '/seed',
   asyncWrapper(async (req, res) => {
     res.send(await seed())
+  })
+)
+
+debugRouter.get(
+  '/orders',
+  asyncWrapper(async (req, res) => {
+    res.send(await OrderModel.find())
   })
 )
 

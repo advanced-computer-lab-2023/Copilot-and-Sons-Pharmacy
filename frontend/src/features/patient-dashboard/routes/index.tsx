@@ -8,6 +8,10 @@ import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinal
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
 import ChangePassword from '@/features/auth/routes/ChangePassowrd'
 
+import AllOrders from '@/features/patient-dashboard/routes/AllOrders'
+
+import Checkout from '@/features/patient-dashboard/routes/Checkout'
+
 export const patientDashboardRoutes: RouteObject[] = [
   {
     element: <PatientDashboardLayout />,
@@ -26,6 +30,10 @@ export const patientDashboardRoutes: RouteObject[] = [
       },
 
       {
+        path: 'orders',
+        element: <AllOrders />,
+      },
+      {
         path: 'medicines',
         children: [
           {
@@ -43,6 +51,10 @@ export const patientDashboardRoutes: RouteObject[] = [
           {
             path: 'allUses/:name',
             element: <FilteredMedicines />,
+          },
+          {
+            path: 'checkout/:jsonString',
+            element: <Checkout />,
           },
         ],
       },
