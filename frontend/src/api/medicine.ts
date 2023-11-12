@@ -35,9 +35,9 @@ export function useAddMedicineService() {
 }
 
 //Calling the editMedicine function using axios
-function editMedicineService(medicine: { name: any }) {
+function editMedicineService(data: any) {
   return api
-    .put(`/medicine/editMedicine/${medicine.name}`, medicine)
+    .put(`/medicine/editMedicine/${data.name}`, data.medicine)
     .then((response) => response)
     .catch((error) => {
       throw new Error(error)
