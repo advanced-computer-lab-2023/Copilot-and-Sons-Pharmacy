@@ -5,6 +5,7 @@ import { api } from '.'
 interface AddAdminData {
   username: string
   password: string
+  email: string
 }
 // interface DeleteUserData {
 //     username: string;
@@ -13,6 +14,7 @@ interface AddadminResponse {
   user: {
     username: string
     password: string
+    email: string
   }
 }
 
@@ -27,7 +29,7 @@ export async function AddAdmin(
   return response
 }
 
-//Calling the remove user function using axios
+//Calling the remoae user function using axios
 function removeUser(username: string) {
   return api
     .delete(`/admin/removeUser`, { data: { username } })

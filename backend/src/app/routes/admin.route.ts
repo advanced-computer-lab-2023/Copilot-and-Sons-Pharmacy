@@ -13,17 +13,17 @@ import {
   getPharmacistByID,
   getAcceptedPharmacists,
 } from '../controllers/admin.controller'
-import userValidator from '../validators/user.validator'
 import { validateRegistrationData } from '../middlewares/registrationMiddleware'
 import { allowAdmins } from '../middlewares/auth.middleware'
 import asyncWrapper from '../middlewares/asyncWrapper'
+import adminValidator from '../validators/admin.validator'
 
 const router = express.Router()
 router.use(express.json())
 router
   .route('/add-admin')
   .post(
-    validateRegistrationData(userValidator),
+    validateRegistrationData(adminValidator),
     asyncWrapper(allowAdmins),
     addAdmin
   )

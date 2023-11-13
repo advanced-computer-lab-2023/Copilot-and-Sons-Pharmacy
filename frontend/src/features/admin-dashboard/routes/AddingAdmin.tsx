@@ -20,9 +20,11 @@ const AdminAdd: React.FC = () => {
   const [formData, setFormData] = useState<{
     username: string
     password: string
+    email: string
   }>({
     username: '',
     password: '',
+    email: '',
   })
 
   const [errors, setError] = useState<errors>({})
@@ -52,6 +54,7 @@ const AdminAdd: React.FC = () => {
         position: 'top-right',
       })
     } catch (errorAdmin: any) {
+      console.log(errorAdmin)
       await toast.error(errorAdmin.response.data.message, {
         position: 'top-right',
       })
@@ -76,6 +79,18 @@ const AdminAdd: React.FC = () => {
                 required
                 error={Boolean(errors.username)}
                 helperText={errors.username}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                error={Boolean(errors.email)}
+                helperText={errors.email}
               />
             </Grid>
             <Grid item xs={12}>
