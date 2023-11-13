@@ -7,6 +7,7 @@ import {
   LocalShipping,
   LocationCity,
   ShoppingCart,
+  VpnKey,
 } from '@mui/icons-material'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -43,6 +44,11 @@ export function PatientDashboardLayout() {
         to: '/patient-dashboard/delivery-addresses',
         text: 'Delivery Addresses',
         icon: <LocationCity />,
+      },
+      {
+        to: '/patient-dashboard/change-password',
+        text: 'Change Password',
+        icon: <VpnKey />,
       },
 
       { action: toggleCart, text: 'Cart', icon: <ShoppingCart /> },
