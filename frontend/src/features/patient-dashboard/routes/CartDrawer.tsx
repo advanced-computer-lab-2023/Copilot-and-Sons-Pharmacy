@@ -366,7 +366,15 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={() => setAddressDialogOpen(true)}
+            onClick={() => {
+              if (cart.length === 0) {
+                toast.error('Please add some items to your cart first !', {
+                  position: 'top-right',
+                })
+              } else {
+                setAddressDialogOpen(true)
+              }
+            }}
           >
             Checkout
             <ArrowRightAltOutlined style={{ marginLeft: 20, fontSize: 40 }} />

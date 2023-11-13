@@ -1,8 +1,15 @@
-import { getAllOrders } from '@/api/order'
-import { Card, CardContent, Grid, Typography } from '@mui/material'
+import { getAllOrders, cancelOrderApi } from '@/api/order'
+import { Card, CardContent, Grid, Typography, Button } from '@mui/material'
 import { useQuery } from 'react-query'
+import { useAlerts } from '@/hooks/alerts'
+import { useState } from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
 
 export default function AllOrders() {
+  const [loading, setLoading] = useState(false)
+
+  const alert = useAlerts()
+
   const { data, error, isLoading } = useQuery('allOrders', getAllOrders)
 
   if (isLoading) {
@@ -26,10 +33,29 @@ export default function AllOrders() {
       city: string
       country: string
     }
-    // Add other properties as needed
   }
 
   console.log('Orders:', data?.data.data)
+
+  const handleCancelOrder = (id: string) => async () => {
+    try {
+      setLoading(true)
+
+      await cancelOrderApi(id)
+      alert.addAlert({
+        message: 'Order cancelled successfully',
+        severity: 'success',
+      })
+      window.location.href = '/patient-dashboard/medicines/'
+    } catch (err: any) {
+      setLoading(false)
+      console.log(err)
+      alert.addAlert({
+        message: err.message,
+        severity: 'error',
+      })
+    }
+  }
 
   return (
     <Grid container spacing={2}>
@@ -51,9 +77,13 @@ export default function AllOrders() {
                 Created At: {new Date(order.createdAt).toLocaleString()}
               </Typography>
             </CardContent>
+            <Button variant="contained" onClick={handleCancelOrder(order._id)}>
+              Cancel Order
+            </Button>
           </Card>
         </Grid>
       ))}
+      {loading === true && <CircularProgress style={{ alignSelf: 'center' }} />}
     </Grid>
   )
 }

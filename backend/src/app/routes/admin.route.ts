@@ -40,13 +40,9 @@ router
   .route('/getPharmacistByID/:id')
   .get(asyncWrapper(allowAdmins), getPharmacistByID)
 
-router
-  .route('/getMedicineByName/:name')
-  .get(asyncWrapper(allowAdmins), serachForMedicine)
-router
-  .route('/patientInfo/:id')
-  .get(asyncWrapper(allowAdmins), adminViewsPatientInfo)
-router.route('/removeUser').delete(asyncWrapper(allowAdmins), deleteUser)
+router.route('/getMedicineByName/:name').get(serachForMedicine)
+router.route('/patientInfo/:id').get(adminViewsPatientInfo)
+router.route('/removeUser').delete(deleteUser)
 
 router
   .route('/acceptPharmacistRequest/:id')
