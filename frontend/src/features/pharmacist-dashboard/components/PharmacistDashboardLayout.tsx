@@ -25,6 +25,10 @@ export function PharmacistDashboardLayout() {
       return
     }
 
+    if (pharmacistQuery.isLoading) {
+      return setSidebarLinks([])
+    }
+
     if (pharmacistQuery.data?.pharmacist?.status === PharmacistStatus.Pending) {
       setSidebarLinks([])
 
@@ -72,7 +76,7 @@ export function PharmacistDashboardLayout() {
         icon: <VpnKey />,
       },
     ])
-  }, [setSidebarLinks, user, pharmacistQuery.data?.status])
+  }, [setSidebarLinks, user, pharmacistQuery])
 
   return (
     <AuthenticatedRoute requiredUserType={UserType.Pharmacist}>
