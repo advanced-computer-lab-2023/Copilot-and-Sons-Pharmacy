@@ -105,9 +105,7 @@ export async function verifyOTP(email: string, enteredOtp: string) {
     await OTPModel.deleteMany({ email })
 
     return true
-  }
-
-  return false
+  } else throw new AppError('Incorrect verification code', 401, ERROR)
 }
 
 function isExpired(expiryDate: Date) {
