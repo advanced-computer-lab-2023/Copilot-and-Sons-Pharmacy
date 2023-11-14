@@ -12,6 +12,7 @@ import {
   Grid,
   Box,
 } from '@mui/material'
+
 type errors = {
   [key: string]: string
 }
@@ -40,7 +41,10 @@ const AdminAdd: React.FC = () => {
 
       setError((prevErrors) => ({ ...prevErrors, [name]: '' }))
     } catch (error: any) {
-      setError((prevErrors) => ({ ...prevErrors, [name]: error.message }))
+      setError((prevErrors) => ({
+        ...prevErrors,
+        [name]: error.issues.map((issue: any) => issue.message).join(', '),
+      }))
     }
   }
 
