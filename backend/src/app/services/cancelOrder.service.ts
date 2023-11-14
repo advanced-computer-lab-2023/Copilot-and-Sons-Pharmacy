@@ -29,6 +29,7 @@ export const cancelOrderService = async (ID: string) => {
     }
 
     medicine.quantity += item.quantity
+    medicine.sales -= item.quantity
     await medicine.save()
   }
 
