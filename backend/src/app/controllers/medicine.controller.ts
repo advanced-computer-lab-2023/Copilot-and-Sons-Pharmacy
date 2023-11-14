@@ -53,7 +53,8 @@ export const patchWallet = asyncWrapper(async (req: Request, res: Response) => {
   const totalMoney = parseInt(req.params.totalMoney)
   const userName = req.username
   const patient = await getPatientByUsername(userName!)
-  if (!patient || !patient.walletMoney) throw new NotFoundError()
+  // added == undefined because if the walletMoney is 0, it was giving not found
+  if (!patient || patient.walletMoney == undefined) throw new NotFoundError()
   if (patient.walletMoney - totalMoney < 0)
     throw new APIError('Not enough money in wallet', 400)
   patient.walletMoney -= totalMoney

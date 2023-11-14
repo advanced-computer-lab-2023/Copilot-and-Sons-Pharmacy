@@ -40,6 +40,7 @@ export const addOrderService = async (info: IOrder) => {
         ERROR
       )
     medicine.quantity = medicine.quantity - item.quantity
+    medicine.sales = medicine.sales + item.quantity
     await medicine.save()
   }
 
