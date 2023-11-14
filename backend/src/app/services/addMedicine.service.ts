@@ -36,9 +36,11 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       name,
       price,
       description,
-      medicinalUse,
+      medicinalUse: medicinalUse.split(', ').map((item) => item.trim()),
       quantity,
-      activeIngredients,
+      activeIngredients: activeIngredients
+        .split(', ')
+        .map((item) => item.trim()),
       Image: fullPath.toString(),
     })
 

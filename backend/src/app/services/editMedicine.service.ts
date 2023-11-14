@@ -33,6 +33,19 @@ export const editMedicineService = async (
     fullPath = await getDownloadURL(fileRef)
   }
 
+  if (updatedMedicineData.activeIngredients) {
+    updatedMedicineData.activeIngredients =
+      updatedMedicineData.activeIngredients
+        .split(', ')
+        .map((item: string) => item.trim())
+  }
+
+  if (updatedMedicineData.medicinalUse) {
+    updatedMedicineData.medicinalUse = updatedMedicineData.medicinalUse
+      .split(', ')
+      .map((item: string) => item.trim())
+  }
+
   // Update the medicine fields with the new data
   existingMedicine.name = updatedMedicineData.name || existingMedicine.name
   existingMedicine.price = updatedMedicineData.price || existingMedicine.price
