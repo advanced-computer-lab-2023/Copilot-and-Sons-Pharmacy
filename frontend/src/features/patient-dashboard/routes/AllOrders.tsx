@@ -3,6 +3,7 @@ import { Card, CardContent, Grid, Typography, Button } from '@mui/material'
 import { useQuery } from 'react-query'
 import { useAlerts } from '@/hooks/alerts'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
 
 export default function AllOrders() {
@@ -76,6 +77,11 @@ export default function AllOrders() {
               <Typography variant="body2">
                 Created At: {new Date(order.createdAt).toLocaleString()}
               </Typography>
+              <Link to={`/patient-dashboard/viewOrder/${order._id}`}>
+                <Button variant="contained" color="primary">
+                  View Order
+                </Button>
+              </Link>
             </CardContent>
             <Button variant="contained" onClick={handleCancelOrder(order._id)}>
               Cancel Order
