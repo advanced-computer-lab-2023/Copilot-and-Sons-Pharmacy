@@ -113,7 +113,9 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
             <BuyButton medicine={props.medicine} />
           </OnlyAuthenticated>
           <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
-            <Link to={`editMedicine/${props.medicine.name}`}>
+            <Link
+              to={`/pharmacist-dashboard/medicines/editMedicine/${props.medicine.name}`}
+            >
               <Button color="secondary" disabled={false} variant="contained">
                 Edit
               </Button>
