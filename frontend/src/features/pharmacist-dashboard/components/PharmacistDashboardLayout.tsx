@@ -25,6 +25,12 @@ export function PharmacistDashboardLayout() {
       return
     }
 
+    if (pharmacistQuery.isFetching) {
+      setSidebarLinks([])
+
+      return
+    }
+
     if (pharmacistQuery.data?.pharmacist?.status === PharmacistStatus.Pending) {
       setSidebarLinks([])
 
@@ -72,12 +78,19 @@ export function PharmacistDashboardLayout() {
         icon: <VpnKey />,
       },
     ])
-  }, [setSidebarLinks, user, pharmacistQuery.data?.status])
+  }, [
+    setSidebarLinks,
+    user,
+    pharmacistQuery.data?.pharmacist?.status,
+    pharmacistQuery.isFetching,
+  ])
 
   return (
     <AuthenticatedRoute requiredUserType={UserType.Pharmacist}>
       <Container maxWidth="xl">
-        <Outlet />
+        {pharmacistQuery.data?.pharmacist?.status ===
+          PharmacistStatus.Accepted && <Outlet />}
+
         {pharmacistQuery.data?.pharmacist?.status ===
           PharmacistStatus.Pending && <h2> Your request is pending </h2>}
         {pharmacistQuery.data?.pharmacist?.status ===
