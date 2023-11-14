@@ -12,6 +12,7 @@ import {
 } from '../validators/password.validator'
 import { ERROR } from '../utils/httpStatusText'
 import { bcryptSalt } from './auth.service'
+import Administrator from '../schemas/administrator.model'
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -58,11 +59,14 @@ export async function verifyMail(emailAddress: string) {
   let user: IUser | null = null
   const userPharmacist = await Pharmacist.findOne({ email: emailAddress })
   const userPatient = await Patient.findOne({ email: emailAddress })
+  const userAdmin = await Administrator.findOne({ email: emailAddress })
 
   if (userPharmacist) {
     user = await User.findOne(userPharmacist.user)
   } else if (userPatient) {
     user = await User.findOne(userPatient.user)
+  } else if (userAdmin) {
+    user = await User.findOne(userAdmin.user)
   }
 
   if (user) return user

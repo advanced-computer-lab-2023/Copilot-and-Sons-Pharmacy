@@ -6,6 +6,9 @@ export const AddAdminValidator = zod.object({
     .min(3)
     .max(30)
     .regex(/^[a-zA-Z0-9]+$/),
+
+  email: zod.string().email(),
+
   password: zod
     .string()
     .min(8)

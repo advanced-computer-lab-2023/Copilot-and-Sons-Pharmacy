@@ -13,16 +13,32 @@ import {
   getPharmacistByID,
   getAcceptedPharmacists,
 } from '../controllers/admin.controller'
-import userValidator from '../validators/user.validator'
 import { validateRegistrationData } from '../middlewares/registrationMiddleware'
 import { allowAdmins } from '../middlewares/auth.middleware'
 import asyncWrapper from '../middlewares/asyncWrapper'
+import adminValidator from '../validators/admin.validator'
 
 const router = express.Router()
 router.use(express.json())
 router
   .route('/add-admin')
-  .post(validateRegistrationData(userValidator), addAdmin)
+  .post(
+    validateRegistrationData(adminValidator),
+    asyncWrapper(allowAdmins),
+    addAdmin
+  )
+router
+  .route('/getAllPharmacists')
+  .get(asyncWrapper(allowAdmins), getAllPharmacists)
+router
+  .route('/getPendingPharmacists')
+  .get(asyncWrapper(allowAdmins), getPendingPharmacists)
+router
+  .route('/getAcceptedPharmacists')
+  .get(asyncWrapper(allowAdmins), getAcceptedPharmacists)
+router
+  .route('/getPharmacistByID/:id')
+  .get(asyncWrapper(allowAdmins), getPharmacistByID)
 router.route('/getAllPharmacists').get(getAllPharmacists)
 router.route('/getPendingPharmacists').get(getPendingPharmacists)
 router.route('/getAcceptedPharmacists').get(getAcceptedPharmacists)
