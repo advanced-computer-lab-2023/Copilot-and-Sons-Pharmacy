@@ -144,6 +144,12 @@ export default function PharmacistDetails({
               <strong>Degree : </strong>
               {pharmacist.educationalBackground.degree}
             </p>
+            <p>
+              <strong>Documents : </strong>
+              {pharmacist.documents.map((document: string) => (
+                <iframe width={'400'} height={'300'} src={document} />
+              ))}
+            </p>
           </Typography>
         </CardContent>
         {pharmacist.status === 'Pending' && (

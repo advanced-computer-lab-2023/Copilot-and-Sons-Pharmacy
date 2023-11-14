@@ -249,7 +249,7 @@ export const Register = () => {
               </RadioGroup>
             </Grid>
             <Grid item xs={12}>
-              <label>Upload Certificate and documents</label>
+              <label>Please upload your ID, medical license and degree</label>
               <input
                 id="file"
                 name="file"
@@ -258,9 +258,12 @@ export const Register = () => {
                 onChange={(event) => {
                   if (
                     event.currentTarget.files &&
-                    event.currentTarget.files.length > 0
+                    event.currentTarget.files.length > 2
                   )
                     setFieldValue({ files: event.currentTarget.files })
+                  else {
+                    toast.error('Please upload all required documents')
+                  }
                 }}
               />
             </Grid>
