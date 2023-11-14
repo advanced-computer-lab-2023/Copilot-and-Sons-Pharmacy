@@ -74,7 +74,7 @@ const RegistrationForm: React.FC = () => {
           position: 'top-right',
         })
       } catch (e: any) {
-        toast.error(e.response.data.message, {
+        toast.error(e.message, {
           position: 'top-right',
         })
       }
