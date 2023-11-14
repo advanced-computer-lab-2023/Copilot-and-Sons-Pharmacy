@@ -55,7 +55,7 @@ const AdminAdd: React.FC = () => {
       })
     } catch (errorAdmin: any) {
       console.log(errorAdmin)
-      await toast.error(errorAdmin.response.data.message, {
+      await toast.error(errorAdmin.message, {
         position: 'top-right',
       })
     }
