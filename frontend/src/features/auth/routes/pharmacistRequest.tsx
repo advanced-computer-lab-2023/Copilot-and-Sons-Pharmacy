@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import axios from 'axios'
-import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -14,6 +13,7 @@ import {
   Container,
   FormControlLabel,
 } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 
 export const Register = () => {
   const [name, setName] = useState('')
@@ -27,10 +27,12 @@ export const Register = () => {
   const [university, setUniversity] = useState('')
   const [graduationYear, setGraduationYear] = useState('')
   const [degree, setDegree] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const [fieldValue, setFieldValue] = useState({ files: [] } as any)
 
   async function submit(e: any) {
+    setIsLoading(true)
     console.log('submit')
     console.log(fieldValue.files)
     e.preventDefault()
@@ -67,6 +69,9 @@ export const Register = () => {
       .catch((err) => {
         toast.error(err.response.data.message)
         console.log(err)
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
   }
 
@@ -269,7 +274,8 @@ export const Register = () => {
             </Grid>
           </Grid>
           <br />
-          <Button
+          <LoadingButton
+            loading={isLoading}
             type="submit"
             fullWidth
             onClick={submit}
@@ -278,7 +284,7 @@ export const Register = () => {
             endIcon={<SendIcon />}
           >
             Register
-          </Button>
+          </LoadingButton>
         </form>
       </Box>
     </Container>
