@@ -25,15 +25,10 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
 
     if (!Image) throw new AppError('No image provided', 400, ERROR)
     const fileRef = ref(storageRef, Date.now().toString())
-    uploadBytes(fileRef, Image.buffer, {
+
+    await uploadBytes(fileRef, Image.buffer, {
       contentType: Image.mimetype,
     })
-      .then((snapshot) => {
-        console.log('Uploaded a blob or file!', snapshot)
-      })
-      .catch((error) => {
-        console.log('Error uploading file:', error)
-      })
 
     const fullPath = await getDownloadURL(fileRef)
 
