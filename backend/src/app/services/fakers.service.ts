@@ -42,6 +42,7 @@ export async function createFakeAdmin({
 
   const admin = await Administrator.create({
     user: user.id,
+    email: randomEmail(),
   })
 
   return await admin.populate('user')
@@ -123,6 +124,12 @@ export async function createFakePatient({
         'Husband',
       ]),
     },
+    deliveryAddresses: [],
+    orders: [],
+    walletMoney: faker.number.float({
+      min: 10000,
+      max: 20000,
+    }),
   })
 
   return await patient.populate('user')
