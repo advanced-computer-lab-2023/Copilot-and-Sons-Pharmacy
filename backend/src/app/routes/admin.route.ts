@@ -39,6 +39,10 @@ router
 router
   .route('/getPharmacistByID/:id')
   .get(asyncWrapper(allowAdmins), getPharmacistByID)
+router.route('/getAllPharmacists').get(getAllPharmacists)
+router.route('/getPendingPharmacists').get(getPendingPharmacists)
+router.route('/getAcceptedPharmacists').get(getAcceptedPharmacists)
+router.route('/getPharmacistByID/:id').get(getPharmacistByID)
 
 router.route('/getMedicineByName/:name').get(serachForMedicine)
 router.route('/patientInfo/:id').get(adminViewsPatientInfo)
