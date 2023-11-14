@@ -58,7 +58,7 @@ export const addPharmacistService = async (
 
   for (let i = 0; i < pharmacist.documents.length; i++) {
     const fileRef = ref(storageRef, pharmacist.name + [i])
-    uploadBytes(fileRef, pharmacist.documents[i].buffer, {
+    await uploadBytes(fileRef, pharmacist.documents[i].buffer, {
       contentType: pharmacist.documents[i].mimetype,
     })
     const fullPath = await getDownloadURL(fileRef)

@@ -1,5 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { useFormik } from 'formik'
+import { styled } from '@mui/material/styles'
 import * as Yup from 'yup'
 import {
   TextField,
@@ -13,6 +15,7 @@ import {
 import { ToastContainer, toast } from 'react-toastify'
 import { useEditMedicineService } from '../../../api/medicine'
 import { useParams } from 'react-router-dom'
+import { useState } from 'react'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('name is required'),
@@ -30,10 +33,22 @@ const validationSchema = Yup.object().shape({
     'Input must be in the form "a, b, c, d, e, f" with spaces after commas'
   ),
 })
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+})
 
 export function EditMedicine() {
   //calling the custom useRemoveUser hook to return the mutation from
   const mutation = useEditMedicineService()
+  const [imageValue, setImageValue] = useState({ file: null } as any)
 
   //   Getting the medicine data
   const { name } = useParams()
@@ -43,7 +58,7 @@ export function EditMedicine() {
     price: 0,
     description: '',
     quantity: 0,
-    Image: '',
+    Image: new File([], ''),
     activeIngredients: '',
     medicinalUse: '',
     sales: 0,
@@ -51,24 +66,22 @@ export function EditMedicine() {
 
   const handleEditedMedicine = (Medicine: typeof initialValues) => {
     // Call the mutation function with the username you want to delete
-    const editedMedicine: any = {
-      name: Medicine.name,
-      edits: {},
-    }
-    if (Medicine.price != 0) editedMedicine.edits.price = Medicine.price
+    const formData = new FormData()
+    if (Medicine.price != 0) formData.append('price', Medicine.price.toString())
     if (Medicine.description != '')
-      editedMedicine.edits.description = Medicine.description
+      formData.append('description', Medicine.description)
     if (Medicine.quantity != 0)
-      editedMedicine.edits.quantity = Medicine.quantity
-    if (Medicine.sales != 0) editedMedicine.edits.sales = Medicine.sales
-    if (Medicine.Image != '') editedMedicine.edits.Image = Medicine.Image
+      formData.append('quantity', Medicine.quantity.toString())
+    if (Medicine.sales != 0) formData.append('sales', Medicine.sales.toString())
+    if (imageValue != new File([], ''))
+      formData.append('Image', imageValue.file)
     if (Medicine.activeIngredients != '')
-      editedMedicine.edits.activeIngredients = Medicine.activeIngredients
+      formData.append('activeIngredients', Medicine.activeIngredients)
     if (Medicine.medicinalUse != '')
-      editedMedicine.edits.medicinalUse = Medicine.medicinalUse
-    // console.log(editedMedicine)
+      formData.append('medicinalUse', Medicine.medicinalUse)
+
     mutation
-      .mutateAsync(editedMedicine)
+      .mutateAsync({ name, medicine: formData })
       .then(() => {
         toast.success('Medicine Edited Successfuly!', {
           position: 'top-right',
@@ -164,7 +177,7 @@ export function EditMedicine() {
                   ''
                 )}
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   fullWidth
                   label="Image"
@@ -178,7 +191,8 @@ export function EditMedicine() {
                 ) : (
                   ''
                 )}
-              </Grid>
+              </Grid> */}
+
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -233,6 +247,47 @@ export function EditMedicine() {
                   ''
                 )}
               </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: '10px',
+                }}
+              >
+                <Button
+                  component="label"
+                  variant="contained"
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Upload Image
+                  <VisuallyHiddenInput
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      if (
+                        event.currentTarget.files &&
+                        event.currentTarget.files.length > 0
+                      )
+                        setImageValue({ file: event.currentTarget.files[0] })
+                    }}
+                  />
+                </Button>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '16px',
+                    color: 'grey',
+                  }}
+                >
+                  {imageValue.file ? imageValue.file.name : 'No file selected'}
+                </div>
+              </div>
             </Grid>
             <Button
               type="submit"

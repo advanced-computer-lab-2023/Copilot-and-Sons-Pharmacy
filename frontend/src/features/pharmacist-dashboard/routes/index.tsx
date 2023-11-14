@@ -9,6 +9,7 @@ import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinal
 import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedicines'
 import ViewMedicineSalesAndQuantity from '@/features/medicine-dashboard/routes/ViewMedicineSalesAndQuantity'
 import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
+import ChangePassword from '@/features/auth/routes/ChangePassowrd'
 
 export const pharmacistDashboardRoutes: RouteObject[] = [
   {
@@ -17,6 +18,10 @@ export const pharmacistDashboardRoutes: RouteObject[] = [
       {
         path: '',
         element: <PharmacistDashboardHome />,
+      },
+      {
+        path: 'change-password',
+        element: <ChangePassword />,
       },
       {
         path: 'medicines',
