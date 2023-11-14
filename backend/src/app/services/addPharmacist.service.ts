@@ -38,6 +38,14 @@ export const addPharmacistService = async (
     throw new AppError('Pharmacist with this email already exists', 400, FAIL)
   }
 
+  if (pharmacist.documents.length != 3) {
+    throw new AppError(
+      'Please upload your ID, medical license and degree',
+      400,
+      FAIL
+    )
+  }
+
   console.log('DOCUMENTS', pharmacist.documents)
 
   const existingUsername = await User.findOne({ username: pharmacist.username })
