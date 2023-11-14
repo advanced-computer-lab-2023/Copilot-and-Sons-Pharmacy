@@ -1,7 +1,7 @@
 export function PharmacistDashboardHome() {
   return (
     <div>
-      <h1>PharmicistDashboardHome</h1>
+      <h1>Pharmicist Dashboard Home</h1>
     </div>
   )
 }

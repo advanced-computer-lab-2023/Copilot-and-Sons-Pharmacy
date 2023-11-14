@@ -2,6 +2,7 @@ import express from 'express'
 import {
   acceptPharmacistRequest,
   addPharmacist,
+  getPharmacist,
   rejectPharmacistRequest,
 } from '../controllers/pharmacist.controller'
 import cors from 'cors'
@@ -19,7 +20,7 @@ router.use(express.json())
 router
   .route('/addPharmacist')
   .post(upload.array('documents', 50), addPharmacist)
-
+router.route('/getPharmacist/:username').get(getPharmacist)
 router.route('/acceptPharmacistRequest/:id').patch(acceptPharmacistRequest)
 router.route('/rejectPharmacistRequest/:id').patch(rejectPharmacistRequest)
 
