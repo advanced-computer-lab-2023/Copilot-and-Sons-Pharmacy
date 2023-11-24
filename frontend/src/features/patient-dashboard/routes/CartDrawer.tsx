@@ -270,6 +270,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
         open={isOpen}
         onClose={onClose}
         style={{ height: '100%' }}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Button variant="contained" onClick={removeallitems}>
           remove all items
