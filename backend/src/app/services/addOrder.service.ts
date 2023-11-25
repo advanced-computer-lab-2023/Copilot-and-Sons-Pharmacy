@@ -4,6 +4,7 @@ import { ERROR } from '../utils/httpStatusText'
 import { IOrder, IOrderDocument, OrderModel } from '../schemas/order.model'
 import Medicine from '../schemas/medicine.model'
 import { CartModel } from '../schemas/cart.model'
+import { sendNotificationToAll } from './sendNotificationForMedicineOutOfStock'
 
 export const addOrderService = async (info: IOrder) => {
   const { patientID, total, date, address, paymentMethod } = info
@@ -40,8 +41,13 @@ export const addOrderService = async (info: IOrder) => {
         ERROR
       )
     medicine.quantity = medicine.quantity - item.quantity
+
     medicine.sales = medicine.sales + item.quantity
     await medicine.save()
+
+    if (medicine.quantity == 0) {
+      sendNotificationToAll(medicine.name)
+    }
   }
 
   await newOrder.save()
