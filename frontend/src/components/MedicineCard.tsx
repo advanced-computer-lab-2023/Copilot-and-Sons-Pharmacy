@@ -102,15 +102,34 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
           <br />
           Medical Use: {props.medicine.medicinalUse.join(', ')}
           <br />
-          Active Ingrediants:{props.medicine.activeIngredients.join(', ')}
+          Main Active Ingrediant:{props.medicine.activeIngredients[0]}
+          <br />
+          Active Ingrediants:
+          {props.medicine.activeIngredients.slice(1).join(', ')}
           <br />
           price: {props.medicine.price}
+          {props.medicine.quantity == 0 && (
+            <Typography variant="body2" color="error">
+              out of stock
+            </Typography>
+          )}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'center' }}>
         <Stack direction="row" spacing={2}>
           <OnlyAuthenticated requiredUserType={UserType.Patient}>
-            <BuyButton medicine={props.medicine} />
+            {props.medicine.quantity != 0 && (
+              <BuyButton medicine={props.medicine} />
+            )}
+            {props.medicine.quantity == 0 && (
+              <Link
+                to={`/patient-dashboard/medicines/view-alternative-medicine/${props.medicine._id}`}
+              >
+                <Button color="primary" variant="contained">
+                  view alternatives
+                </Button>
+              </Link>
+            )}
           </OnlyAuthenticated>
           <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
             <Link

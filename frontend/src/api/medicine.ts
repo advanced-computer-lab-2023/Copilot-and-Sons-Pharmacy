@@ -8,6 +8,15 @@ export async function viewAllMedicines(): Promise<AxiosResponse> {
   return response
 }
 
+export async function viewAlternativeMedicine(
+  id: string
+): Promise<AxiosResponse> {
+  console.log('here i am')
+  const response = await api.get(`/medicine/viewAlternatives/${id}`)
+
+  return response
+}
+
 export async function viewMedicinesQuantityAndSales(): Promise<AxiosResponse> {
   const response = await api.get(`/medicine/quantity-sales`)
 
