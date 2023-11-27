@@ -15,6 +15,7 @@ import { authRouter } from './app/controllers/auth.controller'
 import { authenticate } from './app/middlewares/auth.middleware'
 import orderRouter from './app/routes/order.route'
 import asyncWrapper from './app/middlewares/asyncWrapper'
+import { notificationRouter } from './app/controllers/notification.controller'
 
 const app: Application = express()
 
@@ -41,5 +42,6 @@ app.all('*', (req, res, next) => {
     .status(404)
     .json({ status: ERROR, message: 'this resource is not available' })
 })
+app.use(notificationRouter)
 
 export default app

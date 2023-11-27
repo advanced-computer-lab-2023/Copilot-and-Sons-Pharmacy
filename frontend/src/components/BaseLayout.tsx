@@ -16,9 +16,10 @@ import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { OnlyAuthenticated } from './OnlyAuthenticated'
-import { Logout } from '@mui/icons-material'
+import { Logout, Notifications } from '@mui/icons-material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+// import { NotificationsList } from './notification'
 
 interface ListItemLinkProps {
   icon?: React.ReactElement
@@ -92,6 +93,24 @@ export function BaseLayout() {
               <MenuIcon />
             </IconButton>
             Pharmacy
+          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Typography>
+            <OnlyAuthenticated>
+              Hi fml
+              {/* <NotificationsList />
+          This is the line causing the error
+            */}
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <Notifications />
+              </IconButton>
+            </OnlyAuthenticated>
           </Typography>
         </Toolbar>
       </AppBar>
