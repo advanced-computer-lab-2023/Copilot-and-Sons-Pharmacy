@@ -10,7 +10,7 @@ import {
   Popover,
 } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from 'react-query'
 import React from 'react'
 import { Clear } from '@mui/icons-material'
 

@@ -19,6 +19,7 @@ import { OnlyAuthenticated } from './OnlyAuthenticated'
 import { Logout, Notifications } from '@mui/icons-material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { NotificationsList } from './notification'
 // import { NotificationsList } from './notification'
 
 interface ListItemLinkProps {
@@ -97,10 +98,8 @@ export function BaseLayout() {
           <Box sx={{ flexGrow: 1 }} />
           <Typography>
             <OnlyAuthenticated>
-              Hi fml
-              {/* <NotificationsList />
-          This is the line causing the error
-            */}
+              <NotificationsList />
+
               <IconButton
                 size="large"
                 edge="end"
