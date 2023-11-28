@@ -50,3 +50,24 @@ export async function getCurrentUser(): Promise<GetCurrentUserResponse> {
     .get<GetCurrentUserResponse>(`/auth/me`)
     .then((res) => res.data)
 }
+
+export async function ForgetPasswordEmail(values: any) {
+  return await api.post('/patient/requestOtp', values)
+}
+
+export async function ForgetPasswordVerifyOtp(value: any, otp: any) {
+  return await api.post('/patient/verifyOtp', {
+    email: value,
+    otp,
+  })
+}
+
+export async function ForgetPasswordUpdatePassword(
+  email: any,
+  newPassword: any
+) {
+  return await api.put('/patient/updatePassword', {
+    email,
+    newPassword,
+  })
+}
