@@ -66,12 +66,9 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
         })
         addToCartProvider(item)
       } catch (e) {
-        toast.error(
-          `There is not enough stock for this product!${medicine.quantity}`,
-          {
-            position: 'top-right',
-          }
-        )
+        toast.error(`There is not enough stock for this product!`, {
+          position: 'top-right',
+        })
       }
     }
 
