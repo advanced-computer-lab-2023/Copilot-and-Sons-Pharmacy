@@ -1,8 +1,8 @@
-import AppError from '../utils/appError'
-import { ERROR } from '../utils/httpStatusText'
-import { OrderModel } from '../schemas/order.model'
-import { CartModel } from '../schemas/cart.model'
-import Medicine from '../schemas/medicine.model'
+import AppError from '../../utils/appError'
+import { ERROR } from '../../utils/httpStatusText'
+import { OrderModel } from '../../schemas/order.model'
+import { CartModel } from '../../schemas/cart.model'
+import Medicine from '../../schemas/medicine.model'
 
 export const viewOrderService = async (id: string) => {
   try {

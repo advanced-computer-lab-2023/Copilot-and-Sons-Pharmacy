@@ -1,7 +1,7 @@
-import Medicine from '../schemas/medicine.model'
-import AppError from '../utils/appError'
-import { ERROR } from '../utils/httpStatusText'
-import FireBase from '../../../../firebase.config'
+import Medicine from '../../schemas/medicine.model'
+import AppError from '../../utils/appError'
+import { ERROR } from '../../utils/httpStatusText'
+import FireBase from '../../../../../firebase.config'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
 import { getDownloadURL } from 'firebase/storage'
 

@@ -1,9 +1,9 @@
-import Patient from '../schemas/patient.schema'
-import AppError from '../utils/appError'
-import { ERROR } from '../utils/httpStatusText'
-import { IOrder, IOrderDocument, OrderModel } from '../schemas/order.model'
-import Medicine from '../schemas/medicine.model'
-import { CartModel } from '../schemas/cart.model'
+import Patient from '../../schemas/patient.schema'
+import AppError from '../../utils/appError'
+import { ERROR } from '../../utils/httpStatusText'
+import { IOrder, IOrderDocument, OrderModel } from '../../schemas/order.model'
+import Medicine from '../../schemas/medicine.model'
+import { CartModel } from '../../schemas/cart.model'
 
 export const addOrderService = async (info: IOrder) => {
   const { patientID, total, date, address, paymentMethod } = info

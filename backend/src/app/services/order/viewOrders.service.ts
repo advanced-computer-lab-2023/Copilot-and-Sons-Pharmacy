@@ -1,6 +1,6 @@
-import { IOrderDocument, OrderModel } from '../schemas/order.model'
-import Patient from '../schemas/patient.schema'
-import User from '../schemas/user.model'
+import { IOrderDocument, OrderModel } from '../../schemas/order.model'
+import Patient from '../../schemas/patient.schema'
+import User from '../../schemas/user.model'
 
 export async function fetchAllOrders(id: string): Promise<IOrderDocument[]> {
   const user = await User.findOne({ username: id })
