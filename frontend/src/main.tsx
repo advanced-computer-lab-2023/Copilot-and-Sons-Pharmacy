@@ -29,6 +29,14 @@ if (usernameParam) {
   localStorage.setItem('patientUsername', usernameParam)
 }
 
+const token = currentUrl.searchParams.get('token')
+console.log(token)
+
+if (token) {
+  // If the parameter exists, save it in localStorage
+  localStorage.setItem('token', token)
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <React.StrictMode>
