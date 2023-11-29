@@ -61,6 +61,7 @@ export function useEditMedicineService() {
 
 export async function searchForMedicine(name: string) {
   const response = await api.get(`/admin/getMedicineByName/${name}`)
+  console.log('Hello world')
 
   return response.data
 }
