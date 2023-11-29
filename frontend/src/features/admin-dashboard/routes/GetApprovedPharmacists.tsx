@@ -27,9 +27,9 @@ const GetApprovedPharmacists = () => {
         ))}
       </div> */}
       {/* to allign vertically  */}
-      <Grid container>
+      <Grid container spacing={1}>
         {query.data.map((pharmacist) => (
-          <Grid item sm={6} md={3} key={pharmacist._id}>
+          <Grid item sm={6} md={4} key={pharmacist._id}>
             <PharmacistDetails pharmacist={pharmacist} query={query} />
           </Grid>
         ))}

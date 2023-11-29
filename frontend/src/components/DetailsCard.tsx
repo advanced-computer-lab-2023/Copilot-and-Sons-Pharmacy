@@ -4,26 +4,47 @@ import React from 'react'
 export function DetailsCard({
   fields,
   children,
+  noCard = false,
 }: React.PropsWithChildren<{
   fields: {
+    icon?: React.ReactNode
     label: string
-    value: unknown
+    value: any
   }[]
+  noCard?: boolean
 }>) {
-  return (
-    <Card variant="outlined">
-      <CardContent>
-        <Stack spacing={2}>
-          {fields.map((f) => (
+  const details = (
+    <Stack spacing={2}>
+      {fields.map((f) =>
+        f.icon ? (
+          <Stack direction="row" spacing={2} alignItems="center">
+            {f.icon}
             <Stack spacing={-1}>
               <Typography variant="overline" color="text.secondary">
                 {f.label}
               </Typography>
-              <Typography variant="body1">{f.value as string}</Typography>
+              <Typography variant="body1">{f.value}</Typography>
             </Stack>
-          ))}
-        </Stack>
-      </CardContent>
+          </Stack>
+        ) : (
+          <Stack spacing={-1}>
+            <Typography variant="overline" color="text.secondary">
+              {f.label}
+            </Typography>
+            <Typography variant="body1">{f.value}</Typography>
+          </Stack>
+        )
+      )}
+    </Stack>
+  )
+
+  if (noCard) {
+    return details
+  }
+
+  return (
+    <Card variant="outlined">
+      <CardContent>{details}</CardContent>
       {children}
     </Card>
   )
