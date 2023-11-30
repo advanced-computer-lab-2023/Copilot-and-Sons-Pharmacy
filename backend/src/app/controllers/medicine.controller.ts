@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 import { FAIL, SUCCESS } from '../utils/httpStatusText'
-import { fetchAllMedicines } from '../services/medicine/fetchAllMedicines.service'
 import asyncWrapper from '../middlewares/asyncWrapper'
 import { viewMedicineQuantityAndSales } from '../services/medicine/viewQuantityAndSales.service'
 import { addMedicineService } from '../services/medicine/addMedicine.service'
@@ -9,6 +8,7 @@ import { getAllMedicinalUses } from '../services/medicine/getAllMedicinalUses'
 import getPatientByUsername from '../services/getPatient.service'
 import { APIError, NotFoundError } from '../errors'
 import { viewAlternativeMedicine } from '../services/viewAlternativeMedicine'
+import { fetchAllMedicines } from '../services/medicine/fetchAllMedicines.service'
 
 export const getAllMedicines = asyncWrapper(
   async (req: Request, res: Response) => {
