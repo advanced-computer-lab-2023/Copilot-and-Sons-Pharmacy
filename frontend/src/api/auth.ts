@@ -43,6 +43,8 @@ export async function login(request: LoginRequest): Promise<LoginResponse> {
 
 export async function getCurrentUser(): Promise<GetCurrentUserResponse> {
   if (!localStorage.getItem('token')) {
+    console.log('no token ')
+
     return Promise.reject('No token found')
   }
 
