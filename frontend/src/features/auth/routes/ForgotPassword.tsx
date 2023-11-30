@@ -5,6 +5,11 @@ import { useNavigate } from 'react-router-dom'
 import { TextField, Button, Typography } from '@mui/material'
 import { ToastContainer, toast } from 'react-toastify'
 import CircularProgress from '@mui/material/CircularProgress'
+import {
+  ForgetPasswordEmail,
+  ForgetPasswordUpdatePassword,
+  ForgetPasswordVerifyOtp,
+} from '@/api/auth'
 
 interface ForgotPasswordFormValues {
   email: string
@@ -64,10 +69,7 @@ export default function ForgotPassword() {
     setIsLoading(true)
 
     try {
-      const { data } = await axios.post(
-        'http://localhost:3000/api/patient/requestOtp',
-        values
-      )
+      const { data } = await ForgetPasswordEmail(values)
 
       if (data.success === 'success') {
         setShowOTPForm(true)
@@ -87,12 +89,9 @@ export default function ForgotPassword() {
     setIsLoading(true)
 
     try {
-      const { data } = await axios.post(
-        'http://localhost:3000/api/patient/verifyOtp',
-        {
-          email: formik.values.email,
-          otp: values.otp,
-        }
+      const { data } = await ForgetPasswordVerifyOtp(
+        formik.values.email,
+        values.otp
       )
 
       if (data.success === 'success') {
@@ -113,12 +112,9 @@ export default function ForgotPassword() {
     setIsLoading(true)
 
     try {
-      const { data } = await axios.put(
-        'http://localhost:3000/api/patient/updatePassword',
-        {
-          email: formik.values.email,
-          newPassword: values.newPassword,
-        }
+      const { data } = await ForgetPasswordUpdatePassword(
+        formik.values.email,
+        values.newPassword
       )
 
       console.log(data)

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {
@@ -15,6 +14,7 @@ import {
   Button,
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
+import { pharmacistRequest } from '@/api/pharmacist'
 
 export const Register = () => {
   const [activeStep, setActiveStep] = useState(0)
@@ -116,22 +116,16 @@ export const Register = () => {
 
     console.log(fieldValue.files[0])
 
-    await axios
-      .post('http://localhost:3000/api/pharmacist/addPharmacist', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data; ${formData.getBoundary()}', // Axios sets the correct Content-Type header with the boundary.
-        },
-      })
-      .then(() => {
-        toast.success('Your request has been sent successfully')
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message)
-        console.log(err)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+    try {
+      await pharmacistRequest(formData)
+      toast.success('Your request has been sent successfully')
+    } catch (err: any) {
+      console.log(err)
+      toast.error(err.message)
+      console.log(err)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const renderStep = () => {
