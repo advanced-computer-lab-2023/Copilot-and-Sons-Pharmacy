@@ -29,6 +29,14 @@ if (usernameParam) {
   localStorage.setItem('patientUsername', usernameParam)
 }
 
+const PrescriptionId = currentUrl.searchParams.get('PrescriptionId')
+console.log(PrescriptionId)
+
+if (PrescriptionId) {
+  // If the parameter exists, save it in localStorage
+  localStorage.setItem('PrescriptionId', PrescriptionId)
+}
+
 const token = currentUrl.searchParams.get('token')
 console.log(token)
 

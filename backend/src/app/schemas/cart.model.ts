@@ -5,17 +5,20 @@ import { IMedicine } from './medicine.model'
 interface ICartItem {
   medicine: IMedicine
   quantity: number
+  byPrescription: boolean
 }
 
 const cartItemSchema = new Schema<ICartItem>({
   medicine: { type: Schema.Types.ObjectId, ref: 'Medicine' },
   quantity: Number,
+  byPrescription: 'Boolean',
 })
 
 export interface ICart extends Document {
   items: Array<{
     medicine: IMedicine
     quantity: number
+    byPrescription: boolean
   }>
 }
 

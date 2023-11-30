@@ -306,6 +306,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                       variant="outlined"
                       onClick={() => removeFromCart(item.medicine._id)}
                       style={{ fontSize: 12 }}
+                      disabled={item.byPrescription}
                     >
                       Remove
                     </Button>
@@ -316,6 +317,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                         incrementQuantity(item.medicine, item.quantity)
                       }
                       style={{ fontSize: 12 }}
+                      disabled={item.byPrescription}
                     >
                       +
                     </Button>
@@ -334,6 +336,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                       InputProps={{
                         style: { fontSize: 11 },
                       }}
+                      disabled={item.byPrescription}
                     />
                     <Button
                       size="small"
@@ -342,6 +345,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                         decrementQuantity(item.medicine._id, item.quantity)
                       }
                       style={{ fontSize: 12 }}
+                      disabled={item.byPrescription}
                     >
                       -
                     </Button>

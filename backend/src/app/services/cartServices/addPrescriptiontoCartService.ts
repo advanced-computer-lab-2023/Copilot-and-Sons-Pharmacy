@@ -1,12 +1,36 @@
+import Medicine from '../../schemas/medicine.model'
+import { PrescriptionModel } from '../../schemas/prescription.model'
 import { APIError } from '../../errors'
 import { CartModel } from '../../schemas/cart.model'
-import Medicine from '../../schemas/medicine.model'
 import Patient from '../../schemas/patient.schema'
 import userModel from '../../schemas/user.model'
 import AppError from '../../utils/appError'
 import { FAIL } from '../../utils/httpStatusText'
 
-export async function addToCartService(item: any, username: any) {
+export async function addPrescriptiontoCartService(
+  prescriptionId: any,
+  username: any
+) {
+  const prescription = await PrescriptionModel.findById(prescriptionId)
+
+  if (prescription?.medicine) {
+    for (let i = 0; i < prescription?.medicine.length; i++) {
+      const medicinetoAdd = await Medicine.findOne({
+        name: prescription?.medicine[i]?.name,
+      })
+
+      await addToCartMedicine(
+        {
+          medicineId: medicinetoAdd?._id,
+          quantity: prescription?.medicine[i]?.quantity,
+        },
+        username
+      )
+    }
+  }
+}
+
+export async function addToCartMedicine(item: any, username: any) {
   const { medicineId, quantity } = item
   const medicine = await Medicine.findById(medicineId)
 
@@ -32,11 +56,9 @@ export async function addToCartService(item: any, username: any) {
       cart.items[medicineIndex] = medicineItem
     }
   } else {
-    if (medicine.requiresPrescription)
-      throw new APIError('this medicine requires Prescription', 404, FAIL)
-    else if (medicine.quantity < ~~quantity)
+    if (medicine.quantity < ~~quantity)
       throw new APIError('this quantity is not available in stock', 404, FAIL)
-    cart?.items?.push({ medicine: medicineId, quantity, byPrescription: false })
+    cart?.items?.push({ medicine: medicineId, quantity, byPrescription: true })
   }
 
   await cart?.save()

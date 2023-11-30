@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { SUCCESS } from '../utils/httpStatusText'
+import { FAIL, SUCCESS } from '../utils/httpStatusText'
 import { fetchAllMedicines } from '../services/medicine/fetchAllMedicines.service'
 import asyncWrapper from '../middlewares/asyncWrapper'
 import { viewMedicineQuantityAndSales } from '../services/medicine/viewQuantityAndSales.service'
