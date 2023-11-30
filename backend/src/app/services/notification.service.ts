@@ -27,6 +27,7 @@ export async function addUserNotification({
   if (!user) throw new NotFoundError()
 
   user.notifications.push(notification)
+  user.save()
 }
 
 export async function removeUserNotification({

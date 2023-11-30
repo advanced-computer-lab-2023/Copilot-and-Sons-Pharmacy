@@ -12,6 +12,7 @@ import AllOrders from '@/features/patient-dashboard/routes/AllOrders'
 
 import Checkout from '@/features/patient-dashboard/routes/Checkout'
 import ViewOrder from './ViewOrder'
+import { ViewAlternativeMedicine } from '@/features/medicine-dashboard/routes/ViewAlternativeMedicine'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
@@ -60,6 +61,11 @@ export const patientDashboardRoutes: RouteObject[] = [
           {
             path: 'checkout/:jsonString',
             element: <Checkout />,
+          },
+
+          {
+            path: 'view-alternative-medicine/:id',
+            element: <ViewAlternativeMedicine />,
           },
         ],
       },

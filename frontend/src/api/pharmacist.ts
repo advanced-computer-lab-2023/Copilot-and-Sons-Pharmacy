@@ -17,3 +17,11 @@ export async function getPharmacist(username: string): Promise<any> {
     .get<any>(`/pharmacist/getPharmacist/${username}`)
     .then((res) => res.data)
 }
+
+export async function pharmacistRequest(formData: any) {
+  return await api.post('/pharmacist/addPharmacist', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data; ${formData.getBoundary()}',
+    },
+  })
+}

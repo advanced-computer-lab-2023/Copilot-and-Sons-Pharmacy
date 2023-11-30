@@ -2,7 +2,13 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { CardActions, Button, Paper } from '@mui/material'
+import {
+  CardActions,
+  Button,
+  Paper,
+  IconButton,
+  TextField,
+} from '@mui/material'
 import IMedicine from '../types/medicine.type'
 import { Link } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -11,6 +17,9 @@ import { Stack } from '@mui/system'
 import { addToCartApi } from '@/api/cart'
 import { useCart } from '@/hooks/cartHook'
 import { ToastContainer, toast } from 'react-toastify'
+import { useState } from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
 
 function BuyButton(props: { medicine: IMedicine }) {
   const { addToCartProvider } = useCart()
@@ -83,7 +92,62 @@ function BuyButton(props: { medicine: IMedicine }) {
   )
 }
 
-export default function MedicineCard(props: { medicine: IMedicine }) {
+// async function addToPrescription(medicinename: string) {
+//   try {
+//     await addtoPrescriptionApi(medicinename)
+//     toast.success('Added to Prescription!', {
+//       position: 'top-right',
+//     })
+//   } catch (e: any) {
+//     toast.error(e.message, {
+//       position: 'top-right',
+//     })
+//   }
+// }
+
+export default function MedicineCard(props: {
+  medicine: IMedicine
+  onAddToPrescription?: (medicine: {
+    name: string
+    quantity: number
+    dosage: string
+  }) => void
+}) {
+  const [quantity, setQuantity] = useState(1)
+  const [dosage, setDosage] = useState('')
+
+  const handleIncrementQuantity = () => {
+    setQuantity(quantity + 1)
+  }
+
+  const handleDecrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1)
+    }
+  }
+
+  const handleAddToPrescription = () => {
+    if (!dosage || dosage === '' || dosage.trim() === '') {
+      toast.error('Please enter dosage', {
+        position: 'top-right',
+      })
+
+      return
+    }
+
+    if (props.onAddToPrescription) {
+      const medicineToAdd = {
+        name: props.medicine.name,
+        quantity,
+        dosage,
+      }
+      props.onAddToPrescription(medicineToAdd)
+    }
+
+    setDosage('')
+    setQuantity(1)
+  }
+
   return (
     <Card>
       <CardMedia
@@ -120,6 +184,30 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
                 Edit
               </Button>
             </Link>
+          </OnlyAuthenticated>
+          <OnlyAuthenticated requiredUserType={UserType.Doctor}>
+            <IconButton onClick={handleDecrementQuantity}>
+              <RemoveIcon />
+            </IconButton>
+            <span>{quantity}</span>
+            <IconButton onClick={handleIncrementQuantity}>
+              <AddIcon />
+            </IconButton>
+
+            <TextField
+              label="Dosage"
+              value={dosage}
+              onChange={(e) => setDosage(e.target.value)}
+              variant="outlined"
+            />
+            <Button
+              color="secondary"
+              disabled={false}
+              variant="contained"
+              onClick={() => handleAddToPrescription()}
+            >
+              Add to Prescription
+            </Button>
           </OnlyAuthenticated>
         </Stack>
       </CardActions>

@@ -1,11 +1,11 @@
 import asyncWrapper from '../middlewares/asyncWrapper'
 import { SUCCESS } from '../utils/httpStatusText'
-import { addOrderService } from '../services/addOrder.service'
+import { addOrderService } from '../services/order/addOrder.service'
 
-import { fetchAllOrders } from '../services/viewOrders.service'
+import { fetchAllOrders } from '../services/order/viewOrders.service'
 
-import { viewOrderService } from '../services/viewOrder.service'
-import { cancelOrderService } from '../services/cancelOrder.service'
+import { viewOrderService } from '../services/order/viewOrder.service'
+import { cancelOrderService } from '../services/order/cancelOrder.service'
 
 export const addOrder = asyncWrapper(async (req, res) => {
   // console.log(req.body)

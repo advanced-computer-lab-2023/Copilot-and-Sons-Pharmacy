@@ -14,7 +14,8 @@ export function RedirectToDashboard() {
 
     case UserType.Patient:
       return <Navigate to="/patient-dashboard" />
-
+    case UserType.Doctor:
+      return <Navigate to="/doctor-dashboard" />
     default:
       return <Navigate to="/auth/login" />
   }

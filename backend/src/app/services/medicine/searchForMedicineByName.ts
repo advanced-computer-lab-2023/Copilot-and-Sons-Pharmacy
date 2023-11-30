@@ -1,4 +1,4 @@
-import Medicine from '../schemas/medicine.model'
+import Medicine from '../../schemas/medicine.model'
 
 export async function getMedicineByName(name: string) {
   const medicines = await Medicine.find()

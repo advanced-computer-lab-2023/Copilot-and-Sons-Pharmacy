@@ -16,7 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { OnlyAuthenticated } from './OnlyAuthenticated'
-import { Logout, Notifications } from '@mui/icons-material'
+import { Logout } from '@mui/icons-material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { NotificationsList } from './notification'
@@ -107,7 +107,7 @@ export function BaseLayout() {
                 aria-haspopup="true"
                 color="inherit"
               >
-                <Notifications />
+                {/* <Notifications /> */}
               </IconButton>
             </OnlyAuthenticated>
           </Typography>
