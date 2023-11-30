@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export async function addtoPrescriptionApi(medicineName: any) {
+export async function addtoPrescriptionApi(prescriptionList: any) {
   const patientUsername = localStorage.getItem('patientUsername')
   const token = localStorage.getItem('token')
 
@@ -8,9 +8,7 @@ export async function addtoPrescriptionApi(medicineName: any) {
     'http://localhost:3000/prescriptions/',
     {
       patient: patientUsername,
-      medicine: [
-        { name: medicineName, dosage: '1', frequency: '1', duration: '1' },
-      ],
+      medicine: prescriptionList,
       date: new Date(),
     },
     {
