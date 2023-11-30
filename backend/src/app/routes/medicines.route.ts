@@ -3,6 +3,7 @@ import {
   getAllMedicines,
   medicinalUses,
   patchWallet,
+  viewAlternatives,
   viewMedicinesQuantityAndSales,
 } from '../controllers/medicine.controller'
 import express from 'express'
@@ -24,5 +25,6 @@ router
   .get(filterMedicineByMedicinalUse)
 
 router.route('/wallet/:totalMoney').patch(patchWallet)
+router.route('/viewAlternatives/:id').get(viewAlternatives)
 
 export default router

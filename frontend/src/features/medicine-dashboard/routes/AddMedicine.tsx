@@ -35,6 +35,7 @@ interface newMedicine {
   description: string
   quantity: number
   Image: File
+  mainActiveIngredient: string
   activeIngredients: string
   medicinalUse: string
   sales: number
@@ -55,12 +56,14 @@ export function AddMedicine() {
       return
     }
 
+    const combinedActiveIngredients =
+      Medicine.mainActiveIngredient + ', ' + Medicine.activeIngredients
     formData.append('Image', imageValue.file)
     formData.append('name', Medicine.name)
     formData.append('price', Medicine.price.toString())
     formData.append('description', Medicine.description)
     formData.append('quantity', Medicine.quantity.toString())
-    formData.append('activeIngredients', Medicine.activeIngredients)
+    formData.append('activeIngredients', combinedActiveIngredients)
     formData.append('medicinalUse', Medicine.medicinalUse)
     formData.append('sales', Medicine.sales.toString())
     mutation
@@ -86,6 +89,7 @@ export function AddMedicine() {
     description: '',
     quantity: 0,
     Image: new File([], ''),
+    mainActiveIngredient: '',
     activeIngredients: '',
     medicinalUse: '',
     sales: 0,
@@ -100,6 +104,9 @@ export function AddMedicine() {
       .required('quantity is required')
       .min(1, 'quantity cannot be less than 1'),
     Image: Yup.mixed().required('Image is required'),
+    mainActiveIngredient: Yup.string().required(
+      'main active ingredient is required'
+    ),
     activeIngredients: Yup.string()
       .required('activeIngredients is required')
       .matches(
@@ -189,6 +196,26 @@ export function AddMedicine() {
                 />
                 {formik.errors.quantity && formik.touched.quantity ? (
                   <Alert severity="warning">{formik.errors.quantity}</Alert>
+                ) : (
+                  ''
+                )}
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Main Active Ingredients"
+                  name="mainActiveIngredient"
+                  value={formik.values.mainActiveIngredient}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  multiline
+                />
+                {formik.errors.mainActiveIngredient &&
+                formik.touched.mainActiveIngredient ? (
+                  <Alert severity="warning">
+                    {formik.errors.mainActiveIngredient}
+                  </Alert>
                 ) : (
                   ''
                 )}

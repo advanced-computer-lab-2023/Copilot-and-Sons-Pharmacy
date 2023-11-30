@@ -13,9 +13,13 @@ import {
   Alert,
 } from '@mui/material'
 import { ToastContainer, toast } from 'react-toastify'
-import { useEditMedicineService } from '../../../api/medicine'
+import {
+  searchForMedicine,
+  useEditMedicineService,
+} from '../../../api/medicine'
 import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import IMedicine from '@/types/medicine.type'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('name is required'),
@@ -24,6 +28,7 @@ const validationSchema = Yup.object().shape({
   quantity: Yup.number(),
   sales: Yup.number(),
   Image: Yup.string(),
+  mainActiveIngredient: Yup.string(),
   activeIngredients: Yup.string().matches(
     /^(?!.*\s,)[^,]*(, [^,]+)*$/,
     'Input must be in the form "a, b, c, d, e, f" with spaces after commas'
@@ -53,12 +58,28 @@ export function EditMedicine() {
   //   Getting the medicine data
   const { name } = useParams()
 
+  const [medicine, setMedicine] = useState<IMedicine>()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await searchForMedicine(name!)
+        setMedicine(response.data[0])
+      } catch (error) {
+        console.error('Error fetching medicines: ', error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   const initialValues = {
     name,
     price: 0,
     description: '',
     quantity: 0,
     Image: new File([], ''),
+    mainActiveIngredient: '',
     activeIngredients: '',
     medicinalUse: '',
     sales: 0,
@@ -75,8 +96,30 @@ export function EditMedicine() {
     if (Medicine.sales != 0) formData.append('sales', Medicine.sales.toString())
     if (imageValue != new File([], ''))
       formData.append('Image', imageValue.file)
-    if (Medicine.activeIngredients != '')
-      formData.append('activeIngredients', Medicine.activeIngredients)
+
+    if (Medicine.mainActiveIngredient != '') {
+      if (Medicine.activeIngredients != '') {
+        formData.append(
+          'activeIngredients',
+          Medicine.mainActiveIngredient + ', ' + Medicine.activeIngredients
+        )
+      } else {
+        formData.append(
+          'activeIngredients',
+          Medicine.mainActiveIngredient +
+            ', ' +
+            medicine?.activeIngredients.slice(1).join(', ')
+        )
+      }
+    } else {
+      if (Medicine.activeIngredients != '') {
+        formData.append(
+          'activeIngredients',
+          medicine?.activeIngredients[0] + ', ' + Medicine.activeIngredients
+        )
+      }
+    }
+
     if (Medicine.medicinalUse != '')
       formData.append('medicinalUse', Medicine.medicinalUse)
 
@@ -192,6 +235,26 @@ export function EditMedicine() {
                   ''
                 )}
               </Grid> */}
+
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Main Active Ingredient"
+                  name="mainActiveIngredient"
+                  value={formik.values.mainActiveIngredient}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  multiline
+                />
+                {formik.errors.mainActiveIngredient &&
+                formik.touched.mainActiveIngredient ? (
+                  <Alert severity="warning">
+                    {formik.errors.activeIngredients}
+                  </Alert>
+                ) : (
+                  ''
+                )}
+              </Grid>
 
               <Grid item xs={12}>
                 <TextField
