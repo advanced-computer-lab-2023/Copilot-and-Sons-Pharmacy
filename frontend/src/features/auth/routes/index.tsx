@@ -1,7 +1,8 @@
 import { RouteObject } from 'react-router-dom'
 import { Login } from './Login'
+import Registera from './Register'
 import RegistrationForm from './RegistrationForm'
-import { Register } from './pharmacistRequest'
+//import { Register } from './pharmacistRequest'
 import { AuthLayout } from '../components/AuthLayout'
 import { Logout } from './Logout'
 
@@ -19,7 +20,7 @@ export const authRoutes: RouteObject[] = [
       },
       {
         path: 'register-request',
-        element: <Register />,
+        element: <Registera />,
       },
     ],
   },
