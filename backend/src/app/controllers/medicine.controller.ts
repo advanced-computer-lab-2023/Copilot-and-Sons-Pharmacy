@@ -8,6 +8,7 @@ import { editMedicineService } from '../services/medicine/editMedicine.service'
 import { getAllMedicinalUses } from '../services/medicine/getAllMedicinalUses'
 import getPatientByUsername from '../services/getPatient.service'
 import { APIError, NotFoundError } from '../errors'
+import { viewAlternativeMedicine } from '../services/viewAlternativeMedicine'
 
 export const getAllMedicines = asyncWrapper(
   async (req: Request, res: Response) => {
@@ -61,3 +62,15 @@ export const patchWallet = asyncWrapper(async (req: Request, res: Response) => {
   patient.save()
   res.send({ success: SUCCESS, data: patient.walletMoney })
 })
+
+export const viewAlternatives = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const alternatives = await viewAlternativeMedicine(req.params.id)
+
+    if (!alternatives) {
+      throw new APIError('no alternatives available', 400, FAIL)
+    }
+
+    res.send({ success: SUCCESS, data: alternatives })
+  }
+)

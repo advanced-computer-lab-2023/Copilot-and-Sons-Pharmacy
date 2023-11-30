@@ -12,78 +12,78 @@ import { addToCartApi } from '@/api/cart'
 import { useCart } from '@/hooks/cartHook'
 import { ToastContainer, toast } from 'react-toastify'
 
-function BuyButton(props: { medicine: IMedicine }) {
-  const { addToCartProvider } = useCart()
+export default function MedicineCard(props: { medicine: IMedicine }) {
+  function BuyButton(props: { medicine: IMedicine }) {
+    const { addToCartProvider } = useCart()
 
-  async function buy(medicine: any) {
-    const item = {
-      medicine,
-      quantity: 1,
+    async function buy(medicine: any) {
+      const item = {
+        medicine,
+        quantity: 1,
+      }
+
+      if (medicine.requiresPrescription) {
+        const prescriptionButton = document.createElement('button')
+        prescriptionButton.textContent = 'Have Prescription'
+        prescriptionButton.addEventListener('click', () => {
+          console.log('User has prescription')
+        })
+        toast.warning(
+          <Paper>
+            <h4>This medicine requires a prescription.</h4>
+            <div style={{ marginTop: '8px' }}>
+              <Button
+                variant="outlined"
+                fullWidth
+                color="success"
+                style={{ marginBottom: '10px' }}
+                onClick={handlePrescriptionClick}
+              >
+                Have Prescription
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                fullWidth
+                onClick={() => toast.dismiss()}
+              >
+                Close
+              </Button>
+            </div>
+          </Paper>,
+          {
+            position: toast.POSITION.TOP_RIGHT,
+          }
+        )
+
+        return
+      }
+
+      try {
+        await addToCartApi(medicine._id, 1)
+        toast.success('Added to cart!', {
+          position: 'top-right',
+        })
+        addToCartProvider(item)
+      } catch (e) {
+        toast.error(`There is not enough stock for this product!`, {
+          position: 'top-right',
+        })
+      }
     }
 
-    if (medicine.requiresPrescription) {
-      const prescriptionButton = document.createElement('button')
-      prescriptionButton.textContent = 'Have Prescription'
-      prescriptionButton.addEventListener('click', () => {
-        console.log('User has prescription')
-      })
-      toast.warning(
-        <Paper>
-          <h4>This medicine requires a prescription.</h4>
-          <div style={{ marginTop: '8px' }}>
-            <Button
-              variant="outlined"
-              fullWidth
-              color="success"
-              style={{ marginBottom: '10px' }}
-              onClick={handlePrescriptionClick}
-            >
-              Have Prescription
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              fullWidth
-              onClick={() => toast.dismiss()}
-            >
-              Close
-            </Button>
-          </div>
-        </Paper>,
-        {
-          position: toast.POSITION.TOP_RIGHT,
-        }
-      )
-
-      return
-    }
-
-    try {
-      await addToCartApi(medicine._id, 1)
-      toast.success('Added to cart!', {
-        position: 'top-right',
-      })
-      addToCartProvider(item)
-    } catch (e) {
-      toast.error('There is not enough stock for this product!', {
-        position: 'top-right',
-      })
-    }
+    return (
+      <Button
+        color="primary"
+        disabled={false}
+        variant="contained"
+        onClick={() => buy(props.medicine)}
+      >
+        Add to Cart
+      </Button>
+    )
   }
 
-  return (
-    <Button
-      color="primary"
-      disabled={false}
-      variant="contained"
-      onClick={() => buy(props.medicine)}
-    >
-      Add to Cart
-    </Button>
-  )
-}
-
-export default function MedicineCard(props: { medicine: IMedicine }) {
   return (
     <Card>
       <CardMedia
@@ -102,15 +102,34 @@ export default function MedicineCard(props: { medicine: IMedicine }) {
           <br />
           Medical Use: {props.medicine.medicinalUse.join(', ')}
           <br />
-          Active Ingrediants:{props.medicine.activeIngredients.join(', ')}
+          Main Active Ingrediant:{props.medicine.activeIngredients[0]}
+          <br />
+          Active Ingrediants:
+          {props.medicine.activeIngredients.slice(1).join(', ')}
           <br />
           price: {props.medicine.price}
+          {props.medicine.quantity == 0 && (
+            <Typography variant="body2" color="error">
+              out of stock
+            </Typography>
+          )}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'center' }}>
         <Stack direction="row" spacing={2}>
           <OnlyAuthenticated requiredUserType={UserType.Patient}>
-            <BuyButton medicine={props.medicine} />
+            {props.medicine.quantity != 0 && (
+              <BuyButton medicine={props.medicine} />
+            )}
+            {props.medicine.quantity == 0 && (
+              <Link
+                to={`/patient-dashboard/medicines/view-alternative-medicine/${props.medicine._id}`}
+              >
+                <Button color="primary" variant="contained">
+                  view alternatives
+                </Button>
+              </Link>
+            )}
           </OnlyAuthenticated>
           <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
             <Link
