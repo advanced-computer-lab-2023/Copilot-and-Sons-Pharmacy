@@ -19,6 +19,10 @@ import { OnlyAuthenticated } from './OnlyAuthenticated'
 import { Logout } from '@mui/icons-material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { useAuth } from '@/hooks/auth'
+import { ChatsProvider } from '@/providers/ChatsProvider'
+import { ChatsList } from './chats/ChatsList'
+// import { NotificationsList } from './notification'
 
 interface ListItemLinkProps {
   icon?: React.ReactElement
@@ -62,6 +66,8 @@ interface SidebarLink {
 }
 
 export function BaseLayout() {
+  const { user } = useAuth()
+
   const [sidebarLinks, setSidebarLinks] = useState<SidebarLink[]>([])
   const [openDrawer, setOpenDrawer] = useState(false)
 
@@ -73,7 +79,7 @@ export function BaseLayout() {
     setOpenDrawer(false)
   }
 
-  return (
+  const layout = (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
@@ -92,6 +98,12 @@ export function BaseLayout() {
               <MenuIcon />
             </IconButton>
             Pharmacy
+          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Typography>
+            <OnlyAuthenticated>
+              <ChatsList />
+            </OnlyAuthenticated>
           </Typography>
         </Toolbar>
       </AppBar>
@@ -146,4 +158,10 @@ export function BaseLayout() {
       </Box>
     </Box>
   )
+
+  if (user) {
+    return <ChatsProvider>{layout}</ChatsProvider>
+  } else {
+    return layout
+  }
 }

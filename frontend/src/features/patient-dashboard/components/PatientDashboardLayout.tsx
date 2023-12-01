@@ -6,6 +6,7 @@ import {
   Healing,
   LocalShipping,
   LocationCity,
+  MedicationOutlined,
   ShoppingCart,
   VpnKey,
 } from '@mui/icons-material'
@@ -56,6 +57,12 @@ export function PatientDashboardLayout() {
         to: '/patient-dashboard/orders',
         text: 'Orders',
         icon: <LocalShipping />,
+      },
+
+      {
+        to: '/patient-dashboard/pharmacists',
+        text: 'Chat With Pharmacists',
+        icon: <MedicationOutlined />,
       },
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps
