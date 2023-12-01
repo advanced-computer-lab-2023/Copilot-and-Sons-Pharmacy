@@ -6,6 +6,7 @@ import { viewCartService } from '../services/cartServices/viewCart.service'
 import { removeItemFromCartService } from '../services/cartServices/removeItemFromCart.service'
 import { changeCartItemQuantityService } from '../services/cartServices/changeCartItemQuantity.service'
 import { addPrescriptiontoCartService } from '../services/cartServices/addPrescriptiontoCartService'
+import { ClearCartService } from '../services/cartServices/clearCart.servivce'
 
 export const addToCart = asyncWrapper(async (req: Request, res: Response) => {
   const cart = await addToCartService(req.body, req.username)
@@ -23,6 +24,13 @@ export const removeItemFromCart = asyncWrapper(
       req.query.medicineId,
       req.username
     )
+    res.json({ success: SUCCESS, data: cart })
+  }
+)
+
+export const ClearAllItemsFromCart = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const cart = await ClearCartService(req.username)
     res.json({ success: SUCCESS, data: cart })
   }
 )

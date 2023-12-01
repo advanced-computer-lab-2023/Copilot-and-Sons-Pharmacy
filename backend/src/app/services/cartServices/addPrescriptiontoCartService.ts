@@ -24,13 +24,23 @@ export async function addPrescriptiontoCartService(
           medicineId: medicinetoAdd?._id,
           quantity: prescription?.medicine[i]?.quantity,
         },
-        username
+        username,
+        prescriptionId
       )
     }
   }
+
+  await PrescriptionModel.updateOne(
+    { _id: prescriptionId },
+    { $set: { isFilled: true } }
+  )
 }
 
-export async function addToCartMedicine(item: any, username: any) {
+export async function addToCartMedicine(
+  item: any,
+  username: any,
+  prescriptionId: any
+) {
   const { medicineId, quantity } = item
   const medicine = await Medicine.findById(medicineId)
 
@@ -41,8 +51,8 @@ export async function addToCartMedicine(item: any, username: any) {
   const patientUser = await userModel.findOne({ username })
   const user = await Patient.findOne({ user: patientUser?._id })
   const cart = await CartModel.findOne({ _id: user?.cart })
-  const medicineIndex = cart?.items.findIndex(
-    (item: any) => item.medicine == medicineId
+  const medicineIndex = cart?.items.findIndex((item: any) =>
+    item.medicine.equals(medicineId)
   )
 
   if (medicineIndex != undefined && medicineIndex > -1) {
@@ -51,6 +61,11 @@ export async function addToCartMedicine(item: any, username: any) {
     if (medicineItem != undefined && cart) {
       if (medicine.quantity < ~~quantity + ~~medicineItem.quantity)
         throw new APIError('this quantity is not available in stock', 404, FAIL)
+
+      if (medicineItem.byPrescription == null) {
+        medicineItem.byPrescription = prescriptionId
+      }
+
       medicineItem.quantity = ~~quantity + ~~medicineItem.quantity
 
       cart.items[medicineIndex] = medicineItem
@@ -58,7 +73,11 @@ export async function addToCartMedicine(item: any, username: any) {
   } else {
     if (medicine.quantity < ~~quantity)
       throw new APIError('this quantity is not available in stock', 404, FAIL)
-    cart?.items?.push({ medicine: medicineId, quantity, byPrescription: true })
+    cart?.items?.push({
+      medicine: medicineId,
+      quantity,
+      byPrescription: prescriptionId,
+    })
   }
 
   await cart?.save()

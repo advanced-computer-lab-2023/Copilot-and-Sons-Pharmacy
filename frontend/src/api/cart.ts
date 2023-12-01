@@ -41,3 +41,7 @@ export const updateQuantityApi = async (
     quantity: newquantity,
   })
 }
+
+export const clearCartApi = async () => {
+  return await api.post(`/cart/clear`)
+}
