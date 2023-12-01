@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Button, Container, Grid } from '@mui/material'
 import MedicineCard from '../../../components/MedicineCard'
-import { viewAllMedicines } from '../../../api/medicine'
+import {
+  viewAllMedicines,
+  viewUnarchivedMedicines,
+} from '../../../api/medicine'
 import IMedicine from '../../../types/medicine.type'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { OnlyAuthenticated } from '@/components/OnlyAuthenticated'
 import { toast } from 'react-toastify'
 import { addtoPrescriptionApi } from '@/api/doctor'
+import { useAuth } from '@/hooks/auth'
 
 const ViewAllMedicines = () => {
+  const { user } = useAuth()
   const [medicines, setMedicines] = useState([])
 
   const [prescriptionList, setPrescriptionList] = useState<any>([])
@@ -62,7 +67,12 @@ const ViewAllMedicines = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await viewAllMedicines()
+        let response = await viewAllMedicines()
+
+        if (user?.type === UserType.Patient) {
+          response = await viewUnarchivedMedicines()
+        }
+
         setMedicines(response.data.data)
       } catch (error) {
         console.error('Error fetching medicines: ', error)

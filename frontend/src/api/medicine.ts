@@ -8,6 +8,12 @@ export async function viewAllMedicines(): Promise<AxiosResponse> {
   return response
 }
 
+export async function viewUnarchivedMedicines(): Promise<AxiosResponse> {
+  const response = await api.get(`/medicine/unarchivedMedicines`)
+
+  return response
+}
+
 export async function viewAlternativeMedicine(
   id: string
 ): Promise<AxiosResponse> {

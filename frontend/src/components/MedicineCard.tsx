@@ -184,6 +184,16 @@ export default function MedicineCard(props: {
                 Edit
               </Button>
             </Link>
+            {props.medicine.status === 'unarchived' && (
+              <Button color="secondary" disabled={false} variant="contained">
+                Archive
+              </Button>
+            )}
+            {props.medicine.status === 'archived' && (
+              <Button color="secondary" disabled={false} variant="contained">
+                Unarchive
+              </Button>
+            )}
           </OnlyAuthenticated>
           <OnlyAuthenticated requiredUserType={UserType.Doctor}>
             <IconButton onClick={handleDecrementQuantity}>
