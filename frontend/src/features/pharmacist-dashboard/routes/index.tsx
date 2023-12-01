@@ -10,6 +10,7 @@ import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedici
 import ViewMedicineSalesAndQuantity from '@/features/medicine-dashboard/routes/ViewMedicineSalesAndQuantity'
 import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
 import ChangePassword from '@/features/auth/routes/ChangePassowrd'
+import { ChatWithDoctors } from './ChatWithDoctors'
 
 export const pharmacistDashboardRoutes: RouteObject[] = [
   {
@@ -55,6 +56,8 @@ export const pharmacistDashboardRoutes: RouteObject[] = [
           { path: 'allUses/:name', element: <FilteredMedicines /> },
         ],
       },
+
+      { path: 'doctors', element: <ChatWithDoctors /> },
     ],
   },
 ]

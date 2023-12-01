@@ -26,6 +26,11 @@ export function DoctorDashboardLayout() {
         text: 'Filter By Medicinal Use',
         icon: <Healing />,
       },
+      {
+        to: '/Doctor-dashboard/pharmacists',
+        text: 'Chat with Pharmacists',
+        icon: <Healing />,
+      },
     ])
   }, [setSidebarLinks])
 
