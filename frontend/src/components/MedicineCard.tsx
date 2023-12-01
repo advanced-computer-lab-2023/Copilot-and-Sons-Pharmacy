@@ -2,13 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import {
-  CardActions,
-  Button,
-  Paper,
-  IconButton,
-  TextField,
-} from '@mui/material'
+import { CardActions, Button, IconButton, TextField } from '@mui/material'
 import IMedicine from '../types/medicine.type'
 import { Link } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -36,33 +30,36 @@ function BuyButton(props: { medicine: IMedicine }) {
       prescriptionButton.addEventListener('click', () => {
         console.log('User has prescription')
       })
-      toast.warning(
-        <Paper>
-          <h4>This medicine requires a prescription.</h4>
-          <div style={{ marginTop: '8px' }}>
-            <Button
-              variant="outlined"
-              fullWidth
-              color="success"
-              style={{ marginBottom: '10px' }}
-              onClick={handlePrescriptionClick}
-            >
-              Have Prescription
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              fullWidth
-              onClick={() => toast.dismiss()}
-            >
-              Close
-            </Button>
-          </div>
-        </Paper>,
-        {
-          position: toast.POSITION.TOP_RIGHT,
-        }
-      )
+      // toast.warning(
+      //   <Paper>
+      //     <h4>This medicine requires a prescription.</h4>
+      //     <div style={{ marginTop: '8px' }}>
+      //       <Button
+      //         variant="outlined"
+      //         fullWidth
+      //         color="success"
+      //         style={{ marginBottom: '10px' }}
+      //         onClick={handlePrescriptionClick}
+      //       >
+      //         Have Prescription
+      //       </Button>
+      //       <Button
+      //         variant="outlined"
+      //         color="error"
+      //         fullWidth
+      //         onClick={() => toast.dismiss()}
+      //       >
+      //         Close
+      //       </Button>
+      //     </div>
+      //   </Paper>,
+      //   {
+      //     position: toast.POSITION.TOP_RIGHT,
+      //   }
+      // )
+      toast.error('This medicine requires a prescription.', {
+        position: 'top-right',
+      })
 
       return
     }
@@ -215,10 +212,10 @@ export default function MedicineCard(props: {
   )
 }
 
-function handlePrescriptionClick(): void {
-  console.log('User has prescription')
-  toast.dismiss()
-  toast.error('Sorry we can not accept a prescription now', {
-    position: 'top-right',
-  })
-}
+// function handlePrescriptionClick(): void {
+//   console.log('User has prescription')
+//   toast.dismiss()
+//   toast.error('Sorry we can not accept a prescription now', {
+//     position: 'top-right',
+//   })
+// }
