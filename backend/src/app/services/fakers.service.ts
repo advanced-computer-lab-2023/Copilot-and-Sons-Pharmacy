@@ -8,6 +8,7 @@ import { UserType } from 'pharmacy-common/types/user.types'
 import { hash } from 'bcrypt'
 import { CartModel } from '../schemas/cart.model'
 import { bcryptSalt } from '../config'
+import mongoose from 'mongoose'
 
 // Generate a random long number to be used in usernames to avoid duplicated usernames
 function randomLongId() {
@@ -34,6 +35,15 @@ export async function createFakeAdmin({
 }: {
   username?: string
 } = {}) {
+  const exists = await User.exists({ username })
+
+  if (exists) {
+    const user = await User.findOne({ username })
+    const admin = await Administrator.findOne({ user: user?._id })
+
+    return await admin?.populate('user')
+  }
+
   const user = await User.create({
     username,
     password: await hash('admin', bcryptSalt),
@@ -55,6 +65,15 @@ export async function createFakePharmacist({
   username?: string
   status?: string
 } = {}) {
+  const exists = await User.exists({ username })
+
+  if (exists) {
+    const user = await User.findOne({ username })
+    const pharmacist = await Pharmacist.findOne({ user: user?._id })
+
+    return await pharmacist?.populate('user')
+  }
+
   const user = await User.create({
     username,
     password: await hash('pharmacist', bcryptSalt),
@@ -98,6 +117,15 @@ export async function createFakePatient({
 }: {
   username?: string
 } = {}) {
+  const exists = await User.exists({ username })
+
+  if (exists) {
+    const user = await User.findOne({ username })
+    const patient = await Patient.findOne({ user: user?._id })
+
+    return await patient?.populate('user')
+  }
+
   const user = await User.create({
     username,
     password: await hash('patient', bcryptSalt),
@@ -163,8 +191,14 @@ export async function createFakeMedicine() {
   })
 }
 
-export async function seed() {
-  //mongoose.connection.db.dropDatabase()
+export async function seed({
+  dropDatabase = false,
+}: {
+  dropDatabase?: boolean
+} = {}) {
+  if (dropDatabase) {
+    mongoose.connection.db.dropDatabase()
+  }
 
   const admin = await createFakeAdmin({ username: 'admin' })
   const pharmacist = await createFakePharmacist({ username: 'pharmacist' })
