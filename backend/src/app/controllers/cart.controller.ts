@@ -5,6 +5,7 @@ import { SUCCESS } from '../utils/httpStatusText'
 import { viewCartService } from '../services/cartServices/viewCart.service'
 import { removeItemFromCartService } from '../services/cartServices/removeItemFromCart.service'
 import { changeCartItemQuantityService } from '../services/cartServices/changeCartItemQuantity.service'
+import { addPrescriptiontoCartService } from '../services/cartServices/addPrescriptiontoCartService'
 
 export const addToCart = asyncWrapper(async (req: Request, res: Response) => {
   const cart = await addToCartService(req.body, req.username)
@@ -29,6 +30,16 @@ export const removeItemFromCart = asyncWrapper(
 export const changeCartItemQuantity = asyncWrapper(
   async (req: Request, res: Response) => {
     const cart = await changeCartItemQuantityService(req.body, req.username)
+    res.json({ success: SUCCESS, data: cart })
+  }
+)
+
+export const addPrescriptiontoCart = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const cart = await addPrescriptiontoCartService(
+      req.body.prescriptionId,
+      req.username
+    )
     res.json({ success: SUCCESS, data: cart })
   }
 )

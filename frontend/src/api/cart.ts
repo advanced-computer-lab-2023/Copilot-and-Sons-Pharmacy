@@ -5,7 +5,7 @@ export async function addToCartApi(medicineId: any, quantity: number) {
 }
 
 export async function fetchCartApi() {
-  return await api.get('http://localhost:3000/api/cart/view')
+  return await api.get('/cart/view')
 }
 
 export const removeFromCartApi = async (productId: any) => {
