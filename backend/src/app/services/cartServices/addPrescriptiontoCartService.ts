@@ -50,7 +50,13 @@ export async function addToCartMedicine(
 
   const patientUser = await userModel.findOne({ username })
   const user = await Patient.findOne({ user: patientUser?._id })
-  const cart = await CartModel.findOne({ _id: user?.cart })
+  let cart = await CartModel.findOne({ _id: user?.cart })
+
+  if (cart == undefined && patientUser != null && patientUser != undefined) {
+    console.log('Creating a new cart...')
+    cart = await createNewCart(user)
+  }
+
   const medicineIndex = cart?.items.findIndex((item: any) =>
     item.medicine.equals(medicineId)
   )
@@ -83,4 +89,13 @@ export async function addToCartMedicine(
   await cart?.save()
 
   return cart
+}
+
+async function createNewCart(patientUser: any) {
+  const newCart = new CartModel({ items: [] })
+  await newCart.save()
+  patientUser.cart = newCart._id
+  await patientUser.save()
+
+  return newCart
 }
