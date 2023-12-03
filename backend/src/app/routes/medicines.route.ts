@@ -1,5 +1,7 @@
 import {
   addMedicine,
+  filterReportByDate,
+  filterReportByMonth,
   getAllMedicines,
   medicinalUses,
   patchWallet,
@@ -26,5 +28,8 @@ router
 
 router.route('/wallet/:totalMoney').patch(patchWallet)
 router.route('/viewAlternatives/:id').get(viewAlternatives)
+
+router.route('/salesReportByDate').get(filterReportByDate)
+router.route('/salesReportByMonth').get(filterReportByMonth)
 
 export default router

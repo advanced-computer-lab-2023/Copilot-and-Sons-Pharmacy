@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
+import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy'
 
 export function AdminDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -20,6 +21,11 @@ export function AdminDashboardLayout() {
         to: '/admin-dashboard/remove-user',
         text: 'Remove User',
         icon: <PersonRemove />,
+      },
+      {
+        to: '/medicines/sales-and-quantity',
+        text: 'view Sales and Quantity',
+        icon: <LocalPharmacyIcon />,
       },
       {
         to: '/admin-dashboard/get-approved-pharmacists',
