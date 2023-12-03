@@ -13,6 +13,7 @@ import debugRouter from './app/controllers/debug.controller'
 import { deliveryAddressRouter } from './app/controllers/deliveryAddress.controller'
 import { authRouter } from './app/controllers/auth.controller'
 import { authenticate } from './app/middlewares/auth.middleware'
+import { logger } from './app/middlewares/logger.middleware'
 import orderRouter from './app/routes/order.route'
 import asyncWrapper from './app/middlewares/asyncWrapper'
 import { chatsRouter } from './app/controllers/chats.controller'
@@ -21,6 +22,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(logger)
 app.use(asyncWrapper(authenticate))
 
 app.use('/api/medicine', medicinesRoute)
