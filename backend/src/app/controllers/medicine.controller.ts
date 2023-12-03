@@ -9,10 +9,20 @@ import { getAllMedicinalUses } from '../services/medicine/getAllMedicinalUses'
 import getPatientByUsername from '../services/getPatient.service'
 import { APIError, NotFoundError } from '../errors'
 import { viewAlternativeMedicine } from '../services/viewAlternativeMedicine'
+import { archiveMedicineService } from '../services/medicine/archiveMedicine.service'
+import { unarchiveMedicineService } from '../services/medicine/unarchiveMedicine.service'
+import { fetchUnarchivedMedicines } from '../services/medicine/fetchUnarchivedMedicines.service'
 
 export const getAllMedicines = asyncWrapper(
   async (req: Request, res: Response) => {
     const medicines = await fetchAllMedicines()
+    res.status(200).json({ success: SUCCESS, data: medicines })
+  }
+)
+
+export const getUnarchivedMedicines = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const medicines = await fetchUnarchivedMedicines()
     res.status(200).json({ success: SUCCESS, data: medicines })
   }
 )
@@ -72,5 +82,19 @@ export const viewAlternatives = asyncWrapper(
     }
 
     res.send({ success: SUCCESS, data: alternatives })
+  }
+)
+
+export const archiveMedicine = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const medicine = await archiveMedicineService(req.params.name)
+    res.json({ success: SUCCESS, data: medicine })
+  }
+)
+
+export const unarchiveMedicine = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const medicine = await unarchiveMedicineService(req.params.name)
+    res.json({ success: SUCCESS, data: medicine })
   }
 )

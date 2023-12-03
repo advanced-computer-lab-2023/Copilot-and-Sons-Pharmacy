@@ -5,6 +5,9 @@ import {
   patchWallet,
   viewAlternatives,
   viewMedicinesQuantityAndSales,
+  archiveMedicine,
+  unarchiveMedicine,
+  getUnarchivedMedicines,
 } from '../controllers/medicine.controller'
 import express from 'express'
 import { editMedicine } from '../controllers/medicine.controller'
@@ -26,5 +29,8 @@ router
 
 router.route('/wallet/:totalMoney').patch(patchWallet)
 router.route('/viewAlternatives/:id').get(viewAlternatives)
+router.route('/archiveMedicine/:name').patch(archiveMedicine)
+router.route('/unarchiveMedicine/:name').patch(unarchiveMedicine)
+router.route('/unarchivedMedicines').get(getUnarchivedMedicines)
 
 export default router
