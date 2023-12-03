@@ -43,10 +43,33 @@ export async function login(request: LoginRequest): Promise<LoginResponse> {
 
 export async function getCurrentUser(): Promise<GetCurrentUserResponse> {
   if (!localStorage.getItem('token')) {
+    console.log('no token ')
+
     return Promise.reject('No token found')
   }
 
   return await api
     .get<GetCurrentUserResponse>(`/auth/me`)
     .then((res) => res.data)
+}
+
+export async function ForgetPasswordEmail(values: any) {
+  return await api.post('/patient/requestOtp', values)
+}
+
+export async function ForgetPasswordVerifyOtp(value: any, otp: any) {
+  return await api.post('/patient/verifyOtp', {
+    email: value,
+    otp,
+  })
+}
+
+export async function ForgetPasswordUpdatePassword(
+  email: any,
+  newPassword: any
+) {
+  return await api.put('/patient/updatePassword', {
+    email,
+    newPassword,
+  })
 }

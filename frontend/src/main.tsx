@@ -17,6 +17,34 @@ const queryClient = new QueryClient()
 
 const router = createBrowserRouter(routes)
 
+// Get the current URL
+const currentUrl = new URL(window.location.href)
+
+// Check if the "patientusername" parameter exists
+const usernameParam = currentUrl.searchParams.get('patientusername')
+console.log(usernameParam)
+
+if (usernameParam) {
+  // If the parameter exists, save it in localStorage
+  localStorage.setItem('patientUsername', usernameParam)
+}
+
+const PrescriptionId = currentUrl.searchParams.get('PrescriptionId')
+console.log(PrescriptionId)
+
+if (PrescriptionId) {
+  // If the parameter exists, save it in localStorage
+  localStorage.setItem('PrescriptionId', PrescriptionId)
+}
+
+const token = currentUrl.searchParams.get('token')
+console.log(token)
+
+if (token) {
+  // If the parameter exists, save it in localStorage
+  localStorage.setItem('token', token)
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <React.StrictMode>

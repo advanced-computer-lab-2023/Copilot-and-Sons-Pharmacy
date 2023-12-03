@@ -6,7 +6,15 @@ import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedici
 import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
+import ChangePassword from '@/features/auth/routes/ChangePassowrd'
+
+import AllOrders from '@/features/patient-dashboard/routes/AllOrders'
+
 import Checkout from '@/features/patient-dashboard/routes/Checkout'
+import ViewOrder from './ViewOrder'
+import { ViewAlternativeMedicine } from '@/features/medicine-dashboard/routes/ViewAlternativeMedicine'
+// import { PrescriptionCheckout } from './PrescriptionCheckout'
+import GetApprovedPharmacists from '@/features/admin-dashboard/routes/GetApprovedPharmacists'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
@@ -17,9 +25,26 @@ export const patientDashboardRoutes: RouteObject[] = [
         element: <PatientDashboardHome />,
       },
       {
+        path: 'change-password',
+        element: <ChangePassword />,
+      },
+      {
         path: 'delivery-addresses',
         element: <DeliveryAddresses />,
       },
+
+      {
+        path: 'orders',
+        element: <AllOrders />,
+      },
+      {
+        path: 'viewOrder/:id',
+        element: <ViewOrder />,
+      },
+      // {
+      //   path: 'prescriptionCheckout',
+      //   element: < PrescriptionCheckout/>,
+      // },
       {
         path: 'medicines',
         children: [
@@ -43,7 +68,16 @@ export const patientDashboardRoutes: RouteObject[] = [
             path: 'checkout/:jsonString',
             element: <Checkout />,
           },
+
+          {
+            path: 'view-alternative-medicine/:id',
+            element: <ViewAlternativeMedicine />,
+          },
         ],
+      },
+      {
+        path: 'pharmacists',
+        element: <GetApprovedPharmacists />,
       },
     ],
   },

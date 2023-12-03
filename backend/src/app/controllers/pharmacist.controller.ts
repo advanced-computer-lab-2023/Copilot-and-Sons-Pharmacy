@@ -4,7 +4,10 @@ import { addPharmacistService } from '../services/addPharmacist.service'
 import { allowAdmins } from '../middlewares/auth.middleware'
 import { acceptPharmacist } from '../services/acceptPharmacist.service'
 import { SUCCESS } from '../utils/httpStatusText'
-import { rejectPharmacist } from '../services/rejectPharmacist.service'
+import {
+  getPharmacistService,
+  rejectPharmacist,
+} from '../services/rejectPharmacist.service'
 
 export const addPharmacist = asyncWrapper(
   async (req: Request, res: Response) => {
@@ -38,5 +41,13 @@ export const rejectPharmacistRequest = asyncWrapper(async (req, res) => {
     success: SUCCESS,
     message: 'Pharmacist Request rejected successfully',
     name,
+  })
+})
+
+export const getPharmacist = asyncWrapper(async (req, res) => {
+  const pharmacist = await getPharmacistService(req.params.username)
+  res.json({
+    success: SUCCESS,
+    pharmacist,
   })
 })

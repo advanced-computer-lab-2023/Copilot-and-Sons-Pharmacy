@@ -7,3 +7,16 @@ export async function addOrderApi(order: any) {
 export async function getPatientApi(username: any) {
   return await api.get(`/patient/getPatient/${username}`)
 }
+
+export async function getAllOrders() {
+  return await api.get(`/order/orders`)
+}
+
+
+export async function getOrderDetails(id: string) {
+  return await api.get(`/order//viewOrder/${id}`)
+}
+
+export async function cancelOrderApi(id: any) {
+  return await api.get(`/order/cancelOrder/${id}`)
+}

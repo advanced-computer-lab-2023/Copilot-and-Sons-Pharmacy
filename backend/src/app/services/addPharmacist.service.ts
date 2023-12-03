@@ -7,6 +7,10 @@ import { AddPharmacistRequest } from 'pharmacy-common/types/pharmacist.types'
 import FireBase from '../../../../firebase.config'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
 import { getDownloadURL } from 'firebase/storage'
+import bcrypt from 'bcryptjs'
+import { JwtPayload, generateJWTToken } from './auth.service'
+import { bcryptSalt } from '../config'
+
 type Pharmacist = {
   user: IUser
   username: string
@@ -34,6 +38,14 @@ export const addPharmacistService = async (
     throw new AppError('Pharmacist with this email already exists', 400, FAIL)
   }
 
+  if (pharmacist.documents.length != 3) {
+    throw new AppError(
+      'Please upload your ID, medical license and degree',
+      400,
+      FAIL
+    )
+  }
+
   console.log('DOCUMENTS', pharmacist.documents)
 
   const existingUsername = await User.findOne({ username: pharmacist.username })
@@ -46,9 +58,11 @@ export const addPharmacistService = async (
     )
   }
 
+  const hashedPassword = await bcrypt.hash(pharmacist.password, bcryptSalt)
+
   const user = new User({
     username: pharmacist.username,
-    password: pharmacist.password,
+    password: hashedPassword,
     type: UserType.Pharmacist,
   })
   await user.save()
@@ -58,7 +72,7 @@ export const addPharmacistService = async (
 
   for (let i = 0; i < pharmacist.documents.length; i++) {
     const fileRef = ref(storageRef, pharmacist.name + [i])
-    uploadBytes(fileRef, pharmacist.documents[i].buffer, {
+    await uploadBytes(fileRef, pharmacist.documents[i].buffer, {
       contentType: pharmacist.documents[i].mimetype,
     })
     const fullPath = await getDownloadURL(fileRef)
@@ -83,5 +97,5 @@ export const addPharmacistService = async (
   })
   await newPharmacist.save()
 
-  return newPharmacist
+  return await generateJWTToken(new JwtPayload(pharmacist.username))
 }

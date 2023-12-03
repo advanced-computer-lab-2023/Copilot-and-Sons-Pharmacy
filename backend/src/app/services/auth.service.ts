@@ -6,7 +6,11 @@ import { APIError, NotFoundError } from '../errors'
 import { UserType } from 'pharmacy-common/types/user.types'
 import Pharmacist from '../schemas/pharmacist'
 import { PharmacistStatus } from 'pharmacy-common/types/pharmacist.types'
-import { bcryptSalt, jwtSecret } from '../config'
+
+const jwtSecret = process.env.JWT_TOKEN ?? 'secret'
+
+export const bcryptSalt =
+  process.env.BCRYPT_SALT ?? '$2b$10$13bXTGGukQXsCf5hokNe2u'
 
 export class JwtPayload {
   constructor(public username: string) {}

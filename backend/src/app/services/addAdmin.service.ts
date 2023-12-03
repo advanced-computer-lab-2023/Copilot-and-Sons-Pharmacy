@@ -10,14 +10,21 @@ import { bcryptSalt } from '../config'
 type Info = {
   username: string
   password: string
+  email: string
 }
 
 export const addAdminService = async (info: Info) => {
-  const { username, password } = info
+  const { username, password, email } = info
   const userDuplicate = await User.findOne({ username })
 
   if (userDuplicate) {
     throw new AppError('User already exists', 409, ERROR)
+  }
+
+  const existingEmail = await Administrator.findOne({ email })
+
+  if (existingEmail) {
+    throw new AppError('Admin with this email already exists', 409, ERROR)
   }
 
   const hashedPassword = await bcrypt.hash(password, bcryptSalt)
@@ -31,6 +38,7 @@ export const addAdminService = async (info: Info) => {
 
   const newAdmin = new Administrator({
     user: user._id,
+    email,
   })
   await newAdmin.save()
 

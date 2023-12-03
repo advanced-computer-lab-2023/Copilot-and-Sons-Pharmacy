@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
-import { SUCCESS } from '../utils/httpStatusText'
-import { fetchAllMedicines } from '../services/fetchAllMedicines.service'
+import { FAIL, SUCCESS } from '../utils/httpStatusText'
+import { fetchAllMedicines } from '../services/medicine/fetchAllMedicines.service'
 import asyncWrapper from '../middlewares/asyncWrapper'
-import { viewMedicineQuantityAndSales } from '../services/viewQuantityAndSales.service'
-import { addMedicineService } from '../services/addMedicine.service'
-import { editMedicineService } from '../services/editMedicine.service'
-import { getAllMedicinalUses } from '../services/getAllMedicinalUses'
+import { viewMedicineQuantityAndSales } from '../services/medicine/viewQuantityAndSales.service'
+import { addMedicineService } from '../services/medicine/addMedicine.service'
+import { editMedicineService } from '../services/medicine/editMedicine.service'
+import { getAllMedicinalUses } from '../services/medicine/getAllMedicinalUses'
 import getPatientByUsername from '../services/getPatient.service'
 import { APIError, NotFoundError } from '../errors'
+import { viewAlternativeMedicine } from '../services/viewAlternativeMedicine'
 
 export const getAllMedicines = asyncWrapper(
   async (req: Request, res: Response) => {
@@ -40,7 +41,10 @@ export const viewMedicinesQuantityAndSales = asyncWrapper(
 
 export const editMedicine = asyncWrapper(
   async (req: Request, res: Response) => {
-    const medicine = await editMedicineService(req.params.name, req.body.edits)
+    const medicine = await editMedicineService(req.params.name, {
+      ...req.body,
+      Image: req.file,
+    })
     res.json({ success: SUCCESS, data: medicine })
   }
 )
@@ -50,10 +54,23 @@ export const patchWallet = asyncWrapper(async (req: Request, res: Response) => {
   const totalMoney = parseInt(req.params.totalMoney)
   const userName = req.username
   const patient = await getPatientByUsername(userName!)
-  if (!patient || !patient.walletMoney) throw new NotFoundError()
+  // added == undefined because if the walletMoney is 0, it was giving not found
+  if (!patient || patient.walletMoney == undefined) throw new NotFoundError()
   if (patient.walletMoney - totalMoney < 0)
     throw new APIError('Not enough money in wallet', 400)
   patient.walletMoney -= totalMoney
   patient.save()
   res.send({ success: SUCCESS, data: patient.walletMoney })
 })
+
+export const viewAlternatives = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const alternatives = await viewAlternativeMedicine(req.params.id)
+
+    if (!alternatives) {
+      throw new APIError('no alternatives available', 400, FAIL)
+    }
+
+    res.send({ success: SUCCESS, data: alternatives })
+  }
+)

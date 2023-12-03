@@ -10,12 +10,19 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  IconButton,
 } from '@mui/material'
-
+import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { OnlyAuthenticated } from './OnlyAuthenticated'
 import { Logout } from '@mui/icons-material'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { useAuth } from '@/hooks/auth'
+import { ChatsProvider } from '@/providers/ChatsProvider'
+import { ChatsList } from './chats/ChatsList'
+// import { NotificationsList } from './notification'
 
 interface ListItemLinkProps {
   icon?: React.ReactElement
@@ -59,21 +66,48 @@ interface SidebarLink {
 }
 
 export function BaseLayout() {
-  const [sidebarLinks, setSidebarLinks] = useState<SidebarLink[]>([])
+  const { user } = useAuth()
 
-  return (
+  const [sidebarLinks, setSidebarLinks] = useState<SidebarLink[]>([])
+  const [openDrawer, setOpenDrawer] = useState(false)
+
+  const handleDrawerOpen = () => {
+    setOpenDrawer(true)
+  }
+
+  const handleDrawerClose = () => {
+    setOpenDrawer(false)
+  }
+
+  const layout = (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={!openDrawer ? handleDrawerOpen : handleDrawerClose}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
             Pharmacy
+          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Typography>
+            <OnlyAuthenticated>
+              <ChatsList />
+            </OnlyAuthenticated>
           </Typography>
         </Toolbar>
       </AppBar>
+
       <Drawer
         sx={{
           width: drawerWidth,
@@ -83,8 +117,10 @@ export function BaseLayout() {
             boxSizing: 'border-box',
           },
         }}
-        variant="permanent"
+        variant="temporary"
         anchor="left"
+        open={openDrawer}
+        onClose={handleDrawerClose}
       >
         <Toolbar />
         <Divider />
@@ -105,29 +141,6 @@ export function BaseLayout() {
               icon={<Logout />}
             />
           </OnlyAuthenticated>
-
-          {/* 
-          <ListItemLink
-            to="/pharmacist-dashboard"
-            primary="pharmacist"
-            icon={<PersonIcon />}
-          />
-          <ListItemLink
-            to="/patient-dashboard"
-            primary="patient"
-            icon={<PersonIcon />}
-          />
-
-          <ListItemLink
-            to="/admin-dashboard"
-            primary="admin"
-            icon={<AdminPanelSettingsIcon />}
-          />
-          <ListItemLink
-            to="/auth/register"
-            primary="Authorization"
-            icon={<AppRegistrationIcon />}
-          /> */}
         </List>
       </Drawer>
       <Box
@@ -135,12 +148,20 @@ export function BaseLayout() {
         sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
       >
         <Toolbar />
-        <Outlet
-          context={
-            { setSidebarLinks, sidebarLinks } satisfies OutletContextType
-          }
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Outlet
+            context={
+              { setSidebarLinks, sidebarLinks } satisfies OutletContextType
+            }
+          />
+        </LocalizationProvider>
       </Box>
     </Box>
   )
+
+  if (user) {
+    return <ChatsProvider>{layout}</ChatsProvider>
+  } else {
+    return layout
+  }
 }

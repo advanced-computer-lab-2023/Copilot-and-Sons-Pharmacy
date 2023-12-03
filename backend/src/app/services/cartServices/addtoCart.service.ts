@@ -17,8 +17,8 @@ export async function addToCartService(item: any, username: any) {
   const patientUser = await userModel.findOne({ username })
   const user = await Patient.findOne({ user: patientUser?._id })
   const cart = await CartModel.findOne({ _id: user?.cart })
-  const medicineIndex = cart?.items.findIndex(
-    (item: any) => item.medicine == medicineId
+  const medicineIndex = cart?.items.findIndex((item: any) =>
+    item.medicine.equals(medicineId)
   )
 
   if (medicineIndex != undefined && medicineIndex > -1) {
@@ -36,7 +36,7 @@ export async function addToCartService(item: any, username: any) {
       throw new APIError('this medicine requires Prescription', 404, FAIL)
     else if (medicine.quantity < ~~quantity)
       throw new APIError('this quantity is not available in stock', 404, FAIL)
-    cart?.items?.push({ medicine: medicineId, quantity })
+    cart?.items?.push({ medicine: medicineId, quantity, byPrescription: null })
   }
 
   await cart?.save()

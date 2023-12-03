@@ -2,7 +2,14 @@ import { Container } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useSidebar } from '../../../hooks/sidebar'
-import { Healing, LocationCity, ShoppingCart } from '@mui/icons-material'
+import {
+  Healing,
+  LocalShipping,
+  LocationCity,
+  MedicationOutlined,
+  ShoppingCart,
+  VpnKey,
+} from '@mui/icons-material'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
 import CartDrawer from '../routes/CartDrawer'
@@ -39,8 +46,24 @@ export function PatientDashboardLayout() {
         text: 'Delivery Addresses',
         icon: <LocationCity />,
       },
+      {
+        to: '/patient-dashboard/change-password',
+        text: 'Change Password',
+        icon: <VpnKey />,
+      },
 
       { action: toggleCart, text: 'Cart', icon: <ShoppingCart /> },
+      {
+        to: '/patient-dashboard/orders',
+        text: 'Orders',
+        icon: <LocalShipping />,
+      },
+
+      {
+        to: '/patient-dashboard/pharmacists',
+        text: 'Chat With Pharmacists',
+        icon: <MedicationOutlined />,
+      },
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSidebarLinks])

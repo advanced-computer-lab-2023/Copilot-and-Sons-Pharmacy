@@ -6,9 +6,21 @@ export async function viewAllPatients() {
   return response.data
 }
 
+export async function requestOtpToResetPassword(email: JSON) {
+  const response = await api.post<{ data: any[] }>('/patient/requestOtp', {
+    email,
+  })
+
+  return response.data
+}
+
 export async function viewPatientInfo(id: string) {
   console.log('hey I entered')
   const response = await api.get(`/admin/patientInfo/${id}`)
 
   return response.data
+}
+
+export async function addPrescriptionToCart(prescriptionId: any) {
+  return api.post('/cart/addPrescriptiontoCart', { prescriptionId })
 }

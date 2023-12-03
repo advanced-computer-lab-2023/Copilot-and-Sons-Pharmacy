@@ -1,9 +1,9 @@
-import { IMedicine } from './../schemas/medicine.model'
+import { IMedicine } from '../../schemas/medicine.model'
 import { IAddMedicineRequest } from 'pharmacy-common/types/medicine.types'
-import Medicine from '../schemas/medicine.model'
-import AppError from '../utils/appError'
-import { ERROR } from '../utils/httpStatusText'
-import FireBase from '../../../../firebase.config'
+import Medicine from '../../schemas/medicine.model'
+import AppError from '../../utils/appError'
+import { ERROR } from '../../utils/httpStatusText'
+import FireBase from '../../../../../firebase.config'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
 import { getDownloadURL } from 'firebase/storage'
 
@@ -25,15 +25,10 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
 
     if (!Image) throw new AppError('No image provided', 400, ERROR)
     const fileRef = ref(storageRef, Date.now().toString())
-    uploadBytes(fileRef, Image.buffer, {
+
+    await uploadBytes(fileRef, Image.buffer, {
       contentType: Image.mimetype,
     })
-      .then((snapshot) => {
-        console.log('Uploaded a blob or file!', snapshot)
-      })
-      .catch((error) => {
-        console.log('Error uploading file:', error)
-      })
 
     const fullPath = await getDownloadURL(fileRef)
 
@@ -41,9 +36,11 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       name,
       price,
       description,
-      medicinalUse,
+      medicinalUse: medicinalUse.split(', ').map((item) => item.trim()),
       quantity,
-      activeIngredients,
+      activeIngredients: activeIngredients
+        .split(', ')
+        .map((item) => item.trim()),
       Image: fullPath.toString(),
     })
 

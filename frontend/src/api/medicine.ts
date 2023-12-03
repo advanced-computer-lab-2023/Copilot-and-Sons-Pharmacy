@@ -8,6 +8,15 @@ export async function viewAllMedicines(): Promise<AxiosResponse> {
   return response
 }
 
+export async function viewAlternativeMedicine(
+  id: string
+): Promise<AxiosResponse> {
+  console.log('here i am')
+  const response = await api.get(`/medicine/viewAlternatives/${id}`)
+
+  return response
+}
+
 export async function viewMedicinesQuantityAndSales(): Promise<AxiosResponse> {
   const response = await api.get(`/medicine/quantity-sales`)
 
@@ -35,9 +44,9 @@ export function useAddMedicineService() {
 }
 
 //Calling the editMedicine function using axios
-function editMedicineService(medicine: { name: any }) {
+function editMedicineService(data: any) {
   return api
-    .put(`/medicine/editMedicine/${medicine.name}`, medicine)
+    .put(`/medicine/editMedicine/${data.name}`, data.medicine)
     .then((response) => response)
     .catch((error) => {
       throw new Error(error)
@@ -52,6 +61,7 @@ export function useEditMedicineService() {
 
 export async function searchForMedicine(name: string) {
   const response = await api.get(`/admin/getMedicineByName/${name}`)
+  console.log('Hello world')
 
   return response.data
 }

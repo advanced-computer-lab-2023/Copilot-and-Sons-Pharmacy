@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import {
   TextField,
-  Button,
   Container,
   Typography,
   Grid,
@@ -16,12 +15,14 @@ import {
   FormLabel,
   Radio,
   FormControlLabel,
+  LinearProgress,
 } from '@mui/material'
 import {
   RegisterRequestValidator,
   emergencyContactValidator,
 } from '../../../validators/user.validator.ts'
 import { format, isDate } from 'date-fns'
+import LoadingButton from '@mui/lab/LoadingButton'
 type errors = {
   [key: string]: string
 }
@@ -59,24 +60,43 @@ const RegistrationForm: React.FC = () => {
   const [errors, setErrors] = useState<errors>({})
 
   const [emergencyContactError, setEmergencyError] = useState<errors>({})
+  const [activeStep, setActiveStep] = useState(0)
+
+  const steps = ['Personal Information', 'Emergency Contact']
+
+  const handleNext = () => {
+    setActiveStep((prevStep) => prevStep + 1)
+  }
+
+  const handleBack = () => {
+    setActiveStep((prevStep) => prevStep - 1)
+  }
+
+  const isLastStep = activeStep === steps.length - 1
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     try {
-      RegisterRequestValidator.parse(formData)
-      setErrors({})
-      setEmergencyError({})
+      if (isLastStep) {
+        // Validate and submit form
+        RegisterRequestValidator.parse(formData)
+        setErrors({})
+        setEmergencyError({})
 
-      try {
-        await registerUser(formData)
-        toast.success('Registration was successful!', {
-          position: 'top-right',
-        })
-      } catch (e: any) {
-        toast.error(e.response.data.message, {
-          position: 'top-right',
-        })
+        try {
+          await registerUser(formData)
+          toast.success('Registration was successful!', {
+            position: 'top-right',
+          })
+        } catch (e: any) {
+          toast.error(e.message, {
+            position: 'top-right',
+          })
+        }
+      } else {
+        // Move to the next step
+        handleNext()
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -86,15 +106,14 @@ const RegistrationForm: React.FC = () => {
 
           if (typeof fieldName === 'string') {
             if (fieldName.startsWith('emergencyContact.')) {
-              // Error in emergency contact fields
               const subField = fieldName.split('.')[1]
               emergencyContactError[subField] = validationError.message
             } else {
-              // Error in other fields
               fieldErrors[fieldName] = validationError.message
             }
           }
         })
+
         setErrors(fieldErrors)
         setEmergencyError(emergencyContactError)
       }
@@ -157,14 +176,10 @@ const RegistrationForm: React.FC = () => {
     }
   }
 
-  return (
-    <Container maxWidth="sm">
-      <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Register
-        </Typography>
-        <ToastContainer />
-        <form onSubmit={handleSubmit}>
+  const renderStep = () => {
+    switch (activeStep) {
+      case 0:
+        return (
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -242,7 +257,7 @@ const RegistrationForm: React.FC = () => {
                 helperText={errors.dateOfBirth}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{ textAlign: 'left' }}>
               <FormControl>
                 <FormLabel id="demo-controlled-radio-buttons-group">
                   Gender
@@ -279,6 +294,11 @@ const RegistrationForm: React.FC = () => {
                 helperText={errors.mobileNumber}
               />
             </Grid>
+          </Grid>
+        )
+      case 1:
+        return (
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -317,15 +337,53 @@ const RegistrationForm: React.FC = () => {
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ marginTop: 2 }}
-          >
-            Register
-          </Button>
+        )
+      default:
+        return null
+    }
+  }
+
+  return (
+    <Container maxWidth="sm">
+      <Box sx={{ marginTop: 4 }}>
+        {/* Progress Bar */}
+        <Typography variant="h4" align="center" gutterBottom>
+          Register
+        </Typography>
+        <ToastContainer />
+        {/* Progress Bar */}
+        <LinearProgress
+          variant="determinate"
+          value={(activeStep / (steps.length - 1)) * 100}
+        />
+
+        <Typography variant="h6" align="center" gutterBottom>
+          {steps[activeStep]}
+        </Typography>
+        <ToastContainer />
+        <form onSubmit={handleSubmit}>
+          {renderStep()}
+          <Grid container spacing={2} marginTop={'10px'}>
+            {isLastStep ? (
+              <LoadingButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
+                Register
+              </LoadingButton>
+            ) : null}
+          </Grid>
+
+          <div>
+            {activeStep > 0 && (
+              <LoadingButton onClick={handleBack}>Back</LoadingButton>
+            )}
+            {activeStep < steps.length - 1 && (
+              <LoadingButton onClick={handleNext}>Next</LoadingButton>
+            )}
+          </div>
         </form>
       </Box>
     </Container>

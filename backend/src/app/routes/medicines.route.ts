@@ -3,6 +3,7 @@ import {
   getAllMedicines,
   medicinalUses,
   patchWallet,
+  viewAlternatives,
   viewMedicinesQuantityAndSales,
 } from '../controllers/medicine.controller'
 import express from 'express'
@@ -18,11 +19,12 @@ const storage = multer.memoryStorage() // You can choose a different storage met
 const upload = multer({ storage })
 
 router.route('/addMedicine').post(upload.single('Image'), addMedicine)
-router.route('/editMedicine/:name').put(editMedicine)
+router.route('/editMedicine/:name').put(upload.single('Image'), editMedicine)
 router
   .route('/filterByMedicinalUse/:medicinalUse')
   .get(filterMedicineByMedicinalUse)
 
 router.route('/wallet/:totalMoney').patch(patchWallet)
+router.route('/viewAlternatives/:id').get(viewAlternatives)
 
 export default router
