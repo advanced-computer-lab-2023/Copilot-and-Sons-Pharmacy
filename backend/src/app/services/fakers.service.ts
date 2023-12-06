@@ -107,6 +107,10 @@ export async function createFakePharmacist({
         'Doctoral degree',
       ]),
     },
+    walletMoney: faker.number.int({
+      min: 10000,
+      max: 20000,
+    }),
   })
 
   return await pharmacist.populate('user')

@@ -51,3 +51,11 @@ export const getPharmacist = asyncWrapper(async (req, res) => {
     pharmacist,
   })
 })
+
+export const getWalletMoney = asyncWrapper(async (req, res) => {
+  const pharmacist = await getPharmacistService(req.username!)
+  res.json({
+    success: SUCCESS,
+    money: pharmacist!.walletMoney,
+  })
+})

@@ -25,3 +25,9 @@ export async function pharmacistRequest(formData: any) {
     },
   })
 }
+
+export async function getWalletMoney(): Promise<any> {
+  return await api
+    .get<any>(`/pharmacist/getWalletMoney`)
+    .then((res) => res.data)
+}
