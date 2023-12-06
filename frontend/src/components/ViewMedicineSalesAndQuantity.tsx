@@ -13,6 +13,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useMutation } from 'react-query'
 import { useAlerts } from '@/hooks/alerts'
+import { OnlyAuthenticated } from './OnlyAuthenticated'
+import { UserType } from 'pharmacy-common/types/user.types'
 
 const ViewMedicineSalesAndQuantityComponent = () => {
   const [medicines, setMedicines] = useState([])
@@ -89,20 +91,22 @@ const ViewMedicineSalesAndQuantityComponent = () => {
           margin: '10px',
         }}
       >
-        <LoadingButton
-          // loading={filterBy === 'date'}
-          onClick={() => {
-            setFilterBy('date')
-            setIsFiltering(false)
-            setDate(null)
-          }}
-          // variant="outlined"
-          style={{ margin: '10px' }}
-          variant={filterBy !== 'date' ? 'contained' : 'outlined'}
-          sx={{ margin: '10px' }}
-        >
-          Date Filter
-        </LoadingButton>
+        <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
+          <LoadingButton
+            // loading={filterBy === 'date'}
+            onClick={() => {
+              setFilterBy('date')
+              setIsFiltering(false)
+              setDate(null)
+            }}
+            // variant="outlined"
+            style={{ margin: '10px' }}
+            variant={filterBy !== 'date' ? 'contained' : 'outlined'}
+            sx={{ margin: '10px' }}
+          >
+            Date Filter
+          </LoadingButton>
+        </OnlyAuthenticated>
         <LoadingButton
           // loading={filterBy === 'month'}
           onClick={() => {
