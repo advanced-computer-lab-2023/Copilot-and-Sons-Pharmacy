@@ -2,6 +2,7 @@ import express from 'express'
 import {
   acceptPharmacistRequest,
   addPharmacist,
+  depositPharmacistSalary,
   getPharmacist,
   rejectPharmacistRequest,
 } from '../controllers/pharmacist.controller'
@@ -23,5 +24,6 @@ router
 router.route('/getPharmacist/:username').get(getPharmacist)
 router.route('/acceptPharmacistRequest/:id').patch(acceptPharmacistRequest)
 router.route('/rejectPharmacistRequest/:id').patch(rejectPharmacistRequest)
+router.route('/depositSalary/:id').patch(depositPharmacistSalary)
 
 export default router

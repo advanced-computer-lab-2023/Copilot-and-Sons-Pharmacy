@@ -15,6 +15,7 @@ import ViewOrder from './ViewOrder'
 import { ViewAlternativeMedicine } from '@/features/medicine-dashboard/routes/ViewAlternativeMedicine'
 // import { PrescriptionCheckout } from './PrescriptionCheckout'
 import GetApprovedPharmacists from '@/features/admin-dashboard/routes/GetApprovedPharmacists'
+import { Wallet } from './Wallet'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
@@ -78,6 +79,10 @@ export const patientDashboardRoutes: RouteObject[] = [
       {
         path: 'pharmacists',
         element: <GetApprovedPharmacists />,
+      },
+      {
+        path: 'wallet',
+        element: <Wallet />,
       },
     ],
   },

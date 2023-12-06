@@ -3,6 +3,7 @@ import { Container, Grid } from '@mui/material'
 import { useQuery } from 'react-query'
 import { CardPlaceholder } from '@/components/CardPlaceholder'
 import { getApprovedPharmacists } from '@/api/admin'
+import { ToastContainer } from 'react-toastify'
 
 const GetApprovedPharmacists = () => {
   const query = useQuery({
@@ -20,6 +21,7 @@ const GetApprovedPharmacists = () => {
 
   return (
     <Container>
+      <ToastContainer />
       {/* can replace container with civ */}
       {/* <div>
         {pharmacists && pharmacists.map((pharmacist) => (

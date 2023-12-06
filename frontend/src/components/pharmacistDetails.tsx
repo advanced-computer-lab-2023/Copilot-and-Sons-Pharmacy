@@ -13,6 +13,7 @@ import format from 'date-fns/format'
 import {
   acceptPharmacistRequest,
   rejectPharmacistRequest,
+  depositPharmacistSalary,
 } from '@/api/pharmacist'
 import { toast } from 'react-toastify'
 import { Stack } from '@mui/system'
@@ -64,6 +65,16 @@ export default function PharmacistDetails({
       success: 'Pharmacist Request Rejected Successfully!',
       error: 'error',
     })
+  }
+
+  function handleDepositSalary(id: any) {
+    depositPharmacistSalary(id)
+      .then(() => {
+        toast.success('Salary Deposited Successfully!')
+      })
+      .catch(() => {
+        toast.error('Error Depositing Salary!')
+      })
   }
 
   return (
@@ -170,7 +181,18 @@ export default function PharmacistDetails({
           </>
         )}
         {pharmacist.status === PharmacistStatus.Accepted && (
-          <ChatButton otherUsername={pharmacist.user.username} />
+          <>
+            <ChatButton otherUsername={pharmacist.user.username} />
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => {
+                handleDepositSalary(pharmacist._id)
+              }}
+            >
+              Deposit Salary
+            </Button>
+          </>
         )}
       </AccordionActions>
     </Accordion>

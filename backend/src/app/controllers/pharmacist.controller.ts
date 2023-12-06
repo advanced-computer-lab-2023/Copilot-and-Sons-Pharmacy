@@ -8,6 +8,7 @@ import {
   getPharmacistService,
   rejectPharmacist,
 } from '../services/rejectPharmacist.service'
+import { depositPharmacistSalaryService } from '../services/depositPharmacistSalary'
 
 export const addPharmacist = asyncWrapper(
   async (req: Request, res: Response) => {
@@ -49,5 +50,12 @@ export const getPharmacist = asyncWrapper(async (req, res) => {
   res.json({
     success: SUCCESS,
     pharmacist,
+  })
+})
+
+export const depositPharmacistSalary = asyncWrapper(async (req, res) => {
+  await depositPharmacistSalaryService(req.params.id)
+  res.json({
+    success: SUCCESS,
   })
 })

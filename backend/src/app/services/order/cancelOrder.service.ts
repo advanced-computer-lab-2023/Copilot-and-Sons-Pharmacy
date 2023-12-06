@@ -3,6 +3,7 @@ import { ERROR } from '../../utils/httpStatusText'
 import { OrderModel } from '../../schemas/order.model'
 import Medicine from '../../schemas/medicine.model'
 import { CartModel } from '../../schemas/cart.model'
+import Patient from '../../schemas/patient.schema'
 
 export const cancelOrderService = async (ID: string) => {
   const order = await OrderModel.findById(ID)
@@ -31,6 +32,21 @@ export const cancelOrderService = async (ID: string) => {
     medicine.quantity += item.quantity
     medicine.sales -= item.quantity
     await medicine.save()
+  }
+
+  // refund order total to wallet if payment method is wallet or card
+  if (
+    order.paymentMethod === 'Wallet' ||
+    order.paymentMethod === 'Credit card'
+  ) {
+    const patient = await Patient.findById(order.patientID)
+
+    if (!patient) {
+      throw new AppError('Patient not found', 404, ERROR)
+    }
+
+    patient.walletMoney += order.total
+    await patient.save()
   }
 
   order.status = 'cancelled'

@@ -9,6 +9,7 @@ import {
   MedicationOutlined,
   ShoppingCart,
   VpnKey,
+  Wallet,
 } from '@mui/icons-material'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -63,6 +64,11 @@ export function PatientDashboardLayout() {
         to: '/patient-dashboard/pharmacists',
         text: 'Chat With Pharmacists',
         icon: <MedicationOutlined />,
+      },
+      {
+        to: '/patient-dashboard/wallet',
+        text: 'Wallet',
+        icon: <Wallet />,
       },
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps

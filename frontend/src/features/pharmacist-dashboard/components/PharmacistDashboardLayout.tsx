@@ -4,7 +4,13 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
-import { Healing, LocalPharmacy, Message, VpnKey } from '@mui/icons-material'
+import {
+  Healing,
+  LocalPharmacy,
+  Message,
+  VpnKey,
+  Wallet,
+} from '@mui/icons-material'
 import { PharmacistStatus } from 'pharmacy-common/types/pharmacist.types'
 import { getPharmacist } from '@/api/pharmacist'
 import { useAuth } from '@/hooks/auth'
@@ -79,6 +85,11 @@ export function PharmacistDashboardLayout() {
         to: '/pharmacist-dashboard/doctors',
         text: 'Chat with Doctors',
         icon: <Message />,
+      },
+      {
+        to: '/pharmacist-dashboard/wallet',
+        text: 'Wallet',
+        icon: <Wallet />,
       },
     ])
   }, [setSidebarLinks, user, pharmacistQuery])
