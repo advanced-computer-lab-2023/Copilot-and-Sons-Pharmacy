@@ -43,6 +43,32 @@ export async function viewMedicinesQuantityAndSales(): Promise<AxiosResponse> {
   return response
 }
 
+export async function viewMedicinesQuantityAndSalesByMonth(
+  month: Date
+): Promise<AxiosResponse> {
+  console.log('here i am', month)
+  const response = await api.get(`/medicine/salesReportByMonth`, {
+    params: {
+      month: month.toString(),
+    },
+  })
+
+  return response
+}
+
+export async function viewMedicinesQuantityAndSalesByDate(
+  date: Date
+): Promise<AxiosResponse> {
+  console.log('here i am', date)
+  const response = await api.get(`/medicine/salesReportByDate`, {
+    params: {
+      date: date.toString(),
+    },
+  })
+
+  return response
+}
+
 //Calling the add Medicine function using axios
 function addMedicineService(formData: any) {
   return api

@@ -9,6 +9,10 @@ import { getAllMedicinalUses } from '../services/medicine/getAllMedicinalUses'
 import getPatientByUsername from '../services/getPatient.service'
 import { APIError, NotFoundError } from '../errors'
 import { viewAlternativeMedicine } from '../services/viewAlternativeMedicine'
+import {
+  searchReportByDate,
+  searchReportByMonth,
+} from '../services/medicine/salesReport.service'
 import { archiveMedicineService } from '../services/medicine/archiveMedicine.service'
 import { unarchiveMedicineService } from '../services/medicine/unarchiveMedicine.service'
 import { fetchUnarchivedMedicines } from '../services/medicine/fetchUnarchivedMedicines.service'
@@ -82,6 +86,20 @@ export const viewAlternatives = asyncWrapper(
     }
 
     res.send({ success: SUCCESS, data: alternatives })
+  }
+)
+
+export const filterReportByDate = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const medicines = await searchReportByDate(req.query.date as string)
+    res.status(200).json({ success: SUCCESS, data: medicines })
+  }
+)
+
+export const filterReportByMonth = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const medicines = await searchReportByMonth(req.query.month as string)
+    res.status(200).json({ success: SUCCESS, data: medicines })
   }
 )
 
