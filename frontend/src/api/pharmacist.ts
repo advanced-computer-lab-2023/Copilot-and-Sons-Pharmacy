@@ -26,8 +26,8 @@ export async function pharmacistRequest(formData: any) {
   })
 }
 
-export async function getWalletMoney(): Promise<any> {
+export async function depositPharmacistSalary(id: string) {
   return await api
-    .get<any>(`/pharmacist/getWalletMoney`)
+    .patch<any>(`/pharmacist/depositSalary/${id}`)
     .then((res) => res.data)
 }

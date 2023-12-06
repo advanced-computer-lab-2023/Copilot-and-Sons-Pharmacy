@@ -2,9 +2,9 @@ import express from 'express'
 import {
   acceptPharmacistRequest,
   addPharmacist,
+  depositPharmacistSalary,
   getPharmacist,
   rejectPharmacistRequest,
-  getWalletMoney,
 } from '../controllers/pharmacist.controller'
 import cors from 'cors'
 //import { pharmacistValidator } from '../validators/pharmacist.validator'
@@ -24,6 +24,6 @@ router
 router.route('/getPharmacist/:username').get(getPharmacist)
 router.route('/acceptPharmacistRequest/:id').patch(acceptPharmacistRequest)
 router.route('/rejectPharmacistRequest/:id').patch(rejectPharmacistRequest)
-router.route('/pharmacist/getWalletMoney').get(getWalletMoney)
+router.route('/depositSalary/:id').patch(depositPharmacistSalary)
 
 export default router
