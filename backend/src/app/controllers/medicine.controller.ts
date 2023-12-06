@@ -100,6 +100,8 @@ export const filterReportByMonth = asyncWrapper(
   async (req: Request, res: Response) => {
     const medicines = await searchReportByMonth(req.query.month as string)
     res.status(200).json({ success: SUCCESS, data: medicines })
+  }
+)
 
 export const archiveMedicine = asyncWrapper(
   async (req: Request, res: Response) => {
