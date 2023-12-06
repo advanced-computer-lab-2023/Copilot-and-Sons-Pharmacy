@@ -14,6 +14,43 @@ import { ToastContainer, toast } from 'react-toastify'
 import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
+import { archiveMedicineApi, unarchiveMedicineApi } from '@/api/medicine'
+
+function handleArchive(medicinename: string) {
+  return async () => {
+    try {
+      await archiveMedicineApi(medicinename)
+      toast.success('Archived Successfully!', {
+        position: 'top-right',
+      })
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    } catch (e: any) {
+      toast.error(e.message, {
+        position: 'top-right',
+      })
+    }
+  }
+}
+
+function handleUnarchive(medicinename: string) {
+  return async () => {
+    try {
+      await unarchiveMedicineApi(medicinename)
+      toast.success('Unarchived Successfully!', {
+        position: 'top-right',
+      })
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    } catch (e: any) {
+      toast.error(e.message, {
+        position: 'top-right',
+      })
+    }
+  }
+}
 
 function BuyButton(props: { medicine: IMedicine }) {
   const { addToCartProvider } = useCart()
@@ -181,6 +218,26 @@ export default function MedicineCard(props: {
                 Edit
               </Button>
             </Link>
+            {props.medicine.status === 'unarchived' && (
+              <Button
+                color="secondary"
+                disabled={false}
+                variant="contained"
+                onClick={handleArchive(props.medicine.name)}
+              >
+                Archive
+              </Button>
+            )}
+            {props.medicine.status === 'archived' && (
+              <Button
+                color="secondary"
+                disabled={false}
+                variant="contained"
+                onClick={handleUnarchive(props.medicine.name)}
+              >
+                Unarchive
+              </Button>
+            )}
           </OnlyAuthenticated>
           <OnlyAuthenticated requiredUserType={UserType.Doctor}>
             <IconButton onClick={handleDecrementQuantity}>
