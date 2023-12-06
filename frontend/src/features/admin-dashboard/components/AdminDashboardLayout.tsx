@@ -23,7 +23,7 @@ export function AdminDashboardLayout() {
         icon: <PersonRemove />,
       },
       {
-        to: '/medicines/sales-and-quantity',
+        to: '/admin-dashboard/sales-and-quantity',
         text: 'view Sales and Quantity',
         icon: <LocalPharmacyIcon />,
       },

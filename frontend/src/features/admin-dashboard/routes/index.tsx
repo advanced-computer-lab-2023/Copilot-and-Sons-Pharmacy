@@ -16,6 +16,7 @@ import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMed
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
 import ChangePassword from '@/features/auth/routes/ChangePassowrd'
+import ViewMedicineSalesAndQuantity from './ViewMedicineSalesAndQuantity'
 
 export const adminDashboardRoutes: RouteObject[] = [
   {
@@ -79,6 +80,10 @@ export const adminDashboardRoutes: RouteObject[] = [
       {
         path: 'viewPatients/info/:id',
         element: <PatientInfo />,
+      },
+      {
+        path: 'sales-and-quantity',
+        element: <ViewMedicineSalesAndQuantity />,
       },
     ],
   },
