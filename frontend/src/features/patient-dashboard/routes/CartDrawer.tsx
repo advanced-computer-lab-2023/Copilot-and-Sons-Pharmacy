@@ -297,7 +297,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                       {item.medicine.name}
                     </Typography>
                     <Typography variant="body2" style={{ fontSize: 14 }}>
-                      ${item.medicine.price * item.quantity}
+                      E£ {item.medicine.price * item.quantity}
                     </Typography>
                     <Typography variant="body2" style={{ fontSize: 12 }}>
                       Quantity: {item.quantity}
@@ -366,7 +366,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                   component="div"
                   style={{ fontWeight: 'bold' }}
                 >
-                  EGP {totalPrice.toFixed(2)}
+                  E£ {totalPrice.toFixed(2)}
                 </Typography>
               </CardContent>
             </Card>
