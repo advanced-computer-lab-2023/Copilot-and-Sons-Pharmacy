@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   Drawer,
   Button,
@@ -48,6 +48,8 @@ import {
 import { Box, Stack } from '@mui/system'
 import { ApiForm } from '@/components/ApiForm'
 import { AddDeliveryAddressValidator } from 'pharmacy-common/validators/deliveryAddress.validator'
+import { DialogContext } from '@/providers/DialogProvider'
+import Checkout from './Checkout'
 
 // import { useParams } from 'react-router-dom'
 
@@ -148,6 +150,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
 
   const [addressDialogOpen, setAddressDialogOpen] = useState(false)
   const [address, setAddress] = useState<DeliveryAddress>()
+  const { openDialog } = useContext(DialogContext)
   useEffect(() => {
     viewCart()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -257,11 +260,10 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
         date,
         address,
       }
-      const jsonString = JSON.stringify(order)
+      //const jsonString = JSON.stringify(order)
       //navigate to checkout page
-      window.location.href = `/patient-dashboard/medicines/checkout/${jsonString}`
-
-      console.log('order', order)
+      openDialog(<Checkout order={order} />)
+      //window.location.href = `/patient-dashboard/medicines/checkout/${jsonString}`
     }
   }
 

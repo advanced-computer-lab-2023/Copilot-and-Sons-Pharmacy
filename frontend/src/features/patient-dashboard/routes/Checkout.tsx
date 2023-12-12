@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom'
 import { addOrderApi } from '@/api/order'
 import { useCart } from '@/hooks/cartHook'
 import Button from '@mui/material/Button'
@@ -10,7 +9,7 @@ import { patchWallet } from '@/api/medicine'
 import { useAlerts } from '@/hooks/alerts'
 import CircularProgress from '@mui/material/CircularProgress'
 
-const Checkout = () => {
+const Checkout = ({ order }: any) => {
   const [paymentMethod, setPaymentMethod] = useState('Cash')
   const alert = useAlerts()
   const { clearCartProvider } = useCart()
@@ -49,8 +48,8 @@ const Checkout = () => {
     }
   }
 
-  const { jsonString } = useParams()
-  const json = JSON.parse(jsonString!)
+  //const { jsonString } = useParams()
+  //const json = JSON.parse(jsonString!)
 
   return (
     <div
@@ -61,7 +60,7 @@ const Checkout = () => {
       }}
     >
       <h1>
-        Total price: <span style={{ color: 'red' }}>{json.total}</span>
+        Total price: <span style={{ color: 'red' }}>{order.total}</span>
       </h1>
 
       {loading === false && (
@@ -101,8 +100,8 @@ const Checkout = () => {
               variant="contained"
               style={{ marginTop: '70px', color: 'white', alignSelf: 'center' }}
               onClick={() => {
-                json.paymentMethod = paymentMethod
-                executeCheckout(json)
+                order.paymentMethod = paymentMethod
+                executeCheckout(order)
               }}
             >
               Pay
@@ -117,8 +116,8 @@ const Checkout = () => {
           {paymentMethod === 'Credit card' && (
             <StripCheckout
               handleSubmitCustom={() => {
-                json.paymentMethod = 'Credit card'
-                executeCheckout(json)
+                order.paymentMethod = 'Credit card'
+                executeCheckout(order)
               }}
             />
           )}

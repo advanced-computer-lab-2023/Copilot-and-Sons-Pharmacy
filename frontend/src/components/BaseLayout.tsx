@@ -26,6 +26,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 // import { NotificationsList } from './notification'
 import { useNavigate } from 'react-router-dom'
+import { DialogProvider } from '@/providers/DialogProvider'
 interface ListItemLinkProps {
   icon?: React.ReactElement
   primary: string
@@ -192,7 +193,11 @@ export function BaseLayout() {
   )
 
   if (user) {
-    return <ChatsProvider>{layout}</ChatsProvider>
+    return (
+      <DialogProvider>
+        <ChatsProvider>{layout}</ChatsProvider>
+      </DialogProvider>
+    )
   } else {
     return layout
   }
