@@ -125,12 +125,13 @@ export default function ForgotPassword() {
         })
         navigate('/auth/login')
       }
-    } catch (error) {
+    } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
-        console.error('Error updating password:', error.response.data)
+        console.error('Error updating password:', error)
         setPasswordError(error.response.data.error)
       } else {
-        console.error('Unexpected error:', (error as Error).message)
+        console.error('Unexpected error:', error.error)
+        setPasswordError(error.error)
       }
 
       setIsLoading(false)
