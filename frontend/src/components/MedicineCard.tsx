@@ -2,7 +2,13 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { CardActions, Button, IconButton, TextField } from '@mui/material'
+import {
+  CardActions,
+  Button,
+  IconButton,
+  TextField,
+  Backdrop,
+} from '@mui/material'
 import IMedicine from '../types/medicine.type'
 import { Link } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -149,6 +155,46 @@ export default function MedicineCard(props: {
 }) {
   const [quantity, setQuantity] = useState(1)
   const [dosage, setDosage] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
+
+  const Overlay = () => (
+    <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={isOpen}
+      onClick={() => setIsOpen(false)}
+    >
+      <Card
+        sx={{
+          maxWidth: 400,
+          margin: 'auto',
+          backgroundColor: 'white',
+          borderRadius: 2,
+        }}
+      >
+        <CardContent>
+          <img
+            src={props.medicine.Image}
+            alt=""
+            style={{ width: '100%', height: 'auto' }}
+          />
+          <Typography variant="h4" sx={{ mt: 2 }}>
+            {props.medicine.name}
+          </Typography>
+          <Typography variant="body1">{props.medicine.description}</Typography>
+          <ul>
+            <li>Medical Use: {props.medicine.medicinalUse.join(', ')}</li>
+            <li>
+              Active Ingredients: {props.medicine.activeIngredients.join(', ')}
+            </li>
+          </ul>
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            Price: {props.medicine.price}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Backdrop>
+  )
 
   const handleIncrementQuantity = () => {
     setQuantity(quantity + 1)
@@ -183,109 +229,116 @@ export default function MedicineCard(props: {
   }
 
   return (
-    <Card>
-      <CardMedia
-        component="img"
-        height="140"
-        image={props.medicine.Image}
-        alt=""
-      />
-      <CardContent>
-        <ToastContainer />
-        <Typography gutterBottom variant="h5" component="div">
-          {props.medicine.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Description :{props.medicine.description}
-          <br />
-          Medical Use: {props.medicine.medicinalUse.join(', ')}
-          <br />
-          Main Active Ingrediant:{props.medicine.activeIngredients[0]}
-          <br />
-          Active Ingrediants:
-          {props.medicine.activeIngredients.slice(1).join(', ')}
-          <br />
-          price: {props.medicine.price}
+    <>
+      <ToastContainer />
+      <Card
+        style={{
+          boxShadow: isHovered
+            ? '0 10px 20px rgba(0, 0, 0, 0.3)'
+            : '0 5px 10px rgba(0, 0, 0, 0.2)',
+          cursor: 'pointer',
+          transition: 'box-shadow 0.3s',
+          border: '1px solid #ccc',
+          height: 350,
+          width: 300,
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <CardContent onClick={() => setIsOpen(true)}>
+          <CardMedia
+            component="img"
+            height="150"
+            image={props.medicine.Image}
+            alt=""
+          />
+          <Typography gutterBottom variant="h5" component="div">
+            {props.medicine.name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            price: {props.medicine.price}
+          </Typography>
           {props.medicine.quantity == 0 && (
             <Typography variant="body2" color="error">
               out of stock
             </Typography>
           )}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ justifyContent: 'center' }}>
-        <Stack direction="row" spacing={2}>
-          <OnlyAuthenticated requiredUserType={UserType.Patient}>
-            {props.medicine.quantity != 0 && (
-              <BuyButton medicine={props.medicine} />
-            )}
+        </CardContent>
+        <CardActions sx={{ justifyContent: 'center' }}>
+          <Stack direction="row" spacing={2}>
+            <OnlyAuthenticated requiredUserType={UserType.Patient}>
+              {props.medicine.quantity != 0 && (
+                <BuyButton medicine={props.medicine} />
+              )}
 
-            {props.medicine.quantity == 0 && (
+              {props.medicine.quantity == 0 && (
+                <Link
+                  to={`/patient-dashboard/medicines/view-alternative-medicine/${props.medicine._id}`}
+                >
+                  <Button color="primary" variant="contained">
+                    view alternatives
+                  </Button>
+                </Link>
+              )}
+            </OnlyAuthenticated>
+            <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
               <Link
-                to={`/patient-dashboard/medicines/view-alternative-medicine/${props.medicine._id}`}
+                to={`/pharmacist-dashboard/medicines/editMedicine/${props.medicine.name}`}
               >
-                <Button color="primary" variant="contained">
-                  view alternatives
+                <Button color="secondary" disabled={false} variant="contained">
+                  Edit
                 </Button>
               </Link>
-            )}
-          </OnlyAuthenticated>
-          <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
-            <Link
-              to={`/pharmacist-dashboard/medicines/editMedicine/${props.medicine.name}`}
-            >
-              <Button color="secondary" disabled={false} variant="contained">
-                Edit
-              </Button>
-            </Link>
-            {props.medicine.status === 'unarchived' && (
-              <Button
-                color="secondary"
-                disabled={false}
-                variant="contained"
-                onClick={handleArchive(props.medicine.name)}
-              >
-                Archive
-              </Button>
-            )}
-            {props.medicine.status === 'archived' && (
-              <Button
-                color="secondary"
-                disabled={false}
-                variant="contained"
-                onClick={handleUnarchive(props.medicine.name)}
-              >
-                Unarchive
-              </Button>
-            )}
-          </OnlyAuthenticated>
-          <OnlyAuthenticated requiredUserType={UserType.Doctor}>
-            <IconButton onClick={handleDecrementQuantity}>
-              <RemoveIcon />
-            </IconButton>
-            <span>{quantity}</span>
-            <IconButton onClick={handleIncrementQuantity}>
-              <AddIcon />
-            </IconButton>
+              {props.medicine.status === 'unarchived' && (
+                <Button
+                  color="secondary"
+                  disabled={false}
+                  variant="contained"
+                  onClick={handleArchive(props.medicine.name)}
+                >
+                  Archive
+                </Button>
+              )}
+              {props.medicine.status === 'archived' && (
+                <Button
+                  color="secondary"
+                  disabled={false}
+                  variant="contained"
+                  onClick={handleUnarchive(props.medicine.name)}
+                >
+                  Unarchive
+                </Button>
+              )}
+            </OnlyAuthenticated>
+            <OnlyAuthenticated requiredUserType={UserType.Doctor}>
+              <IconButton onClick={handleDecrementQuantity}>
+                <RemoveIcon />
+              </IconButton>
+              <span>{quantity}</span>
+              <IconButton onClick={handleIncrementQuantity}>
+                <AddIcon />
+              </IconButton>
 
-            <TextField
-              label="Dosage"
-              value={dosage}
-              onChange={(e) => setDosage(e.target.value)}
-              variant="outlined"
-            />
-            <Button
-              color="secondary"
-              disabled={false}
-              variant="contained"
-              onClick={() => handleAddToPrescription()}
-            >
-              Add to Prescription
-            </Button>
-          </OnlyAuthenticated>
-        </Stack>
-      </CardActions>
-    </Card>
+              <TextField
+                label="Dosage"
+                value={dosage}
+                onChange={(e) => setDosage(e.target.value)}
+                variant="outlined"
+              />
+              <Button
+                color="secondary"
+                disabled={false}
+                variant="contained"
+                onClick={() => handleAddToPrescription()}
+              >
+                Add to Prescription
+              </Button>
+            </OnlyAuthenticated>
+          </Stack>
+        </CardActions>
+      </Card>
+      <Overlay />
+    </>
   )
 }
 
