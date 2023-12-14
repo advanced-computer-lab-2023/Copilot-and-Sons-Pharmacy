@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardActions,
   CardContent,
@@ -20,6 +21,7 @@ import {
   School,
   StarBorder,
   Event,
+  Message,
 } from '@mui/icons-material'
 import { DateRangeIcon } from '@mui/x-date-pickers'
 import { format } from 'date-fns'
@@ -126,6 +128,34 @@ export const ChatWithPharmacists = () => {
 
   return (
     <Grid container spacing={1}>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          marginBottom: '20px',
+        }}
+      >
+        <Typography
+          variant="h2"
+          marginBottom={2}
+          textAlign="center"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          gap={2}
+        >
+          <Message fontSize="inherit" color="primary" />
+          Chat with Pharmacists!
+        </Typography>
+        <Box
+          sx={{
+            backgroundColor: 'primary.main',
+            height: 5,
+            width: 500,
+            margin: 'auto',
+          }}
+        ></Box>
+      </Grid>
       {query.data!.map((pharmacist) => (
         <Grid item md={5}>
           <PharmacistDetails key={pharmacist._id} pharmacist={pharmacist} />
