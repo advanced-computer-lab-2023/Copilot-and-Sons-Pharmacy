@@ -157,8 +157,8 @@ export const ChatWithPharmacists = () => {
         ></Box>
       </Grid>
       {query.data!.map((pharmacist) => (
-        <Grid item md={5}>
-          <PharmacistDetails key={pharmacist._id} pharmacist={pharmacist} />
+        <Grid item md={5} key={pharmacist._id}>
+          <PharmacistDetails pharmacist={pharmacist} />
         </Grid>
       ))}
     </Grid>
