@@ -149,7 +149,7 @@ export function BaseLayout() {
             zIndex: '1000',
             flexGrow: 1,
             flex: 4,
-            width: '85%',
+            width: '75%',
             flexWrap: 'wrap',
           }}
         >
@@ -213,7 +213,7 @@ export function BaseLayout() {
 
         <Box
           sx={{
-            width: '15%',
+            width: '20%',
             alignItems: 'start',
             bgcolor: '#F0F0F0',
             position: 'relative',
@@ -221,7 +221,7 @@ export function BaseLayout() {
         >
           <AppBar
             style={{
-              width: '15%',
+              width: '20%',
               left: '0',
               top: '0',
               backgroundColor: '#F0F0F0',
