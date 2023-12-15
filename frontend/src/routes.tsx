@@ -8,10 +8,15 @@ import { RedirectToDashboard } from './components/RedirectToDashboard'
 import { medicineRoutes } from './features/medicine-dashboard/routes'
 import ForgotPassword from './features/auth/routes/ForgotPassword'
 import { DoctorDashboardRoutes } from './features/doctor-dashboard/routes'
+import { CartProvider } from './providers/cartProvider'
 
 export const routes: RouteObject[] = [
   {
-    element: <BaseLayout />,
+    element: (
+      <CartProvider>
+        <BaseLayout />
+      </CartProvider>
+    ),
     children: [
       {
         path: '/',

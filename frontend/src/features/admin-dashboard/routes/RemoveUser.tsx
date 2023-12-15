@@ -10,7 +10,7 @@ import {
   Grid,
   Box,
 } from '@mui/material'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 interface IdeleteData {
   username: string
@@ -52,7 +52,6 @@ export function RemoveUser() {
     <>
       <Container maxWidth="sm">
         <Box sx={{ marginTop: 4 }}>
-          <ToastContainer />
           <form onSubmit={formik.handleSubmit}>
             <Typography variant="h4" align="center" gutterBottom>
               Remove Pharmacist or Patient

@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Button, Typography } from '@mui/material'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import CircularProgress from '@mui/material/CircularProgress'
 import {
   ForgetPasswordEmail,
@@ -158,7 +158,6 @@ export default function ForgotPassword() {
 
   return (
     <>
-      <ToastContainer />
       <Typography variant="h6">
         {showPasswordForm
           ? 'Please enter your new password'

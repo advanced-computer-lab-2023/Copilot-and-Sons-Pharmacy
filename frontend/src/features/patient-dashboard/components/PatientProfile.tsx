@@ -2,7 +2,7 @@ import { viewPatientInfo } from '@/api/patient'
 import { CardPlaceholder } from '@/components/CardPlaceholder'
 import { DetailsCard } from '@/components/DetailsCard'
 import { useAuth } from '@/hooks/auth'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from 'react-query'
 
 export function PatientProfile() {
   const { user } = useAuth()
@@ -35,7 +35,7 @@ export function PatientProfile() {
         },
         {
           label: 'Emergency Contact',
-          value: query.data?.emergencyContact.name,
+          value: query.data?.emergencyContact.fullName,
         },
         {
           label: 'Number',

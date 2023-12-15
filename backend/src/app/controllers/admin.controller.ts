@@ -10,6 +10,7 @@ import Pharmacist from '../schemas/pharmacist'
 import { ObjectId } from 'mongodb'
 import { acceptPharmacist } from '../services/acceptPharmacist.service'
 import { rejectPharmacist } from '../services/rejectPharmacist.service'
+import { applyDiscounts } from '../services/medicine/discount.service'
 
 export const filterMedicineByMedicinalUse = async (
   req: Request,
@@ -31,7 +32,12 @@ export const serachForMedicine = asyncWrapper(
     if (medicine.length == 0)
       res.json("There's no available medicines with this name")
     else {
-      res.json({ success: SUCCESS, data: medicine })
+      const discountedMedicines = await applyDiscounts(
+        medicine as any,
+        req.username!
+      )
+
+      res.json({ success: SUCCESS, data: discountedMedicines })
     }
   }
 )
