@@ -1,5 +1,5 @@
 // import * as fileUpload from '@types/express-fileupload';
-import express, { Application } from 'express'
+import express from 'express'
 
 import cors from 'cors'
 import { ERROR } from './app/utils/httpStatusText'
@@ -13,14 +13,17 @@ import debugRouter from './app/controllers/debug.controller'
 import { deliveryAddressRouter } from './app/controllers/deliveryAddress.controller'
 import { authRouter } from './app/controllers/auth.controller'
 import { authenticate } from './app/middlewares/auth.middleware'
+import { logger } from './app/middlewares/logger.middleware'
 import orderRouter from './app/routes/order.route'
 import asyncWrapper from './app/middlewares/asyncWrapper'
 import { notificationRouter } from './app/controllers/notification.controller'
+import { chatsRouter } from './app/controllers/chats.controller'
 
-const app: Application = express()
+const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(logger)
 app.use(asyncWrapper(authenticate))
 
 app.use('/api/medicine', medicinesRoute)
@@ -32,6 +35,7 @@ app.use('/api/debug', debugRouter)
 app.use('/api', authRouter)
 app.use('/api', deliveryAddressRouter)
 app.use('/api/order', orderRouter)
+app.use('/api', chatsRouter)
 app.use('/api', notificationRouter)
 
 //global error handler

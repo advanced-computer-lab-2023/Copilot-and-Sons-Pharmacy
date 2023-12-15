@@ -5,6 +5,9 @@ import { createContext, useCallback, useEffect, useState } from 'react'
 interface AuthContextUser {
   type: UserType
   username: string
+  modelId: string
+  name: string
+  email: string
 }
 
 interface AuthContextData {

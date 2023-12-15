@@ -1,5 +1,11 @@
 import { Router } from 'express'
-import { getUserByUsername, isUserType, login } from '../services/auth.service'
+import {
+  getEmailAndNameForUsername,
+  getModelIdForUsername,
+  getUserByUsername,
+  isUserType,
+  login,
+} from '../services/auth.service'
 import { validate } from '../middlewares/validation.middleware'
 import { LoginRequestValidator } from 'pharmacy-common/validators/auth.validator'
 import {
@@ -37,11 +43,15 @@ authRouter.get(
   '/auth/me',
   allowAuthenticated,
   asyncWrapper(async (req, res) => {
-    const user = await getUserByUsername(req.username as string)
+    const user = await getUserByUsername(req.username!)
+    const { email, name } = await getEmailAndNameForUsername(req.username!)
     res.send({
       id: user.id,
       username: user.username,
       type: user.type as UserType,
+      modelId: await getModelIdForUsername(user.username),
+      email,
+      name,
     } satisfies GetCurrentUserResponse)
   })
 )
@@ -58,12 +68,17 @@ authRouter.get(
       throw new NotAuthorizedError()
     }
 
+    const { email, name } = await getEmailAndNameForUsername(req.username!)
+
     const user = await getUserByUsername(req.params.username)
 
     res.send({
       id: user.id,
       username: user.username,
       type: user.type as UserType,
+      modelId: await getModelIdForUsername(user.username),
+      email,
+      name,
     } satisfies GetUserByUsernameResponse)
   })
 )

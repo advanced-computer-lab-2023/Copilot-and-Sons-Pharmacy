@@ -6,8 +6,9 @@ import {
   Healing,
   LocalShipping,
   LocationCity,
-  ShoppingCart,
+  MedicationOutlined,
   VpnKey,
+  Wallet,
 } from '@mui/icons-material'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -51,11 +52,21 @@ export function PatientDashboardLayout() {
         icon: <VpnKey />,
       },
 
-      { action: toggleCart, text: 'Cart', icon: <ShoppingCart /> },
       {
         to: '/patient-dashboard/orders',
         text: 'Orders',
         icon: <LocalShipping />,
+      },
+
+      {
+        to: '/patient-dashboard/pharmacists',
+        text: 'Chat With Pharmacists',
+        icon: <MedicationOutlined />,
+      },
+      {
+        to: '/patient-dashboard/wallet',
+        text: 'Wallet',
+        icon: <Wallet />,
       },
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps

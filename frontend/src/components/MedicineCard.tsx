@@ -2,13 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import {
-  CardActions,
-  Button,
-  Paper,
-  IconButton,
-  TextField,
-} from '@mui/material'
+import { CardActions, Button, IconButton, TextField } from '@mui/material'
 import IMedicine from '../types/medicine.type'
 import { Link } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -20,6 +14,43 @@ import { ToastContainer, toast } from 'react-toastify'
 import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
+import { archiveMedicineApi, unarchiveMedicineApi } from '@/api/medicine'
+
+function handleArchive(medicinename: string) {
+  return async () => {
+    try {
+      await archiveMedicineApi(medicinename)
+      toast.success('Archived Successfully!', {
+        position: 'top-right',
+      })
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    } catch (e: any) {
+      toast.error(e.message, {
+        position: 'top-right',
+      })
+    }
+  }
+}
+
+function handleUnarchive(medicinename: string) {
+  return async () => {
+    try {
+      await unarchiveMedicineApi(medicinename)
+      toast.success('Unarchived Successfully!', {
+        position: 'top-right',
+      })
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    } catch (e: any) {
+      toast.error(e.message, {
+        position: 'top-right',
+      })
+    }
+  }
+}
 
 function BuyButton(props: { medicine: IMedicine }) {
   const { addToCartProvider } = useCart()
@@ -36,33 +67,36 @@ function BuyButton(props: { medicine: IMedicine }) {
       prescriptionButton.addEventListener('click', () => {
         console.log('User has prescription')
       })
-      toast.warning(
-        <Paper>
-          <h4>This medicine requires a prescription.</h4>
-          <div style={{ marginTop: '8px' }}>
-            <Button
-              variant="outlined"
-              fullWidth
-              color="success"
-              style={{ marginBottom: '10px' }}
-              onClick={handlePrescriptionClick}
-            >
-              Have Prescription
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              fullWidth
-              onClick={() => toast.dismiss()}
-            >
-              Close
-            </Button>
-          </div>
-        </Paper>,
-        {
-          position: toast.POSITION.TOP_RIGHT,
-        }
-      )
+      // toast.warning(
+      //   <Paper>
+      //     <h4>This medicine requires a prescription.</h4>
+      //     <div style={{ marginTop: '8px' }}>
+      //       <Button
+      //         variant="outlined"
+      //         fullWidth
+      //         color="success"
+      //         style={{ marginBottom: '10px' }}
+      //         onClick={handlePrescriptionClick}
+      //       >
+      //         Have Prescription
+      //       </Button>
+      //       <Button
+      //         variant="outlined"
+      //         color="error"
+      //         fullWidth
+      //         onClick={() => toast.dismiss()}
+      //       >
+      //         Close
+      //       </Button>
+      //     </div>
+      //   </Paper>,
+      //   {
+      //     position: toast.POSITION.TOP_RIGHT,
+      //   }
+      // )
+      toast.error('This medicine requires a prescription.', {
+        position: 'top-right',
+      })
 
       return
     }
@@ -166,15 +200,35 @@ export default function MedicineCard(props: {
           <br />
           Medical Use: {props.medicine.medicinalUse.join(', ')}
           <br />
-          Active Ingrediants:{props.medicine.activeIngredients.join(', ')}
+          Main Active Ingrediant:{props.medicine.activeIngredients[0]}
+          <br />
+          Active Ingrediants:
+          {props.medicine.activeIngredients.slice(1).join(', ')}
           <br />
           price: {props.medicine.price}
+          {props.medicine.quantity == 0 && (
+            <Typography variant="body2" color="error">
+              out of stock
+            </Typography>
+          )}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'center' }}>
         <Stack direction="row" spacing={2}>
           <OnlyAuthenticated requiredUserType={UserType.Patient}>
-            <BuyButton medicine={props.medicine} />
+            {props.medicine.quantity != 0 && (
+              <BuyButton medicine={props.medicine} />
+            )}
+
+            {props.medicine.quantity == 0 && (
+              <Link
+                to={`/patient-dashboard/medicines/view-alternative-medicine/${props.medicine._id}`}
+              >
+                <Button color="primary" variant="contained">
+                  view alternatives
+                </Button>
+              </Link>
+            )}
           </OnlyAuthenticated>
           <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
             <Link
@@ -184,6 +238,26 @@ export default function MedicineCard(props: {
                 Edit
               </Button>
             </Link>
+            {props.medicine.status === 'unarchived' && (
+              <Button
+                color="secondary"
+                disabled={false}
+                variant="contained"
+                onClick={handleArchive(props.medicine.name)}
+              >
+                Archive
+              </Button>
+            )}
+            {props.medicine.status === 'archived' && (
+              <Button
+                color="secondary"
+                disabled={false}
+                variant="contained"
+                onClick={handleUnarchive(props.medicine.name)}
+              >
+                Unarchive
+              </Button>
+            )}
           </OnlyAuthenticated>
           <OnlyAuthenticated requiredUserType={UserType.Doctor}>
             <IconButton onClick={handleDecrementQuantity}>
@@ -215,10 +289,10 @@ export default function MedicineCard(props: {
   )
 }
 
-function handlePrescriptionClick(): void {
-  console.log('User has prescription')
-  toast.dismiss()
-  toast.error('Sorry we can not accept a prescription now', {
-    position: 'top-right',
-  })
-}
+// function handlePrescriptionClick(): void {
+//   console.log('User has prescription')
+//   toast.dismiss()
+//   toast.error('Sorry we can not accept a prescription now', {
+//     position: 'top-right',
+//   })
+// }

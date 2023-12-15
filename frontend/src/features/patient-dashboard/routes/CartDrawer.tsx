@@ -29,6 +29,7 @@ import {
   decrementQuantityApi,
   removeFromCartApi,
   updateQuantityApi,
+  clearCartApi,
 } from '@/api/cart'
 import { useCart } from '../../../hooks/cartHook'
 import { ArrowRightAltOutlined, Close, ExpandMore } from '@mui/icons-material'
@@ -208,6 +209,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
   }
 
   const removeallitems = async () => {
+    await clearCartApi()
     clearCartProvider()
   }
 
@@ -279,6 +281,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
           <Close />
         </IconButton>
         <ToastContainer />
+
         <div style={{ width: 350 }}>
           <Grid container spacing={2} style={{ overflow: 'auto', height: 590 }}>
             {cart.map((item: any) => (
@@ -294,7 +297,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                       {item.medicine.name}
                     </Typography>
                     <Typography variant="body2" style={{ fontSize: 14 }}>
-                      ${item.medicine.price * item.quantity}
+                      E£ {item.medicine.price * item.quantity}
                     </Typography>
                     <Typography variant="body2" style={{ fontSize: 12 }}>
                       Quantity: {item.quantity}
@@ -306,6 +309,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                       variant="outlined"
                       onClick={() => removeFromCart(item.medicine._id)}
                       style={{ fontSize: 12 }}
+                      disabled={item.byPrescription != null}
                     >
                       Remove
                     </Button>
@@ -316,6 +320,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                         incrementQuantity(item.medicine, item.quantity)
                       }
                       style={{ fontSize: 12 }}
+                      disabled={item.byPrescription != null}
                     >
                       +
                     </Button>
@@ -334,6 +339,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                       InputProps={{
                         style: { fontSize: 11 },
                       }}
+                      disabled={item.byPrescription != null}
                     />
                     <Button
                       size="small"
@@ -342,6 +348,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                         decrementQuantity(item.medicine._id, item.quantity)
                       }
                       style={{ fontSize: 12 }}
+                      disabled={item.byPrescription != null}
                     >
                       -
                     </Button>
@@ -350,6 +357,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
               </Grid>
             ))}
           </Grid>
+
           <Grid item xs={12}>
             <Card>
               <CardContent>
@@ -358,11 +366,12 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                   component="div"
                   style={{ fontWeight: 'bold' }}
                 >
-                  EGP {totalPrice.toFixed(2)}
+                  E£ {totalPrice.toFixed(2)}
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
+
           <Button
             variant="contained"
             color="primary"

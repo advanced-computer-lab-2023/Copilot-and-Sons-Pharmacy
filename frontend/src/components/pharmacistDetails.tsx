@@ -1,37 +1,37 @@
-import React from 'react'
-import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
-import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import { styled } from '@mui/material/styles'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Button, CardActions } from '@mui/material'
-import { Collapse } from '@mui/material'
+import {
+  Accordion,
+  AccordionActions,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+} from '@mui/material'
 import MailIcon from '@mui/icons-material/Mail'
 import format from 'date-fns/format'
 import {
   acceptPharmacistRequest,
   rejectPharmacistRequest,
+  depositPharmacistSalary,
 } from '@/api/pharmacist'
 import { toast } from 'react-toastify'
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand: _, ...other } = props
-
-  return <IconButton {...other} />
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}))
+import { Stack } from '@mui/system'
+import { DetailsCard } from './DetailsCard'
+import {
+  Article,
+  Event,
+  LocalHospital,
+  Money,
+  PendingActions,
+  Person,
+  School,
+  StarBorder,
+  WorkspacePremium,
+} from '@mui/icons-material'
+import { DateRangeIcon } from '@mui/x-date-pickers'
+import { PharmacistStatus } from 'pharmacy-common/types/pharmacist.types'
+import { ChatButton } from './chats/ChatButton'
 
 export default function PharmacistDetails({
   pharmacist,
@@ -44,11 +44,6 @@ export default function PharmacistDetails({
     new Date(pharmacist.dateOfBirth),
     'MMMM d, yyyy'
   )
-  const [expanded, setExpanded] = React.useState(false)
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded)
-  }
 
   function handleAccept(id: any) {
     const promise = acceptPharmacistRequest(id).then(() => {
@@ -72,113 +67,134 @@ export default function PharmacistDetails({
     })
   }
 
-  return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardHeader
-        title={pharmacist.name}
-        subheader={`Sent ${formatDistanceToNow(new Date(pharmacist.createdAt), {
-          addSuffix: true,
-        })}`}
-      />
+  function handleDepositSalary(id: any) {
+    depositPharmacistSalary(id)
+      .then(() => {
+        toast.success('Salary Deposited Successfully!')
+      })
+      .catch(() => {
+        toast.error('Error Depositing Salary!')
+      })
+  }
 
-      <CardContent>
-        <Typography variant="body2" color="textSecondary">
-          <a
-            href="https://mail.google.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <IconButton aria-label="Email">
-              <MailIcon />
-            </IconButton>
-          </a>
-          {pharmacist.email}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography>
-            <p>
-              <strong>Username : </strong>
-              {pharmacist.user.username}
-            </p>
-            <p>
-              <strong>Date of Birth : </strong>
-              {dateOfBirthFormatted}
-            </p>
-            <p>
-              <strong>Hourly Rate : </strong>
-              {pharmacist.hourlyRate} $
-            </p>
-            <p>
-              <strong>Affiliation : </strong>
-              {pharmacist.affilation}
-            </p>
-            <p>
-              <strong>Status : </strong>
-              {pharmacist.status}
-            </p>
-            <p>
-              <strong>Major : </strong>
-              {pharmacist.educationalBackground.major}
-            </p>
-            <p>
-              <strong>University : </strong>
-              {pharmacist.educationalBackground.university}
-            </p>
-            <p>
-              <strong>Graduation Year : </strong>
-              {pharmacist.educationalBackground.graduationYear}
-            </p>
-            <p>
-              <strong>Degree : </strong>
-              {pharmacist.educationalBackground.degree}
-            </p>
-            <p>
-              <strong>Documents : </strong>
-              {pharmacist.documents.map((document: string) => (
-                <iframe width={'400'} height={'300'} src={document} />
-              ))}
-            </p>
+  return (
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Stack>
+          <Typography variant="h6">{pharmacist.name}</Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            Sent&nbsp;
+            {formatDistanceToNow(new Date(pharmacist.createdAt), {
+              addSuffix: true,
+            })}
           </Typography>
-        </CardContent>
-        {pharmacist.status === 'Pending' && (
-          <CardActions>
+        </Stack>
+      </AccordionSummary>
+      <AccordionDetails>
+        <DetailsCard
+          noCard
+          fields={[
+            {
+              icon: <Person />,
+              label: 'Username',
+              value: pharmacist.user.username,
+            },
+            {
+              icon: <DateRangeIcon />,
+              label: 'Date of Birth',
+              value: dateOfBirthFormatted,
+            },
+            {
+              icon: <Money />,
+              label: 'Hourly Rate',
+              value: pharmacist.hourlyRate.toFixed(2) + '$',
+            },
+            { icon: <MailIcon />, label: 'Email', value: pharmacist.email },
+            {
+              icon: <LocalHospital />,
+              label: 'Affiliation',
+              value: pharmacist.affilation,
+            },
+            {
+              icon: <PendingActions />,
+              label: 'Status',
+              value: pharmacist.status,
+            },
+            {
+              icon: <WorkspacePremium />,
+              label: 'Major',
+              value: pharmacist.educationalBackground.major,
+            },
+            {
+              icon: <School />,
+              label: 'University',
+              value: pharmacist.educationalBackground.university,
+            },
+            {
+              icon: <Event />,
+              label: 'Graduation Year',
+              value: pharmacist.educationalBackground.graduationYear,
+            },
+            {
+              icon: <StarBorder />,
+              label: 'Degree',
+              value: pharmacist.educationalBackground.degree,
+            },
+            {
+              icon: <Article />,
+              label: 'Documents',
+              value:
+                pharmacist.documents.length > 0
+                  ? pharmacist.documents.map((document: string) => (
+                      <iframe width={'400'} height={'300'} src={document} />
+                    ))
+                  : 'None',
+            },
+          ]}
+        />
+      </AccordionDetails>
+      <AccordionActions>
+        {pharmacist.status === PharmacistStatus.Pending && (
+          <>
             <Button
-              size="small"
               variant="contained"
               color="success"
               onClick={() => {
                 handleAccept(pharmacist._id)
               }}
             >
-              {' '}
               Accept
             </Button>
             <Button
-              size="small"
               variant="contained"
               color="error"
               onClick={() => {
                 handleReject(pharmacist._id)
               }}
             >
-              {' '}
               Reject
             </Button>
-          </CardActions>
+          </>
         )}
-      </Collapse>
-    </Card>
+        {pharmacist.status === PharmacistStatus.Accepted && (
+          <>
+            <ChatButton otherUsername={pharmacist.user.username} />
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => {
+                handleDepositSalary(pharmacist._id)
+              }}
+            >
+              Deposit Salary
+            </Button>
+          </>
+        )}
+      </AccordionActions>
+    </Accordion>
   )
 }

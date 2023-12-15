@@ -8,6 +8,26 @@ export async function viewAllMedicines(): Promise<AxiosResponse> {
   return response
 }
 
+export async function viewUnarchivedMedicines(): Promise<AxiosResponse> {
+  const response = await api.get(`/medicine/unarchivedMedicines`)
+
+  return response
+}
+
+export async function archiveMedicineApi(name: string): Promise<AxiosResponse> {
+  const response = await api.patch(`/medicine/archiveMedicine/${name}`)
+
+  return response
+}
+
+export async function unarchiveMedicineApi(
+  name: string
+): Promise<AxiosResponse> {
+  const response = await api.patch(`/medicine/unarchiveMedicine/${name}`)
+
+  return response
+}
+
 export async function viewAlternativeMedicine(
   id: string
 ): Promise<AxiosResponse> {
@@ -19,6 +39,32 @@ export async function viewAlternativeMedicine(
 
 export async function viewMedicinesQuantityAndSales(): Promise<AxiosResponse> {
   const response = await api.get(`/medicine/quantity-sales`)
+
+  return response
+}
+
+export async function viewMedicinesQuantityAndSalesByMonth(
+  month: Date
+): Promise<AxiosResponse> {
+  console.log('here i am', month)
+  const response = await api.get(`/medicine/salesReportByMonth`, {
+    params: {
+      month: month.toString(),
+    },
+  })
+
+  return response
+}
+
+export async function viewMedicinesQuantityAndSalesByDate(
+  date: Date
+): Promise<AxiosResponse> {
+  console.log('here i am', date)
+  const response = await api.get(`/medicine/salesReportByDate`, {
+    params: {
+      date: date.toString(),
+    },
+  })
 
   return response
 }

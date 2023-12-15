@@ -16,9 +16,15 @@ export async function addToCartService(item: any, username: any) {
 
   const patientUser = await userModel.findOne({ username })
   const user = await Patient.findOne({ user: patientUser?._id })
-  const cart = await CartModel.findOne({ _id: user?.cart })
-  const medicineIndex = cart?.items.findIndex(
-    (item: any) => item.medicine == medicineId
+  let cart = await CartModel.findOne({ _id: user?.cart })
+
+  if (cart == undefined && patientUser != null && patientUser != undefined) {
+    console.log('Creating a new cart...')
+    cart = await createNewCart(user)
+  }
+
+  const medicineIndex = cart?.items.findIndex((item: any) =>
+    item.medicine.equals(medicineId)
   )
 
   if (medicineIndex != undefined && medicineIndex > -1) {
@@ -36,10 +42,19 @@ export async function addToCartService(item: any, username: any) {
       throw new APIError('this medicine requires Prescription', 404, FAIL)
     else if (medicine.quantity < ~~quantity)
       throw new APIError('this quantity is not available in stock', 404, FAIL)
-    cart?.items?.push({ medicine: medicineId, quantity })
+    cart?.items?.push({ medicine: medicineId, quantity, byPrescription: null })
   }
 
   await cart?.save()
 
   return cart
+}
+
+async function createNewCart(patientUser: any) {
+  const newCart = new CartModel({ items: [] })
+  await newCart.save()
+  patientUser.cart = newCart._id
+  await patientUser.save()
+
+  return newCart
 }

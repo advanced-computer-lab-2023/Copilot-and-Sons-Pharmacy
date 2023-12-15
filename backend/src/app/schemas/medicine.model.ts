@@ -10,6 +10,7 @@ const medicineSchema = new Schema({
   medicinalUse: { type: [String], required: true },
   sales: { type: Number, default: 0 },
   requiresPrescription: { type: Boolean, default: false, required: true },
+  status: { type: String, default: 'unarchived', required: true },
 })
 
 export type IMedicine = HydratedDocument<InferSchemaType<typeof medicineSchema>>

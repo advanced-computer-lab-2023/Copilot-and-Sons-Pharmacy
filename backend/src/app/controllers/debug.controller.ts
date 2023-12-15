@@ -39,10 +39,12 @@ debugRouter.post(
   })
 )
 
+type SeedOptions = Parameters<typeof seed>[0]
+
 debugRouter.post(
   '/seed',
-  asyncWrapper(async (req, res) => {
-    res.send(await seed())
+  asyncWrapper<SeedOptions>(async (req, res) => {
+    res.send(await seed(req.body))
   })
 )
 

@@ -8,4 +8,5 @@ export default interface IMedicine {
   medicinalUse: string[]
   sales: number
   _id: string
+  status: string
 }

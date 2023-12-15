@@ -54,4 +54,5 @@ export interface IPharmacist {
     degree: PharmacistDegree
   }
   documents: string[]
+  walletMoney: number
 }

@@ -1,27 +1,39 @@
 import { getAllOrders, cancelOrderApi } from '@/api/order'
-import { Card, CardContent, Grid, Typography, Button } from '@mui/material'
+import {
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  Button,
+  CardActions,
+} from '@mui/material'
 import { useQuery } from 'react-query'
 import { useAlerts } from '@/hooks/alerts'
 import { useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
+import { AlertsBox } from '@/components/AlertsBox'
+import { CardPlaceholder } from '@/components/CardPlaceholder'
 
 export default function AllOrders() {
   const [loading, setLoading] = useState(false)
 
   const alert = useAlerts()
 
-  const { data, error, isLoading } = useQuery('allOrders', getAllOrders)
+  const query = useQuery({
+    queryKey: 'allOrders',
+    queryFn: getAllOrders,
+  })
 
-  if (isLoading) {
-    return <p>Loading...</p>
+  if (query.isLoading) {
+    return <CardPlaceholder />
   }
 
-  if (error) {
-    console.log(error)
+  const data = query.data
 
-    return <p>Error fetching orders</p>
+  if (data == null) {
+    return <AlertsBox />
   }
 
   type OrderType = {
@@ -37,18 +49,15 @@ export default function AllOrders() {
     }
   }
 
-  console.log('Orders:', data?.data.data)
-
   const handleCancelOrder = (id: string) => async () => {
     try {
       setLoading(true)
 
-      await cancelOrderApi(id)
+      await cancelOrderApi(id).then(() => query.refetch())
       alert.addAlert({
         message: 'Order cancelled successfully',
         severity: 'success',
       })
-      window.location.href = '/patient-dashboard/medicines/'
     } catch (err: any) {
       setLoading(false)
       console.log(err)
@@ -56,13 +65,15 @@ export default function AllOrders() {
         message: err.message,
         severity: 'error',
       })
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <Grid container spacing={2}>
       {data?.data.data?.map((order: OrderType) => (
-        <Grid item xs={12} sm={6} md={4} key={order._id}>
+        <Grid item xs={17} sm={6} md={4} key={order._id}>
           <Card>
             <CardContent>
               <Typography variant="h6">Order ID: {order._id}</Typography>
@@ -78,15 +89,28 @@ export default function AllOrders() {
               <Typography variant="body2">
                 Created At: {new Date(order.createdAt).toLocaleString()}
               </Typography>
-              <Link to={`/patient-dashboard/viewOrder/${order._id}`}>
-                <Button variant="contained" color="primary">
-                  View Order
-                </Button>
-              </Link>
+              <Typography variant="caption" color="green">
+                {order.status === 'pending' &&
+                  'Wallet or credit payments will be refunded to your wallet upon cancelling'}
+              </Typography>
+              <CardActions>
+                <Link to={`/patient-dashboard/viewOrder/${order._id}`}>
+                  <Button variant="contained" color="primary" size="small">
+                    View Order
+                  </Button>
+                </Link>
+                {order.status === 'pending' && (
+                  <Button
+                    variant="contained"
+                    onClick={handleCancelOrder(order._id)}
+                    style={{ marginLeft: 'auto' }}
+                    size="small"
+                  >
+                    Cancel Order
+                  </Button>
+                )}
+              </CardActions>
             </CardContent>
-            <Button variant="contained" onClick={handleCancelOrder(order._id)}>
-              Cancel Order
-            </Button>
           </Card>
         </Grid>
       ))}

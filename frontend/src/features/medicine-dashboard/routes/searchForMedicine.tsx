@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, TextField, Button, Grid } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { useQuery } from 'react-query'
@@ -14,6 +14,28 @@ const SearchForMedicine: React.FC = () => {
 
   const [prescriptionList, setPrescriptionList] = useState<any>([])
 
+  useEffect(() => {
+    const storedPrescriptionList = localStorage.getItem('prescriptionList')
+
+    if (storedPrescriptionList) {
+      const parsedPrescriptionList = JSON.parse(storedPrescriptionList)
+      console.log('starter local lost', parsedPrescriptionList)
+      setPrescriptionList(parsedPrescriptionList)
+    } else {
+      // Set a default value if there is no item in local storage
+      setPrescriptionList([])
+    }
+  }, [])
+
+  useEffect(() => {
+    // Update local storage whenever prescriptionList changes
+    if (prescriptionList.length > 0) {
+      localStorage.setItem('prescriptionList', JSON.stringify(prescriptionList))
+    }
+
+    console.log('local list', localStorage.getItem('prescriptionList'))
+  }, [prescriptionList])
+
   const addToPrescription = (medicineItem: any) => {
     if (prescriptionList.some((item: any) => item.name === medicineItem.name)) {
       toast.error('Medicine already added to prescription!', {
@@ -28,17 +50,31 @@ const SearchForMedicine: React.FC = () => {
   }
 
   const handleSubmitPrescription = async () => {
+    if (prescriptionList.length === 0) {
+      toast.error('Prescription is empty!', {
+        position: 'top-right',
+      })
+
+      return
+    }
+
     try {
       // Call the addtoPrescriptionApi with the prescriptionList
       await addtoPrescriptionApi(prescriptionList)
 
       // Assuming the API call was successful, you can clear the prescription list
       setPrescriptionList([])
+      localStorage.setItem('prescriptionList', JSON.stringify([]))
 
-      // Optionally, show a success message to the user
-      toast.success('Prescription submitted successfully!', {
-        position: 'top-right',
-      })
+      if (localStorage.getItem('PrescriptionId')) {
+        toast.success('Prescription updated successfully!', {
+          position: 'top-right',
+        })
+      } else {
+        toast.success('Prescription submitted successfully!', {
+          position: 'top-right',
+        })
+      }
     } catch (error) {
       // Handle any errors from the API call
       toast.error('Error submitting prescription. Please try again later.', {
@@ -154,7 +190,9 @@ const SearchForMedicine: React.FC = () => {
               variant="contained"
               onClick={() => handleSubmitPrescription()}
             >
-              Submit Prescription
+              {localStorage.getItem('PrescriptionId')
+                ? 'Update Prescription'
+                : 'Submit Prescription'}
             </Button>
           </OnlyAuthenticated>
         </Container>

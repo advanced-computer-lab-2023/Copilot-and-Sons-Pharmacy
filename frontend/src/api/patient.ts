@@ -20,3 +20,7 @@ export async function viewPatientInfo(id: string) {
 
   return response.data
 }
+
+export async function addPrescriptionToCart(prescriptionId: any) {
+  return api.post('/cart/addPrescriptiontoCart', { prescriptionId })
+}
