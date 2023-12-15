@@ -17,15 +17,10 @@ import { ViewAlternativeMedicine } from '@/features/medicine-dashboard/routes/Vi
 import { ChatWithPharmacists } from '@/features/doctor-dashboard/routes/ChatWithPharmacists'
 // import { PrescriptionCheckout } from './PrescriptionCheckout'
 import { Wallet } from './Wallet'
-import { CartProvider } from '@/providers/cartProvider'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
-    element: (
-      <CartProvider>
-        <PatientDashboardLayout />
-      </CartProvider>
-    ),
+    element: <PatientDashboardLayout />,
     children: [
       {
         path: '',

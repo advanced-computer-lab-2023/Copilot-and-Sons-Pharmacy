@@ -13,11 +13,9 @@ import {
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
 import CartDrawer from '../routes/CartDrawer'
-import { useCart } from '@/hooks/cartHook'
 
 export function PatientDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
-  const { toggleCart } = useCart()
 
   useEffect(() => {
     setSidebarLinks([

@@ -152,7 +152,11 @@ const Checkout = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card
+          sx={{
+            backgroundColor: '#fff',
+          }}
+        >
           <CardContent>
             {paymentMethod !== 'Credit card' && (
               <Button

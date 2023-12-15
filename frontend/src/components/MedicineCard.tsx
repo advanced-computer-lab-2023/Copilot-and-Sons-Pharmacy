@@ -306,7 +306,6 @@ export default function MedicineCard(props: {
           boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
           cursor: 'pointer',
           transition: 'box-shadow 0.3s',
-          border: '1px solid #ccc',
           height: userType === UserType.Doctor ? 440 : 380,
           position: 'relative',
           '&:hover': {
@@ -366,7 +365,6 @@ export default function MedicineCard(props: {
             bottom: 10, // Position the buttons at the bottom
             width: '100%', // Make the buttons take the full width
             justifyContent: 'center', // Center the buttons horizontally
-            backgroundColor: 'rgba(255, 255, 255, 0.9)', // Add a semi-transparent white background to the buttons
             padding: '10px', // Add some padding to the buttons
           }}
         >
