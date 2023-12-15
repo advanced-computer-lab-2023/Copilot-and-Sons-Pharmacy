@@ -1,10 +1,9 @@
 import { DoctorDashboardLayout } from '../components/DoctorDashboardLayout'
 import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedicines'
-import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
-import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
-import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
-import { Link, RouteObject } from 'react-router-dom'
-import GetApprovedPharmacists from '@/features/admin-dashboard/routes/GetApprovedPharmacists'
+
+import { RouteObject } from 'react-router-dom'
+import { ChatWithPharmacists } from './ChatWithPharmacists'
+
 
 export const DoctorDashboardRoutes: RouteObject[] = [
   {
@@ -12,34 +11,12 @@ export const DoctorDashboardRoutes: RouteObject[] = [
     children: [
       {
         path: '',
-        children: [
-          {
-            path: 'medicines',
-            element: (
-              <>
-                {' '}
-                <ViewAllMedicines />{' '}
-                <Link to="http://localhost:5173/">backto clinic </Link>
-              </>
-            ),
-          },
-          {
-            path: 'medicines/search-for-medicine',
-            element: <SearchForMedicine />,
-          },
-          {
-            path: 'medicines/allUses',
-            element: <MedicinalUses />,
-          },
-          {
-            path: 'medicines/allUses/:name',
-            element: <FilteredMedicines />,
-          },
-          {
-            path: 'pharmacists',
-            element: <GetApprovedPharmacists />,
-          },
-        ],
+        element: <ViewAllMedicines />,
+      },
+      {
+        path: 'pharmacists',
+        element: <ChatWithPharmacists />,
+
       },
     ],
   },
