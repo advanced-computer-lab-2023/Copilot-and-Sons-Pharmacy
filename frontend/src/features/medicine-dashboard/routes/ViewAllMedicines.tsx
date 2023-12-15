@@ -160,6 +160,12 @@ const ViewAllMedicines = () => {
       })
     }
 
+    if (!searchText && selectedMedicalUses.length === 0) {
+      filteredMedicines = filteredMedicines.filter(
+        (medicine) => medicine.quantity > 0
+      )
+    }
+
     setResultingMedicines(filteredMedicines)
   }, [searchText, medicines, selectedMedicalUses])
 
