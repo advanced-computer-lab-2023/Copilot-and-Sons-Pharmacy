@@ -10,4 +10,5 @@ export default interface IMedicine {
   _id: string
   status: string
   requiresPrescription: boolean
+  discountedPrice?: number
 }

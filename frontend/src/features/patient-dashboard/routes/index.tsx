@@ -16,12 +16,16 @@ import { ViewAlternativeMedicine } from '@/features/medicine-dashboard/routes/Vi
 // import { PrescriptionCheckout } from './PrescriptionCheckout'
 import { ChatWithPharmacists } from '@/features/doctor-dashboard/routes/ChatWithPharmacists'
 // import { PrescriptionCheckout } from './PrescriptionCheckout'
-import GetApprovedPharmacists from '@/features/admin-dashboard/routes/GetApprovedPharmacists'
 import { Wallet } from './Wallet'
+import { CartProvider } from '@/providers/cartProvider'
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
-    element: <PatientDashboardLayout />,
+    element: (
+      <CartProvider>
+        <PatientDashboardLayout />
+      </CartProvider>
+    ),
     children: [
       {
         path: '',
@@ -81,14 +85,6 @@ export const patientDashboardRoutes: RouteObject[] = [
       {
         path: 'pharmacists',
         element: <ChatWithPharmacists />,
-      },
-      {
-        path: 'wallet',
-        element: <Wallet />,
-      },
-      {
-        path: 'pharmacists',
-        element: <GetApprovedPharmacists />,
       },
       {
         path: 'wallet',

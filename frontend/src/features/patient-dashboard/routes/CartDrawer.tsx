@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Drawer,
   Button,
   CardActions,
-  Grid,
   Card,
   CardContent,
   Typography,
@@ -21,6 +20,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  CardMedia,
+  Paper,
 } from '@mui/material'
 import {
   fetchCartApi,
@@ -34,8 +35,10 @@ import { useCart } from '../../../hooks/cartHook'
 import {
   ArrowRightAltOutlined,
   Close,
+  CurrencyPoundRounded,
   Delete,
   ExpandMore,
+  Numbers,
 } from '@mui/icons-material'
 import { toast } from 'react-toastify'
 import { getPatientApi } from '@/api/order'
@@ -52,13 +55,10 @@ import {
 import { Box, Stack } from '@mui/system'
 import { ApiForm } from '@/components/ApiForm'
 import { AddDeliveryAddressValidator } from 'pharmacy-common/validators/deliveryAddress.validator'
+import { DetailsCard } from '@/components/DetailsCard'
+import { DiscountedPrice } from '@/components/DiscountedPrice'
 
 // import { useParams } from 'react-router-dom'
-
-interface CartProps {
-  isOpen: boolean
-  onClose: () => void
-}
 
 type DeliveryAddress = GetAllDeliveryAddressesResponse[0]
 
@@ -138,7 +138,7 @@ const DeliveryAddressPopup = ({
   )
 }
 
-const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
+const Cart = () => {
   const {
     cart,
     removeFromCartProvider,
@@ -148,6 +148,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
     decrementQuantityProvider,
     addToCartProvider,
     clearCartProvider,
+    cartOpen,
+    setCartOpen,
+    totalWithoutDiscount,
   } = useCart()
 
   const [addressDialogOpen, setAddressDialogOpen] = useState(false)
@@ -260,6 +263,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
         total,
         date,
         address,
+        totalWithoutDiscount,
       }
       const jsonString = JSON.stringify(order)
       //navigate to checkout page
@@ -273,8 +277,8 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
     <>
       <Drawer
         anchor="right"
-        open={isOpen}
-        onClose={onClose}
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, height: '100%' }}
       >
         {cart.length === 0 && (
@@ -288,29 +292,55 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
           </Alert>
         )}
 
-        <Grid
-          container
-          sx={{ overflow: 'scroll', height: '100%', width: 400 }}
-          p={2}
-        >
-          {cart.map((item: any) => (
-            <Grid item xs={12} key={item.medicine._id}>
-              <Card>
-                <CardContent>
+        <Box height="100%" overflow="scroll">
+          <Stack spacing={2} sx={{ width: 400 }} p={2}>
+            {cart.map((item: any) => (
+              <Card key={item.medicine._id}>
+                <CardMedia>
                   <img
                     src={item.medicine.Image}
                     alt={item.medicine.name}
-                    style={{ width: 100, height: 100 }}
+                    width="80%"
+                    style={{
+                      display: 'block',
+                      marginLeft: 'auto',
+                      marginRight: 'auto',
+                      borderRadius: 10,
+                    }}
                   />
-                  <Typography variant="h5" style={{ fontSize: 16 }}>
+                </CardMedia>
+                <CardContent>
+                  <Typography
+                    variant="h6"
+                    color="primary.main"
+                    textAlign="center"
+                  >
                     {item.medicine.name}
                   </Typography>
-                  <Typography variant="body2" style={{ fontSize: 14 }}>
-                    E£ {item.medicine.price * item.quantity}
-                  </Typography>
-                  <Typography variant="body2" style={{ fontSize: 12 }}>
-                    Quantity: {item.quantity}
-                  </Typography>
+                  <Stack direction="row" justifyContent="space-evenly">
+                    <DetailsCard
+                      noCard
+                      fields={[
+                        {
+                          label: 'Discounted Price',
+                          value: (
+                            item.medicine.discountedPrice * item.quantity
+                          ).toFixed(2),
+                          icon: <CurrencyPoundRounded />,
+                        },
+                      ]}
+                    />
+                    <DetailsCard
+                      noCard
+                      fields={[
+                        {
+                          label: 'Quantity',
+                          value: item.quantity,
+                          icon: <Numbers />,
+                        },
+                      ]}
+                    />
+                  </Stack>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -318,9 +348,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                     variant="outlined"
                     onClick={() => removeFromCart(item.medicine._id)}
                     disabled={item.byPrescription != null}
-                    startIcon={<Delete />}
+                    color="error"
                   >
-                    Remove
+                    <Delete fontSize="small" />
                   </Button>
                   <Button
                     size="small"
@@ -362,72 +392,72 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                   </Button>
                 </CardActions>
               </Card>
-            </Grid>
-          ))}
-        </Grid>
+            ))}
+          </Stack>
+        </Box>
 
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography
-                variant="h5"
-                component="div"
-                style={{ fontWeight: 'bold' }}
-              >
-                E£ {totalPrice.toFixed(2)}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+        <Paper elevation={10}>
+          <Box m={2} display="flex" justifyContent="center" alignItems="center">
+            <DiscountedPrice
+              originalPrice={totalWithoutDiscount}
+              discountedPrice={totalPrice}
+              fontSize="2rem"
+              fontWeight="bold"
+            />
+          </Box>
 
-        <Stack>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            fullWidth
-            sx={{
-              borderRadius: 0,
-            }}
-            onClick={() => {
-              if (cart.length === 0) {
-                toast.error('Please add some items to your cart first !', {
-                  position: 'top-right',
-                })
-              } else {
-                setAddressDialogOpen(true)
-              }
-            }}
-            endIcon={<ArrowRightAltOutlined />}
-          >
-            Checkout
-          </Button>
+          <Stack>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{
+                borderRadius: 0,
+                height: 70,
+                fontSize: 20,
+              }}
+              onClick={() => {
+                if (cart.length === 0) {
+                  toast.error('Please add some items to your cart first !', {
+                    position: 'top-right',
+                  })
+                } else {
+                  setAddressDialogOpen(true)
+                }
+              }}
+              endIcon={<ArrowRightAltOutlined fontSize="large" />}
+            >
+              Checkout
+            </Button>
 
-          <Button
-            sx={{
-              borderRadius: 0,
-            }}
-            size="large"
-            variant="contained"
-            onClick={removeallitems}
-            color="error"
-            startIcon={<Delete />}
-          >
-            Remove All Items
-          </Button>
+            <Button
+              sx={{
+                borderRadius: 0,
+              }}
+              size="large"
+              variant="contained"
+              onClick={removeallitems}
+              color="error"
+              startIcon={<Delete />}
+            >
+              Remove All Items
+            </Button>
 
-          <Button
-            size="large"
-            color="primary"
-            onClick={onClose}
-            startIcon={<Close />}
-          >
-            Close
-          </Button>
-        </Stack>
+            <Button
+              size="large"
+              color="primary"
+              onClick={() => setCartOpen(false)}
+              startIcon={<Close />}
+            >
+              Close
+            </Button>
+          </Stack>
+        </Paper>
       </Drawer>
 
       <Dialog
+        maxWidth="sm"
+        fullWidth
         open={addressDialogOpen}
         onClose={() => {
           setAddressDialogOpen(false)

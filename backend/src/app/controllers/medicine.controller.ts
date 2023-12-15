@@ -16,6 +16,7 @@ import {
 import { archiveMedicineService } from '../services/medicine/archiveMedicine.service'
 import { unarchiveMedicineService } from '../services/medicine/unarchiveMedicine.service'
 import { fetchUnarchivedMedicines } from '../services/medicine/fetchUnarchivedMedicines.service'
+import { applyDiscounts } from '../services/medicine/discount.service'
 
 export const getAllMedicines = asyncWrapper(
   async (req: Request, res: Response) => {
@@ -27,7 +28,9 @@ export const getAllMedicines = asyncWrapper(
 export const getUnarchivedMedicines = asyncWrapper(
   async (req: Request, res: Response) => {
     const medicines = await fetchUnarchivedMedicines()
-    res.status(200).json({ success: SUCCESS, data: medicines })
+    const discountedMedicines = await applyDiscounts(medicines, req.username!)
+    console.log(discountedMedicines)
+    res.status(200).json({ success: SUCCESS, data: discountedMedicines })
   }
 )
 

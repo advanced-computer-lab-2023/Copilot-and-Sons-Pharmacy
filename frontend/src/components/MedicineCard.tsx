@@ -34,6 +34,7 @@ import {
   ShoppingCart,
 } from '@mui/icons-material'
 import { DetailsCard } from './DetailsCard'
+import { DiscountedPrice } from './DiscountedPrice'
 
 function handleArchive(medicinename: string) {
   return async () => {
@@ -72,7 +73,7 @@ function handleUnarchive(medicinename: string) {
 }
 
 function BuyButton(props: { medicine: IMedicine }) {
-  const { addToCartProvider } = useCart()
+  const { addToCartProvider, setCartOpen } = useCart()
 
   async function buy(medicine: any) {
     const item = {
@@ -122,9 +123,17 @@ function BuyButton(props: { medicine: IMedicine }) {
 
     try {
       await addToCartApi(medicine._id, 1)
-      toast.success('Added to cart!', {
-        position: 'top-right',
-      })
+      toast.success(
+        <>
+          Added to your cart!{' '}
+          <Button color="success" onClick={() => setCartOpen(true)}>
+            View Cart
+          </Button>
+        </>,
+        {
+          position: 'top-right',
+        }
+      )
       addToCartProvider(item)
     } catch (e) {
       toast.error('There is not enough stock for this product!', {
@@ -234,9 +243,10 @@ export default function MedicineCard(props: {
                     alignItems="center"
                     spacing={2}
                   >
-                    <Typography variant="body1">
-                      E£ {props.medicine.price}
-                    </Typography>
+                    <DiscountedPrice
+                      originalPrice={props.medicine.price}
+                      discountedPrice={props.medicine.discountedPrice}
+                    />
 
                     {props.medicine.quantity == 0 && (
                       <Chip color="error" label="Out of stock" />
@@ -330,12 +340,12 @@ export default function MedicineCard(props: {
             sx={{ mt: 2 }}
             justifyContent="center"
           >
-            <Typography
-              variant="body2"
-              sx={{ fontSize: '20px', fontWeight: 500 }}
-            >
-              E£ {props.medicine.price}
-            </Typography>
+            <DiscountedPrice
+              originalPrice={props.medicine.price}
+              discountedPrice={props.medicine.discountedPrice}
+              fontSize="23px"
+              // fontWeight="bold"
+            />
 
             {props.medicine.quantity == 0 && (
               <Chip color="error" label="Out of stock" />
