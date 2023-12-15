@@ -9,6 +9,7 @@ import { PharmacistStatus } from 'pharmacy-common/types/pharmacist.types'
 import { HydratedDocument } from 'mongoose'
 import Patient from '../schemas/patient.schema'
 import Administrator from '../schemas/administrator.model'
+import { DoctorModel } from '../schemas/doctor'
 
 const jwtSecret = process.env.JWT_TOKEN ?? 'secret'
 
@@ -61,7 +62,7 @@ export async function getEmailAndNameForUsername(username: string) {
   switch (user.type) {
     case UserType.Pharmacist: {
       const doctor = await Pharmacist.findOne({ user: user.id })
-      console.log(Pharmacist.find())
+      console.log((await Pharmacist.find()).length)
       console.log(doctor)
 
       if (!doctor) {
@@ -84,6 +85,18 @@ export async function getEmailAndNameForUsername(username: string) {
 
       email = patient.email
       name = patient.name
+      break
+    }
+
+    case UserType.Doctor: {
+      const doc = await DoctorModel.findOne({ user: user.id })
+
+      if (!doc) {
+        throw new APIError('Doctor not found', 400)
+      }
+
+      email = doc.email
+      name = doc.name
       break
     }
 
@@ -122,6 +135,10 @@ export async function getModelIdForUsername(username: string): Promise<string> {
 
     case UserType.Admin:
       return (await Administrator.findOne({
+        user: user.id,
+      }))!.id
+    case UserType.Doctor:
+      return (await DoctorModel.findOne({
         user: user.id,
       }))!.id
 
