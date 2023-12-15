@@ -4,7 +4,6 @@ import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedici
 import { RouteObject } from 'react-router-dom'
 import { ChatWithPharmacists } from './ChatWithPharmacists'
 
-
 export const DoctorDashboardRoutes: RouteObject[] = [
   {
     element: <DoctorDashboardLayout />,
@@ -16,7 +15,6 @@ export const DoctorDashboardRoutes: RouteObject[] = [
       {
         path: 'pharmacists',
         element: <ChatWithPharmacists />,
-
       },
     ],
   },
