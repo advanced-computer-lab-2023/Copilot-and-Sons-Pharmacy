@@ -111,7 +111,7 @@ export default function PharmacistDetails({
             {
               icon: <Money />,
               label: 'Hourly Rate',
-              value: pharmacist.hourlyRate.toFixed(2) + '$',
+              value: pharmacist.hourlyRate.toFixed(2) + 'EGP',
             },
             { icon: <MailIcon />, label: 'Email', value: pharmacist.email },
             {
