@@ -216,7 +216,7 @@ export const Register = () => {
                   setHourlyRate(e.target.value)
                 }}
                 value={hourlyRate}
-                placeholder="Enter hourly rate in $"
+                placeholder="Enter hourly rate in EGP"
                 required
               />
             </Grid>

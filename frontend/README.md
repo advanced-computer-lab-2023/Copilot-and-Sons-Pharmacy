@@ -1,4 +1,8 @@
-# 3rd Parties Used & Their NPM Packages
+# Copilot&Sons El7a2ny Pharmacy
+
+## Motivation
+
+Welcome to Copilot&Sons El7a2ny Pharmacy, a state-of-the-art integrated pharmacy management software. This project is motivated by the desire to streamline and automate pharmacy operations, providing a seamless experience for pharmacists and patients within the healthcare ecosystem.
 
 > **Important**
 >

@@ -92,7 +92,7 @@ export function PharmacistDashboardLayout() {
         icon: <Wallet />,
       },
     ])
-  }, [setSidebarLinks, user, pharmacistQuery])
+  }, [setSidebarLinks, user, pharmacistQuery.data])
 
   return (
     <AuthenticatedRoute requiredUserType={UserType.Pharmacist}>

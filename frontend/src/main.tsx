@@ -51,6 +51,9 @@ if (PrescriptionId) {
     'prescriptionList',
     JSON.stringify(prescriptionList.data)
   )
+} else {
+  localStorage.setItem('PrescriptionId', '')
+  localStorage.setItem('prescriptionList', '')
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

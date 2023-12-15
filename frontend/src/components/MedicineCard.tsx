@@ -2,12 +2,19 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { CardActions, Button, IconButton, TextField } from '@mui/material'
+import {
+  CardActions,
+  Button,
+  IconButton,
+  TextField,
+  Backdrop,
+  Chip,
+} from '@mui/material'
 import IMedicine from '../types/medicine.type'
 import { Link } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { OnlyAuthenticated } from './OnlyAuthenticated'
-import { Stack } from '@mui/system'
+import { Box, Stack } from '@mui/system'
 import { addToCartApi } from '@/api/cart'
 import { useCart } from '@/hooks/cartHook'
 import { ToastContainer, toast } from 'react-toastify'
@@ -15,6 +22,17 @@ import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import { archiveMedicineApi, unarchiveMedicineApi } from '@/api/medicine'
+import { useAuth } from '@/hooks/auth'
+import {
+  Archive,
+  CurrencyPound,
+  Edit,
+  Healing,
+  Medication,
+  MedicationOutlined,
+  ShoppingCart,
+} from '@mui/icons-material'
+import { DetailsCard } from './DetailsCard'
 
 function handleArchive(medicinename: string) {
   return async () => {
@@ -120,6 +138,7 @@ function BuyButton(props: { medicine: IMedicine }) {
       disabled={false}
       variant="contained"
       onClick={() => buy(props.medicine)}
+      startIcon={<ShoppingCart />}
     >
       Add to Cart
     </Button>
@@ -149,6 +168,88 @@ export default function MedicineCard(props: {
 }) {
   const [quantity, setQuantity] = useState(1)
   const [dosage, setDosage] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const auth = useAuth()
+  const userType = auth.user?.type
+
+  const Overlay = () => (
+    <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={isOpen}
+      onClick={() => setIsOpen(false)}
+    >
+      <Card
+        sx={{
+          maxWidth: 400,
+          margin: 'auto',
+          borderRadius: 2,
+        }}
+      >
+        <CardContent>
+          <img
+            src={props.medicine.Image}
+            alt=""
+            style={{ width: '100%', height: 'auto' }}
+          />
+          <Typography
+            variant="h5"
+            style={{ fontWeight: 'bold' }}
+            color="primary.main"
+            textAlign="center"
+          >
+            {props.medicine.name}
+          </Typography>
+
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            {props.medicine.description}
+          </Typography>
+
+          <Box height={30} />
+
+          <DetailsCard
+            noCard
+            fields={[
+              {
+                label: 'Medical Uses',
+                value: props.medicine.medicinalUse.join(', '),
+                icon: <MedicationOutlined />,
+              },
+              {
+                label: 'Main Active Ingredient',
+                value: props.medicine.activeIngredients[0],
+                icon: <Medication />,
+              },
+              {
+                label: 'Active Ingredients',
+                value: props.medicine.activeIngredients.slice(1).join(', '),
+                icon: <Healing />,
+              },
+              {
+                label: 'Price',
+                value: (
+                  <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}
+                  >
+                    <Typography variant="body1">
+                      E£ {props.medicine.price}
+                    </Typography>
+
+                    {props.medicine.quantity == 0 && (
+                      <Chip color="error" label="Out of stock" />
+                    )}
+                  </Stack>
+                ),
+                icon: <CurrencyPound />,
+              },
+            ]}
+          />
+        </CardContent>
+      </Card>
+    </Backdrop>
+  )
 
   const handleIncrementQuantity = () => {
     setQuantity(quantity + 1)
@@ -183,109 +284,157 @@ export default function MedicineCard(props: {
   }
 
   return (
-    <Card>
-      <CardMedia
-        component="img"
-        height="140"
-        image={props.medicine.Image}
-        alt=""
-      />
-      <CardContent>
-        <ToastContainer />
-        <Typography gutterBottom variant="h5" component="div">
-          {props.medicine.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Description :{props.medicine.description}
-          <br />
-          Medical Use: {props.medicine.medicinalUse.join(', ')}
-          <br />
-          Main Active Ingrediant:{props.medicine.activeIngredients[0]}
-          <br />
-          Active Ingrediants:
-          {props.medicine.activeIngredients.slice(1).join(', ')}
-          <br />
-          price: {props.medicine.price}
-          {props.medicine.quantity == 0 && (
-            <Typography variant="body2" color="error">
-              out of stock
+    <>
+      <ToastContainer />
+      <Card
+        sx={{
+          boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+          cursor: 'pointer',
+          transition: 'box-shadow 0.3s',
+          border: '1px solid #ccc',
+          height: userType === UserType.Doctor ? 440 : 350,
+          position: 'relative',
+          '&:hover': {
+            boxShadow: '0 10px 20px rgba(0, 0, 0, 0.3)',
+          },
+        }}
+      >
+        <CardContent
+          onClick={() => setIsOpen(true)}
+          style={{ padding: '20px', textAlign: 'center' }}
+        >
+          <CardMedia
+            component="img"
+            height="150"
+            image={props.medicine.Image}
+            alt="medicine image"
+            style={{ marginBottom: '20px' }}
+          />
+          <Typography
+            mt={2}
+            textAlign="center"
+            variant="h5"
+            style={{ fontWeight: 'bold' }}
+            color="primary.main"
+          >
+            {props.medicine.name}
+          </Typography>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ mt: 2 }}
+            justifyContent="center"
+          >
+            <Typography
+              variant="body2"
+              sx={{ fontSize: '20px', fontWeight: 500 }}
+            >
+              E£ {props.medicine.price}
             </Typography>
-          )}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ justifyContent: 'center' }}>
-        <Stack direction="row" spacing={2}>
-          <OnlyAuthenticated requiredUserType={UserType.Patient}>
-            {props.medicine.quantity != 0 && (
-              <BuyButton medicine={props.medicine} />
-            )}
 
             {props.medicine.quantity == 0 && (
+              <Chip color="error" label="Out of stock" />
+            )}
+          </Stack>
+        </CardContent>
+        <CardActions
+          sx={{
+            position: 'absolute', // Set position to absolute for absolute positioning
+            bottom: 10, // Position the buttons at the bottom
+            width: '100%', // Make the buttons take the full width
+            justifyContent: 'center', // Center the buttons horizontally
+            backgroundColor: 'rgba(255, 255, 255, 0.9)', // Add a semi-transparent white background to the buttons
+            padding: '10px', // Add some padding to the buttons
+          }}
+        >
+          <Stack direction="row" spacing={2}>
+            <OnlyAuthenticated requiredUserType={UserType.Patient}>
+              {props.medicine.quantity != 0 && (
+                <BuyButton medicine={props.medicine} />
+              )}
+
+              {props.medicine.quantity == 0 && (
+                <Link
+                  to={`/patient-dashboard/medicines/view-alternative-medicine/${props.medicine._id}`}
+                >
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    startIcon={<Medication />}
+                  >
+                    View Alternatives
+                  </Button>
+                </Link>
+              )}
+            </OnlyAuthenticated>
+            <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
               <Link
-                to={`/patient-dashboard/medicines/view-alternative-medicine/${props.medicine._id}`}
+                to={`/pharmacist-dashboard/medicines/editMedicine/${props.medicine.name}`}
               >
-                <Button color="primary" variant="contained">
-                  view alternatives
+                <Button
+                  color="secondary"
+                  disabled={false}
+                  variant="contained"
+                  startIcon={<Edit />}
+                >
+                  Edit
                 </Button>
               </Link>
-            )}
-          </OnlyAuthenticated>
-          <OnlyAuthenticated requiredUserType={UserType.Pharmacist}>
-            <Link
-              to={`/pharmacist-dashboard/medicines/editMedicine/${props.medicine.name}`}
-            >
-              <Button color="secondary" disabled={false} variant="contained">
-                Edit
-              </Button>
-            </Link>
-            {props.medicine.status === 'unarchived' && (
-              <Button
-                color="secondary"
-                disabled={false}
-                variant="contained"
-                onClick={handleArchive(props.medicine.name)}
-              >
-                Archive
-              </Button>
-            )}
-            {props.medicine.status === 'archived' && (
-              <Button
-                color="secondary"
-                disabled={false}
-                variant="contained"
-                onClick={handleUnarchive(props.medicine.name)}
-              >
-                Unarchive
-              </Button>
-            )}
-          </OnlyAuthenticated>
-          <OnlyAuthenticated requiredUserType={UserType.Doctor}>
-            <IconButton onClick={handleDecrementQuantity}>
-              <RemoveIcon />
-            </IconButton>
-            <span>{quantity}</span>
-            <IconButton onClick={handleIncrementQuantity}>
-              <AddIcon />
-            </IconButton>
+              {props.medicine.status === 'unarchived' && (
+                <Button
+                  color="secondary"
+                  disabled={false}
+                  variant="contained"
+                  onClick={handleArchive(props.medicine.name)}
+                  startIcon={<Archive />}
+                >
+                  Archive
+                </Button>
+              )}
+              {props.medicine.status === 'archived' && (
+                <Button
+                  color="secondary"
+                  disabled={false}
+                  variant="contained"
+                  onClick={handleUnarchive(props.medicine.name)}
+                  startIcon={<Archive />}
+                >
+                  Unarchive
+                </Button>
+              )}
+            </OnlyAuthenticated>
+            <OnlyAuthenticated requiredUserType={UserType.Doctor}>
+              <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                <IconButton onClick={handleDecrementQuantity}>
+                  <RemoveIcon />
+                </IconButton>
+                <span>{quantity}</span>
+                <IconButton onClick={handleIncrementQuantity}>
+                  <AddIcon />
+                </IconButton>
 
-            <TextField
-              label="Dosage"
-              value={dosage}
-              onChange={(e) => setDosage(e.target.value)}
-              variant="outlined"
-            />
-            <Button
-              color="secondary"
-              disabled={false}
-              variant="contained"
-              onClick={() => handleAddToPrescription()}
-            >
-              Add to Prescription
-            </Button>
-          </OnlyAuthenticated>
-        </Stack>
-      </CardActions>
-    </Card>
+                <TextField
+                  label="Dosage"
+                  value={dosage}
+                  onChange={(e) => setDosage(e.target.value)}
+                  variant="outlined"
+                />
+                <Button
+                  color="secondary"
+                  disabled={false}
+                  variant="contained"
+                  onClick={() => handleAddToPrescription()}
+                  style={{ marginTop: '10px' }}
+                >
+                  Add to Prescription
+                </Button>
+              </div>
+            </OnlyAuthenticated>
+          </Stack>
+        </CardActions>
+      </Card>
+      <Overlay />
+    </>
   )
 }
 

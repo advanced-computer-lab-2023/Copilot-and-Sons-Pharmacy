@@ -37,6 +37,7 @@ app.use('/api', deliveryAddressRouter)
 app.use('/api/order', orderRouter)
 app.use('/api', chatsRouter)
 app.use('/api', notificationRouter)
+app.use('/api', chatsRouter)
 
 //global error handler
 app.use(globalErrorHandler)
