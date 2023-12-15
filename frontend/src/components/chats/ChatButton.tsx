@@ -4,8 +4,15 @@ import { useState } from 'react'
 import { Chat } from './Chat'
 import { LoadingButton } from '@mui/lab'
 import { useChats } from '@/hooks/chats'
+import { Message } from '@mui/icons-material'
 
-export function ChatButton({ otherUsername }: { otherUsername: string }) {
+export function ChatButton({
+  otherUsername,
+  fullWidth = false,
+}: {
+  otherUsername: string
+  fullWidth?: boolean
+}) {
   const { createOrGetChatWith } = useChats()
 
   const [chatId, setChatId] = useState<string | null>(null)
@@ -28,6 +35,8 @@ export function ChatButton({ otherUsername }: { otherUsername: string }) {
           mutation.mutate()
         }}
         loading={mutation.isLoading}
+        fullWidth={fullWidth}
+        startIcon={<Message />}
       >
         Chat
       </LoadingButton>
