@@ -4,7 +4,7 @@ import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMed
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
 import { Link, RouteObject } from 'react-router-dom'
-import { ChatWithPharmacists } from './ChatWithPharmacists'
+import GetApprovedPharmacists from '@/features/admin-dashboard/routes/GetApprovedPharmacists'
 
 export const DoctorDashboardRoutes: RouteObject[] = [
   {
@@ -37,7 +37,7 @@ export const DoctorDashboardRoutes: RouteObject[] = [
           },
           {
             path: 'pharmacists',
-            element: <ChatWithPharmacists />,
+            element: <GetApprovedPharmacists />,
           },
         ],
       },

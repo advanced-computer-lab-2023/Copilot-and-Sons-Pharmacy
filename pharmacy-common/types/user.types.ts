@@ -15,6 +15,9 @@ export interface GetUserResponse {
   id: string
   username: string
   type: UserType
+  modelId: string
+  name: string
+  email: string
 }
 
 export interface GetUserByUsernameResponse extends GetUserResponse {}
