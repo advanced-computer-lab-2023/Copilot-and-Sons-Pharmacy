@@ -191,25 +191,15 @@ export default function MedicineCard(props: {
             alt=""
             style={{ width: '100%', height: 'auto' }}
           />
-          <Stack
-            mt={2}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
+          <Typography
+            variant="h5"
+            style={{ fontWeight: 'bold' }}
+            color="primary.main"
+            textAlign="center"
           >
-            <Typography
-              variant="h5"
-              style={{ fontWeight: 'bold' }}
-              color="primary.main"
-            >
-              {props.medicine.name}
-            </Typography>
+            {props.medicine.name}
+          </Typography>
 
-            {props.medicine.quantity == 0 && (
-              <Chip color="error" label="Out of stock" />
-            )}
-          </Stack>
           <Typography variant="body1" sx={{ mt: 2 }}>
             {props.medicine.description}
           </Typography>
@@ -236,7 +226,22 @@ export default function MedicineCard(props: {
               },
               {
                 label: 'Price',
-                value: props.medicine.price,
+                value: (
+                  <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}
+                  >
+                    <Typography variant="body1">
+                      E£ {props.medicine.price}
+                    </Typography>
+
+                    {props.medicine.quantity == 0 && (
+                      <Chip color="error" label="Out of stock" />
+                    )}
+                  </Stack>
+                ),
                 icon: <CurrencyPound />,
               },
             ]}
@@ -305,31 +310,32 @@ export default function MedicineCard(props: {
             alt="medicine image"
             style={{ marginBottom: '20px' }}
           />
-          <Stack
+          <Typography
             mt={2}
+            textAlign="center"
+            variant="h5"
+            style={{ fontWeight: 'bold' }}
+            color="primary.main"
+          >
+            {props.medicine.name}
+          </Typography>
+          <Stack
             direction="row"
-            justifyContent="center"
-            alignItems="center"
             spacing={2}
+            sx={{ mt: 2 }}
+            justifyContent="center"
           >
             <Typography
-              variant="h5"
-              style={{ fontWeight: 'bold' }}
-              color="primary.main"
+              variant="body2"
+              sx={{ fontSize: '20px', fontWeight: 500 }}
             >
-              {props.medicine.name}
+              E£ {props.medicine.price}
             </Typography>
 
             {props.medicine.quantity == 0 && (
               <Chip color="error" label="Out of stock" />
             )}
           </Stack>
-          <Typography
-            variant="body2"
-            sx={{ mt: 2, fontSize: '20px', fontWeight: 500 }}
-          >
-            E£ {props.medicine.price}
-          </Typography>
         </CardContent>
         <CardActions
           sx={{
