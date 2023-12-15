@@ -52,7 +52,7 @@ export function PharmacistDashboardLayout() {
     setSidebarLinks([
       {
         to: '/pharmacist-dashboard/medicines/',
-        text: 'View All Available Medicines',
+        text: 'Medicines',
         icon: <Healing />,
       },
 

@@ -13,7 +13,7 @@ export function DoctorDashboardLayout() {
     setSidebarLinks([
       {
         to: '/doctor-dashboard/medicines/',
-        text: 'View All Available Medicines',
+        text: 'Medicines',
         icon: <Healing />,
       },
       {
