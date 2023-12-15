@@ -59,7 +59,8 @@ export const editMedicineService = async (
   existingMedicine.medicinalUse =
     updatedMedicineData.medicinalUse || existingMedicine.medicinalUse
   existingMedicine.sales = updatedMedicineData.sales || existingMedicine.sales
-
+  existingMedicine.requiresPrescription =
+    updatedMedicineData.requiresPrescription
   // Save the updated medicine to the database
   await existingMedicine.save()
 

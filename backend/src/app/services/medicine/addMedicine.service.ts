@@ -20,6 +20,7 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       Image,
       medicinalUse,
       activeIngredients,
+      requiresPrescription,
     } = info
     console.log('Image:', Image)
 
@@ -41,6 +42,7 @@ export const addMedicineService = async (info: IAddMedicineRequest) => {
       activeIngredients: activeIngredients
         .split(', ')
         .map((item) => item.trim()),
+      requiresPrescription,
       Image: fullPath.toString(),
     })
 
