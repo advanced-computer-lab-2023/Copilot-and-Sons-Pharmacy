@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { registerUser } from '../../../api/auth.ts'
 import React, { useState, FormEvent } from 'react'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import {
@@ -350,7 +350,6 @@ const RegistrationForm: React.FC = () => {
         <Typography variant="h4" align="center" gutterBottom>
           Register
         </Typography>
-        <ToastContainer />
         {/* Progress Bar */}
         <LinearProgress
           variant="determinate"
@@ -360,7 +359,6 @@ const RegistrationForm: React.FC = () => {
         <Typography variant="h6" align="center" gutterBottom>
           {steps[activeStep]}
         </Typography>
-        <ToastContainer />
         <form onSubmit={handleSubmit}>
           {renderStep()}
           <Grid container spacing={2} marginTop={'10px'}>

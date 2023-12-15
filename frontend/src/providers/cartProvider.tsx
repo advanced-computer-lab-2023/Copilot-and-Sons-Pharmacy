@@ -16,6 +16,10 @@ interface CartContextType {
   updateQuantityProvider: (productId: any, quantity: number) => void
   totalPrice: number
   calculateTotalPrice: (cartData: any) => void
+  cartOpen: boolean
+  setCartOpen: (value: boolean) => void
+  toggleCart: () => void
+  totalWithoutDiscount: number
 }
 
 export const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -23,6 +27,8 @@ export const CartContext = createContext<CartContextType | undefined>(undefined)
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
   const [totalPrice, setTotalPrice] = useState(0)
+  const [totalWithoutDiscount, setTotalWithoutDiscount] = useState(0)
+  const [cartOpen, setCartOpen] = useState(false)
 
   useEffect(() => {
     calculateTotalPrice(cart)
@@ -32,10 +38,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
     let total = 0
 
     for (const item of cartData) {
-      total += item.medicine.price * item.quantity
+      total += item.medicine.discountedPrice * item.quantity
     }
 
     setTotalPrice(total)
+  }
+
+  const calculateTotalPriceWithoutDiscount = (cartData: any) => {
+    let total = 0
+
+    for (const item of cartData) {
+      total += item.medicine.price * item.quantity
+    }
+
+    setTotalWithoutDiscount(total)
   }
 
   const addToCartProvider = (item: CartItem) => {
@@ -59,19 +75,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return [...prevCart, item]
       }
     })
-    calculateTotalPrice([...cart, item])
   }
 
   const removeFromCartProvider = (productId: any) => {
     setCart((prevCart) =>
       prevCart.filter((item) => item.medicine._id !== productId)
     )
-    calculateTotalPrice(cart.filter((item) => item.medicine._id !== productId))
   }
 
   const clearCartProvider = () => {
     setCart([])
-    calculateTotalPrice([])
   }
 
   const incrementQuantityProvider = (productId: any) => {
@@ -83,7 +96,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return item
     })
     setCart(updatedCart)
-    calculateTotalPrice(updatedCart)
   }
 
   const decrementQuantityProvider = (productId: any) => {
@@ -95,7 +107,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return item
     })
     setCart(updatedCart)
-    calculateTotalPrice(updatedCart)
   }
 
   const updateQuantityProvider = (productId: any, newQuantity: number) => {
@@ -107,8 +118,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return item
     })
     setCart(updatedCart)
-    calculateTotalPrice(updatedCart)
   }
+
+  const toggleCart = () => {
+    setCartOpen(!cartOpen)
+  }
+
+  useEffect(() => {
+    calculateTotalPrice(cart)
+    calculateTotalPriceWithoutDiscount(cart)
+  }, [cart])
 
   return (
     <CartContext.Provider
@@ -122,6 +141,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
         updateQuantityProvider,
         incrementQuantityProvider,
         decrementQuantityProvider,
+        cartOpen,
+        setCartOpen,
+        toggleCart,
+        totalWithoutDiscount,
       }}
     >
       {children}

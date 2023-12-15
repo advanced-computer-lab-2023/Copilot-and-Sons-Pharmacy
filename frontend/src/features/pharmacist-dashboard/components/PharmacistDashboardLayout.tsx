@@ -52,12 +52,7 @@ export function PharmacistDashboardLayout() {
     setSidebarLinks([
       {
         to: '/pharmacist-dashboard/medicines/',
-        text: 'View All Available Medicines',
-        icon: <Healing />,
-      },
-      {
-        to: 'pharmacist-dashboard/medicines/search-for-medicine/',
-        text: 'Search For Medicine',
+        text: 'Medicines',
         icon: <Healing />,
       },
 
@@ -71,11 +66,7 @@ export function PharmacistDashboardLayout() {
         text: 'Add Medicine',
         icon: <Healing />,
       },
-      {
-        to: '/pharmacist-dashboard/medicines/allUses',
-        text: 'Filter By Medicinal Use',
-        icon: <Healing />,
-      },
+
       {
         to: '/pharmacist-dashboard/change-password',
         text: 'Change Password',

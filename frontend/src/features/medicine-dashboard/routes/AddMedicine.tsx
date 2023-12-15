@@ -25,7 +25,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 })
 
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useAddMedicineService } from '@/api/medicine'
 import { useState } from 'react'
 
@@ -134,7 +134,6 @@ export function AddMedicine() {
           <Typography variant="h4" align="center" gutterBottom>
             Add New Medicine
           </Typography>
-          <ToastContainer />
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>

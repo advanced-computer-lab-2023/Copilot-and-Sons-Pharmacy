@@ -17,7 +17,7 @@ import { OnlyAuthenticated } from './OnlyAuthenticated'
 import { Box, Stack } from '@mui/system'
 import { addToCartApi } from '@/api/cart'
 import { useCart } from '@/hooks/cartHook'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -28,11 +28,13 @@ import {
   CurrencyPound,
   Edit,
   Healing,
+  Masks,
   Medication,
   MedicationOutlined,
   ShoppingCart,
 } from '@mui/icons-material'
 import { DetailsCard } from './DetailsCard'
+import { DiscountedPrice } from './DiscountedPrice'
 
 function handleArchive(medicinename: string) {
   return async () => {
@@ -71,7 +73,7 @@ function handleUnarchive(medicinename: string) {
 }
 
 function BuyButton(props: { medicine: IMedicine }) {
-  const { addToCartProvider } = useCart()
+  const { addToCartProvider, setCartOpen } = useCart()
 
   async function buy(medicine: any) {
     const item = {
@@ -121,9 +123,17 @@ function BuyButton(props: { medicine: IMedicine }) {
 
     try {
       await addToCartApi(medicine._id, 1)
-      toast.success('Added to cart!', {
-        position: 'top-right',
-      })
+      toast.success(
+        <>
+          Added to your cart!{' '}
+          <Button color="success" onClick={() => setCartOpen(true)}>
+            View Cart
+          </Button>
+        </>,
+        {
+          position: 'top-right',
+        }
+      )
       addToCartProvider(item)
     } catch (e) {
       toast.error('There is not enough stock for this product!', {
@@ -233,9 +243,10 @@ export default function MedicineCard(props: {
                     alignItems="center"
                     spacing={2}
                   >
-                    <Typography variant="body1">
-                      E£ {props.medicine.price}
-                    </Typography>
+                    <DiscountedPrice
+                      originalPrice={props.medicine.price}
+                      discountedPrice={props.medicine.discountedPrice}
+                    />
 
                     {props.medicine.quantity == 0 && (
                       <Chip color="error" label="Out of stock" />
@@ -243,6 +254,11 @@ export default function MedicineCard(props: {
                   </Stack>
                 ),
                 icon: <CurrencyPound />,
+              },
+              {
+                label: 'Requires Prescription',
+                value: props.medicine.requiresPrescription ? 'Yes' : 'No',
+                icon: <Masks />,
               },
             ]}
           />
@@ -285,14 +301,12 @@ export default function MedicineCard(props: {
 
   return (
     <>
-      <ToastContainer />
       <Card
         sx={{
           boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
           cursor: 'pointer',
           transition: 'box-shadow 0.3s',
-          border: '1px solid #ccc',
-          height: userType === UserType.Doctor ? 440 : 350,
+          height: userType === UserType.Doctor ? 440 : 380,
           position: 'relative',
           '&:hover': {
             boxShadow: '0 10px 20px rgba(0, 0, 0, 0.3)',
@@ -325,17 +339,25 @@ export default function MedicineCard(props: {
             sx={{ mt: 2 }}
             justifyContent="center"
           >
-            <Typography
-              variant="body2"
-              sx={{ fontSize: '20px', fontWeight: 500 }}
-            >
-              E£ {props.medicine.price}
-            </Typography>
+            <DiscountedPrice
+              originalPrice={props.medicine.price}
+              discountedPrice={props.medicine.discountedPrice}
+              fontSize="23px"
+              // fontWeight="bold"
+            />
 
             {props.medicine.quantity == 0 && (
               <Chip color="error" label="Out of stock" />
             )}
           </Stack>
+
+          {props.medicine.requiresPrescription && (
+            <Chip
+              sx={{ mt: 1 }}
+              color="warning"
+              label="Requires Prescription"
+            />
+          )}
         </CardContent>
         <CardActions
           sx={{
@@ -343,7 +365,6 @@ export default function MedicineCard(props: {
             bottom: 10, // Position the buttons at the bottom
             width: '100%', // Make the buttons take the full width
             justifyContent: 'center', // Center the buttons horizontally
-            backgroundColor: 'rgba(255, 255, 255, 0.9)', // Add a semi-transparent white background to the buttons
             padding: '10px', // Add some padding to the buttons
           }}
         >

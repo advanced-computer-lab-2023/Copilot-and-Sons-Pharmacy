@@ -12,7 +12,7 @@ import {
   Box,
   Alert,
 } from '@mui/material'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import {
   searchForMedicine,
   useEditMedicineService,
@@ -153,7 +153,6 @@ export function EditMedicine() {
           <Typography variant="h4" align="center" gutterBottom>
             Edit Medicine
           </Typography>
-          <ToastContainer />
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
