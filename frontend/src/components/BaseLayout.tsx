@@ -261,14 +261,14 @@ export function BaseLayout() {
 
           <Box
             sx={{
-              width: '15%',
+              width: '20%',
               alignItems: 'start',
               position: 'relative',
             }}
           >
             <AppBar
               style={{
-                width: '15%',
+                width: '20%',
                 left: '0',
                 top: '0',
               }}
