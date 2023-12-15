@@ -19,7 +19,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from 'react-query'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { useMemo, useState } from 'react'
 import dayjs from 'dayjs'
@@ -176,7 +176,7 @@ export function FilteredList<T>({
                                 }
                               />
                             }
-                            label="Is Filled?"
+                            label={filter.label}
                           />
                         ),
                         dateRange: (
