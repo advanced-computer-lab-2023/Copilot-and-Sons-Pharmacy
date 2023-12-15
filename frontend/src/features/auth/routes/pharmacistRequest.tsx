@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {
   TextField,
@@ -378,7 +378,6 @@ export const Register = () => {
         <Typography variant="h4" align="center" gutterBottom>
           Register
         </Typography>
-        <ToastContainer />
         {/* Progress Bar */}
         <LinearProgress
           variant="determinate"

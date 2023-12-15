@@ -1,6 +1,5 @@
 import PharmacistDetails from '../../../components/pharmacistDetails'
 import { Container, Grid } from '@mui/material'
-import { ToastContainer } from 'react-toastify'
 import { CardPlaceholder } from '@/components/CardPlaceholder'
 import { getPendingPharmacists } from '@/api/admin'
 import { useQuery } from 'react-query'
@@ -21,7 +20,6 @@ const GetPharmacists = () => {
 
   return (
     <Container>
-      <ToastContainer />
       {/* can replace container with civ */}
       {/* <div>
         {pharmacists && pharmacists.map((pharmacist) => (

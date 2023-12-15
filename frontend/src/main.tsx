@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { routes } from './routes'
@@ -13,6 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AuthProvider } from './providers/AuthProvider'
 import { getPrescriptionApi } from './api/doctor'
+import { ToastContainer } from 'react-toastify'
 
 const queryClient = new QueryClient()
 
@@ -58,20 +58,21 @@ if (PrescriptionId) {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
-    <React.StrictMode>
-      <SnackbarProvider
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      />
-      <AuthProvider>
-        <AlertsProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <RouterProvider router={router} />
-          </LocalizationProvider>
-        </AlertsProvider>
-      </AuthProvider>
-    </React.StrictMode>
+    {/* <React.StrictMode> */}
+    <SnackbarProvider
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+    />
+    <AuthProvider>
+      <AlertsProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
+      </AlertsProvider>
+    </AuthProvider>
+    <ToastContainer />
+    {/* </React.StrictMode> */}
   </QueryClientProvider>
 )

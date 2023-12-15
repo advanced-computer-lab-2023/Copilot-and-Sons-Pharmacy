@@ -17,7 +17,7 @@ import { OnlyAuthenticated } from './OnlyAuthenticated'
 import { Box, Stack } from '@mui/system'
 import { addToCartApi } from '@/api/cart'
 import { useCart } from '@/hooks/cartHook'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -28,6 +28,7 @@ import {
   CurrencyPound,
   Edit,
   Healing,
+  Masks,
   Medication,
   MedicationOutlined,
   ShoppingCart,
@@ -244,6 +245,11 @@ export default function MedicineCard(props: {
                 ),
                 icon: <CurrencyPound />,
               },
+              {
+                label: 'Requires Prescription',
+                value: props.medicine.requiresPrescription ? 'Yes' : 'No',
+                icon: <Masks />,
+              },
             ]}
           />
         </CardContent>
@@ -285,14 +291,13 @@ export default function MedicineCard(props: {
 
   return (
     <>
-      <ToastContainer />
       <Card
         sx={{
           boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
           cursor: 'pointer',
           transition: 'box-shadow 0.3s',
           border: '1px solid #ccc',
-          height: userType === UserType.Doctor ? 440 : 350,
+          height: userType === UserType.Doctor ? 440 : 380,
           position: 'relative',
           '&:hover': {
             boxShadow: '0 10px 20px rgba(0, 0, 0, 0.3)',
@@ -336,6 +341,14 @@ export default function MedicineCard(props: {
               <Chip color="error" label="Out of stock" />
             )}
           </Stack>
+
+          {props.medicine.requiresPrescription && (
+            <Chip
+              sx={{ mt: 1 }}
+              color="warning"
+              label="Requires Prescription"
+            />
+          )}
         </CardContent>
         <CardActions
           sx={{

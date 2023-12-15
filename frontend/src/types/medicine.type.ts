@@ -9,4 +9,5 @@ export default interface IMedicine {
   sales: number
   _id: string
   status: string
+  requiresPrescription: boolean
 }

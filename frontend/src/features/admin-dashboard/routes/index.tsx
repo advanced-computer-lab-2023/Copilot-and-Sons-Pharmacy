@@ -7,7 +7,6 @@ import AddingAdmin from './AddingAdmin'
 import GetApprovedPharmacists from './GetApprovedPharmacists'
 
 import { RemoveUser } from './RemoveUser'
-import { ToastContainer } from 'react-toastify'
 import GetPharmacists from './getPendingPharmacists'
 import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedicines'
 import ViewPatients from '@/features/patient-dashboard/routes/viewAllPatients'
@@ -32,13 +31,7 @@ export const adminDashboardRoutes: RouteObject[] = [
       },
       {
         path: 'add-admin',
-        element: (
-          <>
-            {' '}
-            <ToastContainer />
-            <AddingAdmin />
-          </>
-        ),
+        element: <AddingAdmin />,
       },
       {
         path: 'remove-user',
