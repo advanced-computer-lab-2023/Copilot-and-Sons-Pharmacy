@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Container, Grid } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import MedicineCard from '../../../components/MedicineCard'
 import {
   viewAllMedicines,
@@ -125,7 +125,7 @@ const ViewAllMedicines = () => {
   }, [])
 
   return (
-    <Container>
+    <>
       <Grid container spacing={4}>
         {medicines.map((medicine: IMedicine) => (
           <Grid item xs={12} md={6} lg={4} key={medicine._id}>
@@ -171,7 +171,7 @@ const ViewAllMedicines = () => {
             : 'Submit Prescription'}
         </Button>
       </OnlyAuthenticated>
-    </Container>
+    </>
   )
 }
 
