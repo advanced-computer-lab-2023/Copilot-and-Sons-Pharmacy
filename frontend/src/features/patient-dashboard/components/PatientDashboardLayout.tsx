@@ -28,7 +28,7 @@ export function PatientDashboardLayout() {
     setSidebarLinks([
       {
         to: '/patient-dashboard/medicines/',
-        text: 'View All Available Medicines',
+        text: 'Medicines',
         icon: <Healing />,
       },
       {
