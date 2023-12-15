@@ -17,16 +17,6 @@ export function DoctorDashboardLayout() {
         icon: <Healing />,
       },
       {
-        to: '/Doctor-dashboard/medicines/search-for-medicine/',
-        text: 'Search For Medicine',
-        icon: <Healing />,
-      },
-      {
-        to: '/Doctor-dashboard/medicines/allUses',
-        text: 'Filter By Medicinal Use',
-        icon: <Healing />,
-      },
-      {
         to: '/Doctor-dashboard/pharmacists',
         text: 'Chat with Pharmacists',
         icon: <Healing />,
