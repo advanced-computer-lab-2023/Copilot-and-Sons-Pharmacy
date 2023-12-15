@@ -12,18 +12,8 @@ export function DoctorDashboardLayout() {
   useEffect(() => {
     setSidebarLinks([
       {
-        to: '/doctor-dashboard/medicines/',
-        text: 'View All Available Medicines',
-        icon: <Healing />,
-      },
-      {
-        to: '/Doctor-dashboard/medicines/search-for-medicine/',
-        text: 'Search For Medicine',
-        icon: <Healing />,
-      },
-      {
-        to: '/Doctor-dashboard/medicines/allUses',
-        text: 'Filter By Medicinal Use',
+        to: '/doctor-dashboard/',
+        text: 'Medicines',
         icon: <Healing />,
       },
       {
