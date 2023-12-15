@@ -18,7 +18,7 @@ export async function viewPatientInfo(id: string) {
   console.log('hey I entered')
   const response = await api.get(`/admin/patientInfo/${id}`)
 
-  return response.data
+  return response.data.data
 }
 
 export async function addPrescriptionToCart(prescriptionId: any) {
