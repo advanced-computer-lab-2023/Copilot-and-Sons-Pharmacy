@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer'
 import Pharmacist, { IPharmacist } from '../schemas/pharmacist'
+import { addUserNotification } from './notification.service'
+import User from '../schemas/user.model'
 
 export async function fetchAllPharmacists(): Promise<IPharmacist[]> {
   console.log('Fetching all Pharmacists...')
@@ -44,12 +46,33 @@ export async function sendNotification(emailAddress: string, medName: string) {
   }
 }
 
+export async function sendNotificationOnTheSystem(
+  username: string,
+  medName: string
+) {
+  const notification = {
+    description: `Medicine ${medName} is out of stock`,
+    title: 'Medicine Restock',
+  }
+  console.log('senttttttttttttt')
+
+  addUserNotification({ username, notification })
+}
+
 export async function sendNotificationToAll(medName: string) {
   console.log('hi i am sending notifications now')
   const allPharmacists = await fetchAllPharmacists()
 
   allPharmacists.forEach(async (pharmacist) => {
     const emailAddress = pharmacist.email
+    const pharmacistUser = await User.findById(pharmacist?.user).lean()
+    const pharmacistUsername = pharmacistUser?.username
+
+    if (pharmacistUsername) {
+      console.log(pharmacistUsername)
+      await sendNotificationOnTheSystem(pharmacistUsername, medName)
+    }
+
     await sendNotification(emailAddress, medName)
   })
 }

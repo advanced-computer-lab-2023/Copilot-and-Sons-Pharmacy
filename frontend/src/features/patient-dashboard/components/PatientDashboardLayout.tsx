@@ -7,7 +7,6 @@ import {
   LocalShipping,
   LocationCity,
   MedicationOutlined,
-  ShoppingCart,
   VpnKey,
   Wallet,
 } from '@mui/icons-material'
@@ -42,7 +41,6 @@ export function PatientDashboardLayout() {
         icon: <VpnKey />,
       },
 
-      { action: toggleCart, text: 'Cart', icon: <ShoppingCart /> },
       {
         to: '/patient-dashboard/orders',
         text: 'Orders',

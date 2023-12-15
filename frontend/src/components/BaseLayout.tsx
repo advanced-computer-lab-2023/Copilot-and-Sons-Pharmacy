@@ -3,52 +3,97 @@ import {
   CssBaseline,
   AppBar,
   Toolbar,
-  Typography,
-  Drawer,
-  Divider,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   IconButton,
+  alpha,
+  InputBase,
 } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { OnlyAuthenticated } from './OnlyAuthenticated'
-import { Logout } from '@mui/icons-material'
-import { LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { Logout as LogoutIcon } from '@mui/icons-material'
+import { NotificationsList } from './notification'
+// import { NotificationsList } from './notification'
 import { useAuth } from '@/hooks/auth'
 import { ChatsProvider } from '@/providers/ChatsProvider'
 import { ChatsList } from './chats/ChatsList'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 // import { NotificationsList } from './notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { styled } from '@mui/material/styles'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ProfileMenu } from './ProfileMenu'
+import SearchIcon from '@mui/icons-material/Search'
+import { faCapsules } from '@fortawesome/free-solid-svg-icons'
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}))
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}))
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  width: '100%',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    border: '1px solid', // Add border property here
+    borderRadius: '18px',
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(9)})`,
+    transition: theme.transitions.create('width'),
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
+  },
+}))
 interface ListItemLinkProps {
   icon?: React.ReactElement
   primary: string
-  to?: string
-  action?: { (): void }
+  to: string
 }
 
 function ListItemLink(props: ListItemLinkProps) {
-  const { icon, primary, to, action } = props
+  const { icon, primary, to } = props
+  const location = useLocation()
 
   return (
     <li>
-      {action ? (
-        <ListItemButton onClick={action}>
-          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-          <ListItemText primary={primary} />
-        </ListItemButton>
-      ) : to ? (
-        <ListItemButton component={Link} to={to} onClick={action}>
-          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-          <ListItemText primary={primary} />
-        </ListItemButton>
-      ) : null}
+      <ListItemButton
+        component={Link}
+        to={to}
+        selected={location.pathname === to}
+        sx={{ width: '100%' }}
+      >
+        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+        <ListItemText primary={primary} sx={{ color: 'black' }} />
+      </ListItemButton>
     </li>
   )
 }
@@ -58,29 +103,16 @@ export type OutletContextType = {
   sidebarLinks: SidebarLink[]
 }
 
-const drawerWidth = 240
-
 interface SidebarLink {
-  to?: string
+  to: string
   text: string
   icon?: React.ReactElement
-  action?: { (): void }
 }
 
 export function BaseLayout() {
   const { user } = useAuth()
 
   const [sidebarLinks, setSidebarLinks] = useState<SidebarLink[]>([])
-  const [openDrawer, setOpenDrawer] = useState(false)
-
-  const handleDrawerOpen = () => {
-    setOpenDrawer(true)
-  }
-
-  const handleDrawerClose = () => {
-    setOpenDrawer(false)
-  }
-
   const navigate = useNavigate()
 
   // Function to handle the back button click
@@ -94,23 +126,34 @@ export function BaseLayout() {
   }
 
   const layout = (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', width: '100%' }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+
+      <Box
+        sx={{
+          flexDirection: 'row-reverse',
+          display: 'flex',
+          justifyContent: 'between',
+          width: '100%',
+          alignItems: 'start',
+          paddingBottom: 12,
+          bgcolor: 'white',
+          position: 'relative',
+        }}
       >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={!openDrawer ? handleDrawerOpen : handleDrawerClose}
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
+        <Box
+          sx={{
+            border: '0px',
+            bgcolor: 'white ',
+            color: 'primary.main',
+            zIndex: '1000',
+            flexGrow: 1,
+            flex: 4,
+            width: '85%',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Toolbar sx={{ paddingY: 3, border: '0px' }}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -120,73 +163,117 @@ export function BaseLayout() {
             >
               <ArrowBackIcon />
             </IconButton>
+
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={handleForwardButtonClick}
-              sx={{ mr: 2 }}
+              sx={{ mr: 2, marginRight: 2 }}
             >
               <ArrowForwardIcon />
             </IconButton>
-            Pharmacy
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Typography>
+
             <OnlyAuthenticated>
+              <ProfileMenu />
+              <NotificationsList />
               <ChatsList />
             </OnlyAuthenticated>
-          </Typography>
-        </Toolbar>
-      </AppBar>
 
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="temporary"
-        anchor="left"
-        open={openDrawer}
-        onClose={handleDrawerClose}
-      >
-        <Toolbar />
-        <Divider />
-        <List aria-label="main mailbox folders">
-          {sidebarLinks.map((link, i) => (
-            <ListItemLink
-              action={link.action}
-              key={i}
-              to={link.to}
-              primary={link.text}
-              icon={link.icon}
+            <Box sx={{ flexGrow: 1 }} />
+            <OnlyAuthenticated>
+              <Search sx={{ marginRight: 20 }}>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+            </OnlyAuthenticated>
+          </Toolbar>
+
+          <Box
+            component="main"
+            sx={{
+              display: 'flex',
+              bgcolor: 'background.default',
+              p: 3,
+              flexGrow: 1,
+            }}
+          >
+            <Outlet
+              context={
+                { setSidebarLinks, sidebarLinks } satisfies OutletContextType
+              }
             />
-          ))}
-          <OnlyAuthenticated>
-            <ListItemLink
-              to="/auth/logout"
-              primary="Logout"
-              icon={<Logout />}
-            />
-          </OnlyAuthenticated>
-        </List>
-      </Drawer>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-      >
-        <Toolbar />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Outlet
-            context={
-              { setSidebarLinks, sidebarLinks } satisfies OutletContextType
-            }
-          />
-        </LocalizationProvider>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            width: '15%',
+            alignItems: 'start',
+            bgcolor: '#F0F0F0',
+            position: 'relative',
+          }}
+        >
+          <AppBar
+            style={{
+              width: '15%',
+              left: '0',
+              top: '0',
+              backgroundColor: '#F0F0F0',
+              overflow: 'auto',
+            }}
+          >
+            <List
+              aria-label="main mailbox folders"
+              sx={{
+                zIndex: '99999',
+                paddingTop: 5,
+                bgcolor: '#F0F0F0',
+                color: 'darkgray',
+                height: '100vh',
+                width: '100%',
+              }}
+            >
+              <h3
+                style={{
+                  color: 'rgb(25, 118, 210)',
+                  textAlign: 'center',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginLeft: '-20px',
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faCapsules}
+                  style={{ marginRight: '15px' }}
+                />
+                Your Pharmacy
+              </h3>
+              {sidebarLinks.map((link) => (
+                <ListItemLink
+                  key={link.to}
+                  to={link.to}
+                  primary={link.text}
+                  icon={link.icon}
+                />
+              ))}
+
+              <OnlyAuthenticated>
+                <ListItemLink
+                  to="/auth/logout"
+                  primary="Logout"
+                  icon={<LogoutIcon />}
+                />
+              </OnlyAuthenticated>
+            </List>
+          </AppBar>
+        </Box>
       </Box>
     </Box>
   )

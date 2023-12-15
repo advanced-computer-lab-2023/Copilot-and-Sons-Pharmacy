@@ -16,6 +16,7 @@ import { authenticate } from './app/middlewares/auth.middleware'
 import { logger } from './app/middlewares/logger.middleware'
 import orderRouter from './app/routes/order.route'
 import asyncWrapper from './app/middlewares/asyncWrapper'
+import { notificationRouter } from './app/controllers/notification.controller'
 import { chatsRouter } from './app/controllers/chats.controller'
 
 const app = express()
@@ -35,6 +36,8 @@ app.use('/api', authRouter)
 app.use('/api', deliveryAddressRouter)
 app.use('/api/order', orderRouter)
 app.use('/api', chatsRouter)
+app.use('/api', notificationRouter)
+app.use('/api', chatsRouter)
 
 //global error handler
 app.use(globalErrorHandler)
@@ -45,5 +48,6 @@ app.all('*', (req, res, next) => {
     .status(404)
     .json({ status: ERROR, message: 'this resource is not available' })
 })
+app.use(notificationRouter)
 
 export default app
