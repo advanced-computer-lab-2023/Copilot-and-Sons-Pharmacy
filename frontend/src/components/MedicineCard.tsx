@@ -21,6 +21,7 @@ import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import { archiveMedicineApi, unarchiveMedicineApi } from '@/api/medicine'
+import { useAuth } from '@/hooks/auth'
 
 function handleArchive(medicinename: string) {
   return async () => {
@@ -157,6 +158,8 @@ export default function MedicineCard(props: {
   const [dosage, setDosage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const auth = useAuth()
+  const userType = auth.user?.type
 
   const Overlay = () => (
     <Backdrop
@@ -172,24 +175,41 @@ export default function MedicineCard(props: {
           borderRadius: 2,
         }}
       >
-        <CardContent>
+        <CardContent
+          sx={{
+            textAlign: 'center',
+          }}
+        >
           <img
             src={props.medicine.Image}
             alt=""
             style={{ width: '100%', height: 'auto' }}
           />
-          <Typography variant="h4" sx={{ mt: 2 }}>
+          <Typography
+            variant="h5"
+            sx={{ mt: 2 }}
+            style={{ fontWeight: 'bold' }}
+          >
             {props.medicine.name}
           </Typography>
-          <Typography variant="body1">{props.medicine.description}</Typography>
-          <ul>
-            <li>Medical Use: {props.medicine.medicinalUse.join(', ')}</li>
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            {props.medicine.description}
+          </Typography>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
             <li>
-              Active Ingredients: {props.medicine.activeIngredients.join(', ')}
+              <span style={{ fontWeight: 'bold' }}>Medical Use:</span>{' '}
+              {props.medicine.medicinalUse.join(', ')}
+            </li>
+            <li>
+              <span style={{ fontWeight: 'bold' }}>Active Ingredients:</span>{' '}
+              {props.medicine.activeIngredients.join(', ')}
             </li>
           </ul>
-          <Typography variant="body2" sx={{ mt: 2 }}>
-            Price: {props.medicine.price}
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, fontSize: '18px', fontWeight: 500 }}
+          >
+            E£ {props.medicine.price}
           </Typography>
         </CardContent>
       </Card>
@@ -239,32 +259,58 @@ export default function MedicineCard(props: {
           cursor: 'pointer',
           transition: 'box-shadow 0.3s',
           border: '1px solid #ccc',
-          height: 350,
+          height: userType === UserType.Doctor ? 440 : 350,
           width: 300,
+          position: 'relative',
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <CardContent onClick={() => setIsOpen(true)}>
+        <CardContent
+          onClick={() => setIsOpen(true)}
+          style={{ padding: '20px', textAlign: 'center' }}
+        >
           <CardMedia
             component="img"
             height="150"
             image={props.medicine.Image}
-            alt=""
+            alt="medicine image"
+            style={{ marginBottom: '20px' }}
           />
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ fontSize: '1.2rem' }}
+          >
             {props.medicine.name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            price: {props.medicine.price}
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, fontSize: '18px', fontWeight: 500 }}
+          >
+            E£ {props.medicine.price}
           </Typography>
           {props.medicine.quantity == 0 && (
-            <Typography variant="body2" color="error">
+            <Typography
+              variant="body2"
+              color="error"
+              sx={{ fontSize: '0.9rem' }}
+            >
               out of stock
             </Typography>
           )}
         </CardContent>
-        <CardActions sx={{ justifyContent: 'center' }}>
+        <CardActions
+          sx={{
+            position: 'absolute', // Set position to absolute for absolute positioning
+            bottom: 10, // Position the buttons at the bottom
+            width: '100%', // Make the buttons take the full width
+            justifyContent: 'center', // Center the buttons horizontally
+            backgroundColor: 'rgba(255, 255, 255, 0.9)', // Add a semi-transparent white background to the buttons
+            padding: '10px', // Add some padding to the buttons
+          }}
+        >
           <Stack direction="row" spacing={2}>
             <OnlyAuthenticated requiredUserType={UserType.Patient}>
               {props.medicine.quantity != 0 && (
@@ -311,28 +357,31 @@ export default function MedicineCard(props: {
               )}
             </OnlyAuthenticated>
             <OnlyAuthenticated requiredUserType={UserType.Doctor}>
-              <IconButton onClick={handleDecrementQuantity}>
-                <RemoveIcon />
-              </IconButton>
-              <span>{quantity}</span>
-              <IconButton onClick={handleIncrementQuantity}>
-                <AddIcon />
-              </IconButton>
+              <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                <IconButton onClick={handleDecrementQuantity}>
+                  <RemoveIcon />
+                </IconButton>
+                <span>{quantity}</span>
+                <IconButton onClick={handleIncrementQuantity}>
+                  <AddIcon />
+                </IconButton>
 
-              <TextField
-                label="Dosage"
-                value={dosage}
-                onChange={(e) => setDosage(e.target.value)}
-                variant="outlined"
-              />
-              <Button
-                color="secondary"
-                disabled={false}
-                variant="contained"
-                onClick={() => handleAddToPrescription()}
-              >
-                Add to Prescription
-              </Button>
+                <TextField
+                  label="Dosage"
+                  value={dosage}
+                  onChange={(e) => setDosage(e.target.value)}
+                  variant="outlined"
+                />
+                <Button
+                  color="secondary"
+                  disabled={false}
+                  variant="contained"
+                  onClick={() => handleAddToPrescription()}
+                  style={{ marginTop: '10px' }}
+                >
+                  Add to Prescription
+                </Button>
+              </div>
             </OnlyAuthenticated>
           </Stack>
         </CardActions>
