@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
   Checkbox,
   FormControlLabel,
   FormGroup,
@@ -27,13 +26,16 @@ import { toast } from 'react-toastify'
 import { addtoPrescriptionApi } from '@/api/doctor'
 import { useAuth } from '@/hooks/auth'
 import { useQuery } from 'react-query'
+import FilterListIcon from '@mui/icons-material/FilterList'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 
 const ViewAllMedicines = () => {
   const { user } = useAuth()
   const [medicines, setMedicines] = useState<IMedicine[]>([])
   const [selectedMedicalUses, setSelectedMedicalUses] = useState<string[]>([])
   const [prescriptionList, setPrescriptionList] = useState<any>([])
-
+  const [isAccordionExpanded, setIsAccordionExpanded] = useState(false)
   const [searchText, setSearchText] = useState('')
   const [resultingMedicines, setResultingMedicines] = useState<IMedicine[]>([])
 
@@ -183,10 +185,16 @@ const ViewAllMedicines = () => {
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
           borderRadius: '5px',
         }}
+        expanded={isAccordionExpanded}
+        onChange={() => setIsAccordionExpanded(!isAccordionExpanded)}
       >
         <AccordionSummary style={{ justifyContent: 'center' }}>
-          <Typography align="center" sx={{ width: '100%', fontSize: '1.5rem' }}>
-            Filter or Search by name
+          <FilterListIcon style={{ marginRight: 15 }} />
+          <Typography align="left" sx={{ fontSize: '17.14px' }}>
+            Filter
+          </Typography>
+          <Typography align="right" sx={{ width: '100%', fontSize: '1.5rem' }}>
+            {isAccordionExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -202,17 +210,30 @@ const ViewAllMedicines = () => {
             </Grid>
             <Grid item xs={12} md={12} lg={12} xl={12}>
               <Card>
-                <CardHeader title="Medicinal Uses" />
                 <CardContent>
-                  <FormGroup row style={{ justifyContent: 'space-evenly' }}>
+                  <Typography align="left" sx={{ width: '100%' }}>
+                    {' '}
+                    Filter by Medicinal Uses
+                  </Typography>
+                  <FormGroup
+                    row
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      flexWrap: 'wrap',
+                    }}
+                  >
                     {medicinalUses.data?.data.map((medicinalUse) => (
                       <div
                         key={medicinalUse}
                         style={{
+                          width: '150px',
                           border: '1px solid #ccc',
-                          padding: '2px 8px',
-                          margin: '4px',
+                          padding: '10px',
+                          margin: '8px',
                           borderRadius: '5px',
+                          display: 'flex',
+                          alignItems: 'center',
                         }}
                       >
                         <FormControlLabel
