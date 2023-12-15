@@ -8,12 +8,13 @@ import {
   IconButton,
   TextField,
   Backdrop,
+  Chip,
 } from '@mui/material'
 import IMedicine from '../types/medicine.type'
 import { Link } from 'react-router-dom'
 import { UserType } from 'pharmacy-common/types/user.types'
 import { OnlyAuthenticated } from './OnlyAuthenticated'
-import { Stack } from '@mui/system'
+import { Box, Stack } from '@mui/system'
 import { addToCartApi } from '@/api/cart'
 import { useCart } from '@/hooks/cartHook'
 import { ToastContainer, toast } from 'react-toastify'
@@ -22,6 +23,16 @@ import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import { archiveMedicineApi, unarchiveMedicineApi } from '@/api/medicine'
 import { useAuth } from '@/hooks/auth'
+import {
+  Archive,
+  CurrencyPound,
+  Edit,
+  Healing,
+  Medication,
+  MedicationOutlined,
+  ShoppingCart,
+} from '@mui/icons-material'
+import { DetailsCard } from './DetailsCard'
 
 function handleArchive(medicinename: string) {
   return async () => {
@@ -127,6 +138,7 @@ function BuyButton(props: { medicine: IMedicine }) {
       disabled={false}
       variant="contained"
       onClick={() => buy(props.medicine)}
+      startIcon={<ShoppingCart />}
     >
       Add to Cart
     </Button>
@@ -157,7 +169,6 @@ export default function MedicineCard(props: {
   const [quantity, setQuantity] = useState(1)
   const [dosage, setDosage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
   const auth = useAuth()
   const userType = auth.user?.type
 
@@ -171,46 +182,65 @@ export default function MedicineCard(props: {
         sx={{
           maxWidth: 400,
           margin: 'auto',
-          backgroundColor: 'white',
           borderRadius: 2,
         }}
       >
-        <CardContent
-          sx={{
-            textAlign: 'center',
-          }}
-        >
+        <CardContent>
           <img
             src={props.medicine.Image}
             alt=""
             style={{ width: '100%', height: 'auto' }}
           />
-          <Typography
-            variant="h5"
-            sx={{ mt: 2 }}
-            style={{ fontWeight: 'bold' }}
+          <Stack
+            mt={2}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
           >
-            {props.medicine.name}
-          </Typography>
+            <Typography
+              variant="h5"
+              style={{ fontWeight: 'bold' }}
+              color="primary.main"
+            >
+              {props.medicine.name}
+            </Typography>
+
+            {props.medicine.quantity == 0 && (
+              <Chip color="error" label="Out of stock" />
+            )}
+          </Stack>
           <Typography variant="body1" sx={{ mt: 2 }}>
             {props.medicine.description}
           </Typography>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            <li>
-              <span style={{ fontWeight: 'bold' }}>Medical Use:</span>{' '}
-              {props.medicine.medicinalUse.join(', ')}
-            </li>
-            <li>
-              <span style={{ fontWeight: 'bold' }}>Active Ingredients:</span>{' '}
-              {props.medicine.activeIngredients.join(', ')}
-            </li>
-          </ul>
-          <Typography
-            variant="body2"
-            sx={{ mt: 2, fontSize: '18px', fontWeight: 500 }}
-          >
-            E£ {props.medicine.price}
-          </Typography>
+
+          <Box height={30} />
+
+          <DetailsCard
+            noCard
+            fields={[
+              {
+                label: 'Medical Uses',
+                value: props.medicine.medicinalUse.join(', '),
+                icon: <MedicationOutlined />,
+              },
+              {
+                label: 'Main Active Ingredient',
+                value: props.medicine.activeIngredients[0],
+                icon: <Medication />,
+              },
+              {
+                label: 'Active Ingredients',
+                value: props.medicine.activeIngredients.slice(1).join(', '),
+                icon: <Healing />,
+              },
+              {
+                label: 'Price',
+                value: props.medicine.price,
+                icon: <CurrencyPound />,
+              },
+            ]}
+          />
         </CardContent>
       </Card>
     </Backdrop>
@@ -252,19 +282,17 @@ export default function MedicineCard(props: {
     <>
       <ToastContainer />
       <Card
-        style={{
-          boxShadow: isHovered
-            ? '0 10px 20px rgba(0, 0, 0, 0.3)'
-            : '0 5px 10px rgba(0, 0, 0, 0.2)',
+        sx={{
+          boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
           cursor: 'pointer',
           transition: 'box-shadow 0.3s',
           border: '1px solid #ccc',
           height: userType === UserType.Doctor ? 440 : 350,
-          width: 300,
           position: 'relative',
+          '&:hover': {
+            boxShadow: '0 10px 20px rgba(0, 0, 0, 0.3)',
+          },
         }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         <CardContent
           onClick={() => setIsOpen(true)}
@@ -277,29 +305,31 @@ export default function MedicineCard(props: {
             alt="medicine image"
             style={{ marginBottom: '20px' }}
           />
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            sx={{ fontSize: '1.2rem' }}
+          <Stack
+            mt={2}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
           >
-            {props.medicine.name}
-          </Typography>
+            <Typography
+              variant="h5"
+              style={{ fontWeight: 'bold' }}
+              color="primary.main"
+            >
+              {props.medicine.name}
+            </Typography>
+
+            {props.medicine.quantity == 0 && (
+              <Chip color="error" label="Out of stock" />
+            )}
+          </Stack>
           <Typography
             variant="body2"
-            sx={{ mt: 2, fontSize: '18px', fontWeight: 500 }}
+            sx={{ mt: 2, fontSize: '20px', fontWeight: 500 }}
           >
             E£ {props.medicine.price}
           </Typography>
-          {props.medicine.quantity == 0 && (
-            <Typography
-              variant="body2"
-              color="error"
-              sx={{ fontSize: '0.9rem' }}
-            >
-              out of stock
-            </Typography>
-          )}
         </CardContent>
         <CardActions
           sx={{
@@ -321,8 +351,12 @@ export default function MedicineCard(props: {
                 <Link
                   to={`/patient-dashboard/medicines/view-alternative-medicine/${props.medicine._id}`}
                 >
-                  <Button color="primary" variant="contained">
-                    view alternatives
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    startIcon={<Medication />}
+                  >
+                    View Alternatives
                   </Button>
                 </Link>
               )}
@@ -331,7 +365,12 @@ export default function MedicineCard(props: {
               <Link
                 to={`/pharmacist-dashboard/medicines/editMedicine/${props.medicine.name}`}
               >
-                <Button color="secondary" disabled={false} variant="contained">
+                <Button
+                  color="secondary"
+                  disabled={false}
+                  variant="contained"
+                  startIcon={<Edit />}
+                >
                   Edit
                 </Button>
               </Link>
@@ -341,6 +380,7 @@ export default function MedicineCard(props: {
                   disabled={false}
                   variant="contained"
                   onClick={handleArchive(props.medicine.name)}
+                  startIcon={<Archive />}
                 >
                   Archive
                 </Button>
@@ -351,6 +391,7 @@ export default function MedicineCard(props: {
                   disabled={false}
                   variant="contained"
                   onClick={handleUnarchive(props.medicine.name)}
+                  startIcon={<Archive />}
                 >
                   Unarchive
                 </Button>
