@@ -23,7 +23,7 @@ export function MedicineDashboardLayout() {
 
       {
         to: '/medicines/sales-and-quantity',
-        text: 'view Sales and Quantity',
+        text: 'View Sales and Quantity',
         icon: <LocalPharmacyIcon />,
       },
       {

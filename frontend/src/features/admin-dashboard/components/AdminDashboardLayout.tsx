@@ -24,7 +24,7 @@ export function AdminDashboardLayout() {
       },
       {
         to: '/admin-dashboard/sales-and-quantity',
-        text: 'view Sales and Quantity',
+        text: 'View Sales and Quantity',
         icon: <LocalPharmacyIcon />,
       },
       {

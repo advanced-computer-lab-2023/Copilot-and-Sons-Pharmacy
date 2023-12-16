@@ -287,10 +287,11 @@ const RegistrationForm: React.FC = () => {
             <Grid item xs={12} style={{ textAlign: 'left' }}>
               <FormControl>
                 <FormLabel id="demo-controlled-radio-buttons-group">
-                  Gender
+                  Gender *
                 </FormLabel>
                 <RadioGroup
                   row
+                  aria-required
                   aria-label="gender"
                   name="gender"
                   value={formData.gender}
