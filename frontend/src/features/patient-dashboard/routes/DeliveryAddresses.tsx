@@ -12,7 +12,7 @@ import { useAuth } from '@/hooks/auth'
 import { Delete, Edit } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import { Alert, Button, CardActions, Grid } from '@mui/material'
-import { Stack } from '@mui/system'
+import { Container, Stack } from '@mui/system'
 import {
   AddDeliveryAddressRequest,
   GetAllDeliveryAddressesResponse,
@@ -87,10 +87,12 @@ function DeliveryAddress({
             loading={deleteMutation.isLoading}
             color="error"
             startIcon={<Delete />}
+            style={{ marginBottom: '15px' }}
           >
             Delete
           </LoadingButton>
           <Button
+            style={{ marginBottom: '15px' }}
             variant="outlined"
             onClick={() => setEditing(!editing)}
             color="primary"
@@ -119,28 +121,32 @@ export function DeliveryAddresses() {
 
   return (
     <Stack spacing={2}>
-      <ApiForm<AddDeliveryAddressRequest>
-        action={(data) => addDeliveryAddress(username!, data)}
-        onSuccess={() => query.refetch()}
-        fields={[
-          { label: 'Address', property: 'address' },
-          { label: 'City', property: 'city' },
-          { label: 'Country', property: 'country' },
-        ]}
-        validator={AddDeliveryAddressValidator}
-        successMessage="Address added successfully."
-      />
+      <Container>
+        <ApiForm<AddDeliveryAddressRequest>
+          action={(data) => addDeliveryAddress(username!, data)}
+          onSuccess={() => query.refetch()}
+          fields={[
+            { label: 'Address', property: 'address' },
+            { label: 'City', property: 'city' },
+            { label: 'Country', property: 'country' },
+          ]}
+          validator={AddDeliveryAddressValidator}
+          successMessage="Address added successfully."
+        />
 
-      {query.data?.length === 0 && (
-        <Alert severity="info">No delivery addresses found.</Alert>
-      )}
-      <Grid container spacing={2}>
-        {query.data?.map((address) => (
-          <Grid item md={4} xs={12}>
-            <DeliveryAddress address={address} />
-          </Grid>
-        ))}
-      </Grid>
+        {query.data?.length === 0 && (
+          <Alert severity="info">No delivery addresses found.</Alert>
+        )}
+      </Container>
+      <Container>
+        <Grid container spacing={2}>
+          {query.data?.map((address) => (
+            <Grid item md={4} xs={12}>
+              <DeliveryAddress address={address} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
     </Stack>
   )
 }
