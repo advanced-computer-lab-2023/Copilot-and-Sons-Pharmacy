@@ -248,6 +248,14 @@ export const Register = () => {
       return
     }
 
+    // Check if any file is selected
+    if (fieldValue.files.every((files) => !files || files.length === 0)) {
+      toast.error('Please choose files for document upload.')
+      setIsLoading(false)
+
+      return
+    }
+
     const formData = new FormData()
 
     formData.append('name', name)
