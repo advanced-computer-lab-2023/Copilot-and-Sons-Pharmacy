@@ -16,6 +16,9 @@ import { login } from '@/api/auth'
 import { toast } from 'react-toastify'
 import { LoginRequestValidator } from 'pharmacy-common/validators/auth.validator'
 import { useAuth } from '@/hooks/auth'
+import { IconButton, InputAdornment } from '@mui/material'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 function Copyright(props: any) {
   return (
@@ -39,6 +42,12 @@ function Copyright(props: any) {
 const defaultTheme = createTheme()
 
 export default function SignIn() {
+  const [showPassword, setShowPassword] = React.useState(false)
+
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword)
+  }
+
   const { refreshUser } = useAuth()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -84,7 +93,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit}>
             <TextField
               margin="normal"
               required
@@ -101,10 +110,29 @@ export default function SignIn() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               autoComplete="current-password"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleTogglePassword}
+                      edge="end"
+                      style={{ marginRight: '1px' }}
+                    >
+                      <FontAwesomeIcon
+                        icon={showPassword ? faEye : faEyeSlash}
+                        className="fa-regular"
+                        id="togglePasswordIcon"
+                        style={{ fontSize: '16px', background: 'transparent' }}
+                      />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -124,7 +152,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="./signup" variant="body2">
+                <Link href="./register-request" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
