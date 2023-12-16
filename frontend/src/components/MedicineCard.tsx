@@ -31,6 +31,7 @@ import {
   Masks,
   Medication,
   MedicationOutlined,
+  RemoveShoppingCart,
   ShoppingCart,
 } from '@mui/icons-material'
 import { DetailsCard } from './DetailsCard'
@@ -306,7 +307,7 @@ export default function MedicineCard(props: {
           boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
           cursor: 'pointer',
           transition: 'box-shadow 0.3s',
-          height: userType === UserType.Doctor ? 440 : 380,
+          height: userType === UserType.Doctor ? 460 : 390,
           position: 'relative',
           '&:hover': {
             boxShadow: '0 10px 20px rgba(0, 0, 0, 0.3)',
@@ -315,11 +316,14 @@ export default function MedicineCard(props: {
       >
         <CardContent
           onClick={() => setIsOpen(true)}
-          style={{ padding: '20px', textAlign: 'center' }}
+          style={{ padding: '10px', textAlign: 'center' }}
         >
           <CardMedia
             component="img"
             height="150"
+            sx={{
+              borderRadius: 5,
+            }}
             image={props.medicine.Image}
             alt="medicine image"
             style={{ marginBottom: '20px' }}
@@ -333,12 +337,8 @@ export default function MedicineCard(props: {
           >
             {props.medicine.name}
           </Typography>
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{ mt: 2 }}
-            justifyContent="center"
-          >
+
+          <Stack spacing={2} sx={{ mt: 2 }} justifyContent="center">
             <DiscountedPrice
               originalPrice={props.medicine.price}
               discountedPrice={props.medicine.discountedPrice}
@@ -346,18 +346,37 @@ export default function MedicineCard(props: {
               // fontWeight="bold"
             />
 
-            {props.medicine.quantity == 0 && (
-              <Chip color="error" label="Out of stock" />
-            )}
-          </Stack>
+            <Stack
+              direction="row"
+              spacing={1}
+              justifyContent="center"
+              alignItems="center"
+            >
+              {props.medicine.quantity == 0 && (
+                <Chip
+                  color="error"
+                  label={
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <span>Out of stock</span>
+                      <RemoveShoppingCart fontSize="small" />
+                    </Stack>
+                  }
+                />
+              )}
 
-          {props.medicine.requiresPrescription && (
-            <Chip
-              sx={{ mt: 1 }}
-              color="warning"
-              label="Requires Prescription"
-            />
-          )}
+              {props.medicine.requiresPrescription && (
+                <Chip
+                  color="warning"
+                  label={
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <span>Requires prescription</span>
+                      <Healing fontSize="small" />
+                    </Stack>
+                  }
+                />
+              )}
+            </Stack>
+          </Stack>
         </CardContent>
         <CardActions
           sx={{
@@ -423,21 +442,29 @@ export default function MedicineCard(props: {
               )}
             </OnlyAuthenticated>
             <OnlyAuthenticated requiredUserType={UserType.Doctor}>
-              <div style={{ marginTop: '10px', textAlign: 'center' }}>
-                <IconButton onClick={handleDecrementQuantity}>
-                  <RemoveIcon />
-                </IconButton>
-                <span>{quantity}</span>
-                <IconButton onClick={handleIncrementQuantity}>
-                  <AddIcon />
-                </IconButton>
+              <Stack>
+                <Stack
+                  direction="row"
+                  sx={{ marginTop: '10px', textAlign: 'center' }}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <IconButton onClick={handleDecrementQuantity}>
+                    <RemoveIcon />
+                  </IconButton>
+                  <span>{quantity}</span>
+                  <IconButton onClick={handleIncrementQuantity}>
+                    <AddIcon />
+                  </IconButton>
 
-                <TextField
-                  label="Dosage"
-                  value={dosage}
-                  onChange={(e) => setDosage(e.target.value)}
-                  variant="outlined"
-                />
+                  <TextField
+                    label="Dosage"
+                    value={dosage}
+                    onChange={(e) => setDosage(e.target.value)}
+                    variant="outlined"
+                  />
+                </Stack>
+
                 <Button
                   disabled={false}
                   variant="contained"
@@ -446,7 +473,7 @@ export default function MedicineCard(props: {
                 >
                   Add to Prescription
                 </Button>
-              </div>
+              </Stack>
             </OnlyAuthenticated>
           </Stack>
         </CardActions>
