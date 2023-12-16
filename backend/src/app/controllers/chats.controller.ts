@@ -24,6 +24,7 @@ import { APIError, NotFoundError } from '../errors'
 import { socketIOServer } from '../../server'
 import User, { IUser } from '../schemas/user.model'
 import asyncWrapper from '../middlewares/asyncWrapper'
+import { getEmailAndNameForUsername } from '../services/auth.service'
 
 export const chatsRouter = Router()
 
@@ -79,20 +80,25 @@ chatsRouter.post(
     }).populate<PopulatedUsers>('users')
 
     res.json(
-      chats.map((chat) => ({
-        id: chat.id,
-        users: chat.users.map((user) => ({
-          id: user.id as string,
-          username: user.username,
-          type: user.type as UserType,
-        })),
-        createdAt: chat.createdAt.toISOString(),
-        lastMessage:
-          chat.messages.length > 0
-            ? chat.messages[chat.messages.length - 1].content
-            : 'No messages',
-        hasUnreadMessages: hasUnreadMessages(chat, user.id),
-      })) satisfies GetChatsForUserResponse
+      (await Promise.all(
+        chats.map(async (chat) => ({
+          id: chat.id,
+          users: await Promise.all(
+            chat.users.map(async (user) => ({
+              id: user.id as string,
+              username: user.username,
+              type: user.type as UserType,
+              ...(await getEmailAndNameForUsername(user.username)),
+            }))
+          ),
+          createdAt: chat.createdAt.toISOString(),
+          lastMessage:
+            chat.messages.length > 0
+              ? chat.messages[chat.messages.length - 1].content
+              : 'No messages',
+          hasUnreadMessages: hasUnreadMessages(chat, user.id),
+        }))
+      )) satisfies GetChatsForUserResponse
     )
   })
 )
@@ -161,17 +167,26 @@ chatsRouter.post(
 
     res.json({
       id: chat.id,
-      users: chat.users.map((user) => ({
-        id: user.id as string,
-        username: user.username,
-        type: user.type as UserType,
-      })),
-      messages: chat.messages.map((message) => ({
-        id: message.id,
-        sender: message.sender.username,
-        content: message.content,
-        createdAt: message.createdAt.toISOString(),
-      })),
+      users: await Promise.all(
+        chat.users.map(async (user) => ({
+          id: user.id as string,
+          username: user.username,
+          type: user.type as UserType,
+          ...(await getEmailAndNameForUsername(user.username)),
+        }))
+      ),
+      messages: await Promise.all(
+        chat.messages.map(async (message) => ({
+          id: message.id,
+          sender: message.sender.username,
+          senderType: message.sender.type as UserType,
+          content: message.content,
+          createdAt: message.createdAt.toISOString(),
+          senderDetails: await getEmailAndNameForUsername(
+            message.sender.username
+          ),
+        }))
+      ),
       createdAt: chat.createdAt.toISOString(),
       lastMessage:
         chat.messages.length > 0
@@ -218,6 +233,8 @@ chatsRouter.post(
       ...latestMessage,
       chatId,
       sender: sender.username,
+      senderType: sender.type as UserType,
+      senderDetails: await getEmailAndNameForUsername(sender.username),
     } satisfies SocketMessage)
 
     res.status(200).end()

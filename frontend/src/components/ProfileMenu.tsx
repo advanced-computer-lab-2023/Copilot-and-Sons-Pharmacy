@@ -15,6 +15,7 @@ import { OnlyAuthenticated } from './OnlyAuthenticated'
 import { ArrowDropDownIcon } from '@mui/x-date-pickers'
 import ChangePassword from '@/features/auth/routes/ChangePassowrd'
 import { PatientProfile } from '@/features/patient-dashboard/components/PatientProfile'
+import { UserType } from 'pharmacy-common/types/user.types'
 
 export function ProfileMenu() {
   const { user } = useAuth()
@@ -95,7 +96,7 @@ export function ProfileMenu() {
             >
               Change Password
             </Button>
-            <OnlyAuthenticated>
+            <OnlyAuthenticated requiredUserType={UserType.Patient}>
               <Button
                 variant="contained"
                 color="primary"
