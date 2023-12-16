@@ -6,7 +6,6 @@ import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedici
 import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMedicine'
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
-
 import AllOrders from '@/features/patient-dashboard/routes/AllOrders'
 
 import Checkout from '@/features/patient-dashboard/routes/Checkout'
@@ -16,6 +15,14 @@ import { ViewAlternativeMedicine } from '@/features/medicine-dashboard/routes/Vi
 import { ChatWithPharmacists } from '@/features/doctor-dashboard/routes/ChatWithPharmacists'
 // import { PrescriptionCheckout } from './PrescriptionCheckout'
 import { Wallet } from './Wallet'
+
+// eslint-disable-next-line react-refresh/only-export-components
+const RedirectToClinic = () => {
+  const token = localStorage.getItem('token')
+  window.location.href = `http://localhost:5173/patient-dashboard?token=${token}`
+
+  return null // This component doesn't render anything, it just redirects
+}
 
 export const patientDashboardRoutes: RouteObject[] = [
   {
@@ -80,6 +87,10 @@ export const patientDashboardRoutes: RouteObject[] = [
       {
         path: 'wallet',
         element: <Wallet />,
+      },
+      {
+        path: 'clinic',
+        element: <RedirectToClinic />,
       },
     ],
   },
