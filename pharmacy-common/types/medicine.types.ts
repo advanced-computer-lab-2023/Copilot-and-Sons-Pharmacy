@@ -28,4 +28,5 @@ export interface IAddMedicineRequest {
   activeIngredients: string
   medicinalUse: string
   sales: number
+  requiresPrescription: boolean
 }
