@@ -139,7 +139,7 @@ const ViewAllMedicines = () => {
   const [editingItem, setEditingItem] = useState(null) // State to track the item being edited
   const [editForm, setEditForm] = useState({
     name: '',
-    quantity: '',
+    quantity: 0,
     dosage: '',
   })
 
@@ -148,7 +148,7 @@ const ViewAllMedicines = () => {
     setEditingItem(item)
     setEditForm({
       name: item.name,
-      quantity: item.quantity,
+      quantity: parseInt(item.quantity),
       dosage: item.dosage,
     })
   }
@@ -157,14 +157,18 @@ const ViewAllMedicines = () => {
   const handleUpdate = () => {
     setPrescriptionList((prevList: any) =>
       prevList.map((item: any) =>
-        item.name === editForm!.name ? { ...item, ...editForm } : item
+        item.name === editForm!.name ? { ...item } : item
       )
     )
-    setEditingItem(null) // Close dialog after update
+    setEditingItem(null)
+    // Close dialog after update
   }
 
   const handleFormChange = (e: any) => {
-    setEditForm({ ...editForm, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    const parsedValue = name === 'quantity' ? parseInt(value) : value
+
+    setEditForm({ ...editForm, [name]: parsedValue })
   }
 
   useEffect(() => {
