@@ -23,11 +23,10 @@ export function ChatWithDoctors() {
               title={
                 <>
                   <Typography variant="h6">{doctor.name}</Typography>
-                  <Typography variant="subtitle1">{doctor.username}</Typography>
                 </>
               }
             />
-            <CardActions>
+            <CardActions style={{ justifyContent: 'center' }}>
               <ChatButton otherUsername={doctor.username} />
             </CardActions>
           </Card>
