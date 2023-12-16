@@ -7,8 +7,8 @@ import {
   LocalShipping,
   LocationCity,
   MedicationOutlined,
-  Home,
   VpnKey,
+  Dashboard,
 } from '@mui/icons-material'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
@@ -23,8 +23,8 @@ export function PatientDashboardLayout() {
     setSidebarLinks([
       {
         to: '/patient-dashboard',
-        text: 'Home',
-        icon: <Home />,
+        text: 'Dashboard',
+        icon: <Dashboard />,
       },
 
       {
