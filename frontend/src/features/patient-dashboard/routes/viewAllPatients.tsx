@@ -53,12 +53,13 @@ const ViewPatients = () => {
     return <p>Error fetching patients</p>
   }
 
-  const rows = patients?.data.map((patient) => ({
-    id: patient._id,
-    name: patient.name,
-    email: patient.email,
-    dateOfBirth: patient.dateOfBirth,
-  }))
+  const rows =
+    patients?.data.map((patient) => ({
+      id: patient._id,
+      name: patient.name,
+      email: patient.email,
+      dateOfBirth: patient.dateOfBirth,
+    })) || []
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
