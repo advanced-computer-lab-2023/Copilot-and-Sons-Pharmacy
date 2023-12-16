@@ -105,6 +105,296 @@ npm run compile:all
 
 ## 💻 Code Examples
 
+<details>
+<summary>BE Routes</summary>
+
+```js
+app.use('/api/medicine', medicinesRoute)
+app.use('/api/patient', patientsRoute)
+app.use('/api/admin', adminsRoute)
+app.use('/api/pharmacist', pharmacistRoute)
+app.use('/api/cart', cartsRoute)
+app.use('/api/debug', debugRouter)
+app.use('/api', authRouter)
+app.use('/api', deliveryAddressRouter)
+app.use('/api/order', orderRouter)
+app.use('/api', chatsRouter)
+app.use('/api', notificationRouter)
+app.use('/api', chatsRouter)
+```
+
+</details>
+
+<details>
+<summary>BE Cart Controller</summary>
+
+```js
+
+export const addToCart = asyncWrapper(async (req: Request, res: Response) => {
+  const cart = await addToCartService(req.body, req.username)
+  res.json({ success: SUCCESS, data: cart })
+})
+
+export const viewCart = asyncWrapper(async (req: Request, res: Response) => {
+  const cartItems = await viewCartService(req.username)
+  res.json({ success: SUCCESS, data: cartItems })
+})
+
+export const removeItemFromCart = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const cart = await removeItemFromCartService(
+      req.query.medicineId,
+      req.username
+    )
+    res.json({ success: SUCCESS, data: cart })
+  }
+)
+
+export const ClearAllItemsFromCart = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const cart = await ClearCartService(req.username)
+    res.json({ success: SUCCESS, data: cart })
+  }
+)
+
+export const changeCartItemQuantity = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const cart = await changeCartItemQuantityService(req.body, req.username)
+    res.json({ success: SUCCESS, data: cart })
+  }
+)
+
+export const addPrescriptiontoCart = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const cart = await addPrescriptiontoCartService(
+      req.body.prescriptionId,
+      req.username
+    )
+    res.json({ success: SUCCESS, data: cart })
+  }
+)
+```
+
+</details>
+
+<details>
+<summary>BE Clear Cart Service</summary>
+
+```js
+
+export async function ClearCartService(username: any) {
+  const patientUser = await userModel.findOne({ username })
+  const user = await Patient.findOne({ user: patientUser?._id })
+
+  const cart = await CartModel.findOne({ _id: user?.cart })
+
+  if (!cart) {
+    return null
+  }
+
+  cart.items.forEach(async (cartItem) => {
+    if (cartItem.byPrescription !== null) {
+      await PrescriptionModel.updateOne(
+        { _id: cartItem.byPrescription },
+        { $set: { isFilled: false } }
+      )
+    }
+  })
+
+  cart.items = []
+  const updatedCart = await cart.save()
+
+  return updatedCart
+}
+
+```
+
+</details>
+
+<details>
+<summary>BE Cart Model</summary>
+
+```js
+interface ICartItem {
+  medicine: IMedicine
+  quantity: number
+  byPrescription: PrescriptionDocument | null
+}
+
+const cartItemSchema = new Schema<ICartItem>({
+  medicine: { type: Schema.Types.ObjectId, ref: 'Medicine' },
+  quantity: Number,
+  byPrescription: {
+    type: Schema.Types.ObjectId,
+    ref: 'Prescription',
+    default: null,
+  },
+})
+
+export interface ICart extends Document {
+  items: Array<{
+    medicine: IMedicine
+    quantity: number
+    byPrescription: PrescriptionDocument | null
+  }>
+}
+
+const cartSchema = new Schema<ICart>({
+  items: [cartItemSchema],
+})
+
+export const CartModel: Model<ICart> = model('Cart', cartSchema)
+```
+
+</details>
+
+<details>
+<summary>BE Admin Validator</summary>
+
+```js
+const adminValidator = Joi.object({
+  username: Joi.string().alphanum().min(3).max(30).required().messages({
+    'string.base': 'Username should be a string',
+    'string.alphanum': 'Username should only contain alphanumeric characters',
+    'string.min': 'Username should have a minimum length of {#limit}',
+    'string.max': 'Username should have a maximum length of {#limit}',
+    'any.required': 'Username is required',
+  }),
+
+  email: Joi.string().email().required().messages({
+    'string.email': 'Invalid email address',
+    'any.required': 'Email is required',
+  }),
+
+  password: Joi.string()
+    .min(8)
+    .required()
+    .custom((value) => {
+      if (!isStrongPassword(value)) {
+        const errorReason = getPasswordStrengthReason(value)
+        throw new AppError(errorReason, 400, ERROR) // Throw a custom error message
+      }
+
+      return value
+    })
+    .messages({
+      'string.min': 'Password should have a minimum length of {#limit}',
+      'any.required': 'Password is required',
+    }),
+})
+```
+
+</details>
+
+<details>
+<summary>FE Admin Routes</summary>
+
+```js
+
+export const adminDashboardRoutes: RouteObject[] = [
+  {
+    element: <AdminDashboardLayout />,
+    children: [
+      {
+        path: '',
+        element: <AdminDashboardHome />,
+      },
+      {
+        path: 'change-password',
+        element: <ChangePassword />,
+      },
+      {
+        path: 'add-admin',
+        element: <AddingAdmin />,
+      },
+      {
+        path: 'remove-user',
+        element: <RemoveUser />,
+      },
+      {
+        path: 'get-approved-pharmacists',
+        element: <GetApprovedPharmacists />,
+      },
+      {
+        path: 'get-pending-pharmacists',
+        element: <GetPharmacists />,
+      },
+      {
+        path: 'medicines',
+        children: [
+          {
+            path: '',
+            element: <ViewAllMedicines />,
+          },
+          {
+            path: 'search-for-medicine',
+            element: <SearchForMedicine />,
+          },
+          {
+            path: 'allUses',
+            element: <MedicinalUses />,
+          },
+          {
+            path: 'allUses/:name',
+            element: <FilteredMedicines />,
+          },
+        ],
+      },
+      {
+        path: 'viewPatients',
+        element: <ViewPatients />,
+      },
+      {
+        path: 'viewPatients/info/:id',
+        element: <PatientInfo />,
+      },
+      {
+        path: 'sales-and-quantity',
+        element: <ViewMedicineSalesAndQuantity />,
+      },
+      {
+        path: 'clinic',
+        element: <RedirectToClinic />,
+      },
+    ],
+  },
+]
+```
+
+</details>
+
+<details>
+<summary>FE Login Page</summary>
+
+```js
+
+export const Login = () => {
+  const { refreshUser } = useAuth()
+
+  return (
+    <>
+      <ApiForm<LoginRequest>
+        fields={[
+          { label: 'Username', property: 'username' },
+          { label: 'Password', property: 'password' },
+        ]}
+        validator={LoginRequestValidator}
+        successMessage="Logged in successfully."
+        action={login}
+        onSuccess={() => refreshUser()}
+        buttonText="Login"
+      />
+      <Link to={'/forgot-password'}>forgot your password?</Link>
+      <br />
+      <Link to={'../register-request'}>SIGN UP</Link>
+    </>
+  )
+}
+
+```
+
+</details>
+
 ## 🪛 Installation
 
 - Make sure you have [Node](https://nodejs.org/en) and [Git](https://git-scm.com/) installed
@@ -463,28 +753,27 @@ npm install
 - `POST /cart/clear` - Clear cart items
   - **Request Body**: N/A
   - **Response Body**:
-  `     {
-      items: [
-          {
-              medicine: {
-                  name: string,
-                  price: string,
-                  description: string,
-                  quantity: number,
-                  Image: string,
-                  activeIngredients: [string],
-                  medicinalUse: [string],
-                  sales: number,
-                  requiresPrescription: boolean,
-                  status: string,
-                  discountedPrice: number
-              },
-              quantity:  number,
-              byPrescription: boolean
-          }
-      ]
-  }
-  `
+  `    {
+    items: [
+        {
+            medicine: {
+                name: string,
+                price: string,
+                description: string,
+                quantity: number,
+                Image: string,
+                activeIngredients: [string],
+                medicinalUse: [string],
+                sales: number,
+                requiresPrescription: boolean,
+                status: string,
+                discountedPrice: number
+            },
+            quantity:  number,
+            byPrescription: boolean
+        }
+    ]
+}`
   </details>
 
 <details>
@@ -890,8 +1179,7 @@ npm install
     notificationId: string,
   }
   ```
-  - **Reponse Body**: N/A  
-
+  - **Reponse Body**: N/A
 
 </details>
 
