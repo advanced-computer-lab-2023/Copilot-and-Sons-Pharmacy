@@ -4,14 +4,12 @@ import { LoginRequest } from 'pharmacy-common/types/auth.types'
 import { LoginRequestValidator } from 'pharmacy-common/validators/auth.validator'
 import { ApiForm } from '@/components/ApiForm'
 import { Link } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 
 export const Login = () => {
   const { refreshUser } = useAuth()
 
   return (
     <>
-      <ToastContainer />
       <ApiForm<LoginRequest>
         fields={[
           { label: 'Username', property: 'username' },
