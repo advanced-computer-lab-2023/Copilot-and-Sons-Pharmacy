@@ -16,6 +16,19 @@ import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinal
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
 import ChangePassword from '@/features/auth/routes/ChangePassowrd'
 import ViewMedicineSalesAndQuantity from './ViewMedicineSalesAndQuantity'
+import { useEffect } from 'react'
+
+const token = localStorage.getItem('token')
+
+// eslint-disable-next-line react-refresh/only-export-components
+const RedirectToClinic = () => {
+  useEffect(() => {
+    // Navigate to the clinic URL
+    window.location.href = `http://localhost:5173/admin-dashboard?token=${token}`
+  })
+
+  return null // This component doesn't render anything, it just redirects
+}
 
 export const adminDashboardRoutes: RouteObject[] = [
   {
@@ -77,6 +90,10 @@ export const adminDashboardRoutes: RouteObject[] = [
       {
         path: 'sales-and-quantity',
         element: <ViewMedicineSalesAndQuantity />,
+      },
+      {
+        path: 'clinic',
+        element: <RedirectToClinic />,
       },
     ],
   },

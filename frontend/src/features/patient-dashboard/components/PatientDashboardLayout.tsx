@@ -13,6 +13,8 @@ import {
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
 import CartDrawer from '../routes/CartDrawer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStethoscope } from '@fortawesome/free-solid-svg-icons'
 
 export function PatientDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -50,6 +52,11 @@ export function PatientDashboardLayout() {
         to: '/patient-dashboard/wallet',
         text: 'Wallet',
         icon: <Wallet />,
+      },
+      {
+        to: '/patient-dashboard/clinic',
+        text: 'Your Clinic',
+        icon: <FontAwesomeIcon icon={faStethoscope} />,
       },
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps

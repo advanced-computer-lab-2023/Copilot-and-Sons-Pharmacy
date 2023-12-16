@@ -6,6 +6,8 @@ import { Outlet } from 'react-router-dom'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
 import { UserType } from 'pharmacy-common/types/user.types'
 import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStethoscope } from '@fortawesome/free-solid-svg-icons'
 
 export function AdminDashboardLayout() {
   const { setSidebarLinks } = useSidebar()
@@ -51,6 +53,12 @@ export function AdminDashboardLayout() {
         to: '/admin-dashboard/change-password',
         text: 'Change Password',
         icon: <VpnKey />,
+      },
+
+      {
+        to: '/admin-dashboard/clinic',
+        text: 'Your Clinic',
+        icon: <FontAwesomeIcon icon={faStethoscope} />,
       },
     ])
   }, [setSidebarLinks])
