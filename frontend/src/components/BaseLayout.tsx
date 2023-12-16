@@ -9,6 +9,7 @@ import {
   ListItemText,
   IconButton,
   InputBase,
+  Typography,
 } from '@mui/material'
 import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
@@ -136,7 +137,7 @@ export function BaseLayout() {
               [UserType.Admin]: '#F6BD60',
               [UserType.Doctor]: '#F28482',
               [UserType.Patient]: '#84A59D',
-              [UserType.Pharmacist]: '#F28482',
+              [UserType.Pharmacist]: '#5893e0',
             }[user.type]
           : '#393E41',
         contrastText: '#fff',
@@ -173,19 +174,17 @@ export function BaseLayout() {
             width: '100%',
             alignItems: 'start',
             paddingBottom: 12,
-            bgcolor: 'white',
             position: 'relative',
           }}
         >
           <Box
             sx={{
               border: '0px',
-              bgcolor: 'white ',
-              color: 'primary.main',
+              color: isDarkMode ? 'primary.textContrast' : 'primary.main',
               zIndex: '1000',
               flexGrow: 1,
               flex: 4,
-              width: '75%',
+              width: '80%',
               flexWrap: 'wrap',
             }}
           >
@@ -264,17 +263,14 @@ export function BaseLayout() {
             sx={{
               width: '20%',
               alignItems: 'start',
-              bgcolor: '#F0F0F0',
               position: 'relative',
             }}
           >
             <AppBar
               style={{
-                width: '20%',
+                width: '15%',
                 left: '0',
                 top: '0',
-                backgroundColor: '#F0F0F0',
-                overflow: 'auto',
               }}
             >
               <List
@@ -282,20 +278,20 @@ export function BaseLayout() {
                 sx={{
                   zIndex: '99999',
                   paddingTop: 5,
-                  bgcolor: '#F0F0F0',
-                  color: 'darkgray',
                   height: '100vh',
                   width: '100%',
                 }}
               >
-                <h3
-                  style={{
-                    color: 'rgb(25, 118, 210)',
+                <Typography
+                  variant="h5"
+                  sx={{
                     textAlign: 'center',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginLeft: '-20px',
+                    marginBottom: '40px',
+                    fontWeight: 'bold',
                   }}
                 >
                   <FontAwesomeIcon
@@ -303,7 +299,7 @@ export function BaseLayout() {
                     style={{ marginRight: '15px' }}
                   />
                   Your Pharmacy
-                </h3>
+                </Typography>
                 {sidebarLinks.map((link) => (
                   <ListItemLink
                     key={link.to}
