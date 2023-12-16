@@ -61,6 +61,7 @@ const RegistrationForm: React.FC = () => {
 
   const [emergencyContactError, setEmergencyError] = useState<errors>({})
   const [activeStep, setActiveStep] = useState(0)
+  const [isLoading, setLoading] = useState(false)
 
   const steps = ['Personal Information', 'Emergency Contact']
 
@@ -79,6 +80,7 @@ const RegistrationForm: React.FC = () => {
 
     try {
       if (isLastStep) {
+        setLoading(true)
         // Validate and submit form
         RegisterRequestValidator.parse(formData)
         setErrors({})
@@ -86,13 +88,17 @@ const RegistrationForm: React.FC = () => {
 
         try {
           await registerUser(formData)
-          toast.success('Registration was successful!', {
-            position: 'top-right',
-          })
+          toast.success('Registration was successful!')
+          setLoading(false)
+          setTimeout(function () {
+            window.location.href = '/auth/login'
+          }, 1000) // Wait for 2000 milliseconds (2 seconds) before redirecting
         } catch (e: any) {
           toast.error(e.message, {
             position: 'top-right',
           })
+
+          setLoading(false)
         }
       } else {
         // Move to the next step
@@ -369,6 +375,7 @@ const RegistrationForm: React.FC = () => {
                 fullWidth
                 variant="contained"
                 color="primary"
+                loading={isLoading}
               >
                 Register
               </LoadingButton>
