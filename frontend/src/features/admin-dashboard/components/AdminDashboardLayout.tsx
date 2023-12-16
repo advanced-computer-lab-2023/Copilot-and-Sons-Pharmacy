@@ -4,6 +4,7 @@ import {
   Healing,
   PersonAdd,
   PersonRemove,
+ 
 } from '@mui/icons-material'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
@@ -24,11 +25,7 @@ export function AdminDashboardLayout() {
         text: 'Dashboard',
         icon: <Dashboard />,
       },
-      {
-        to: '/admin-dashboard/add-admin',
-        text: 'Add Admin ',
-        icon: <PersonAdd />,
-      },
+
       {
         to: '/admin-dashboard/remove-user',
         text: 'Remove User',

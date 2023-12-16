@@ -69,7 +69,7 @@ const AdminAdd: React.FC = () => {
     <Container maxWidth="sm">
       <Box sx={{ marginTop: 4 }}>
         <form onSubmit={handleSubmit}>
-          <Typography variant="h4" align="center" gutterBottom>
+          <Typography variant="h6" align="center" gutterBottom>
             Add Admin
           </Typography>
           <Grid container spacing={2}>

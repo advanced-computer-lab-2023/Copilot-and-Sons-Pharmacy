@@ -44,3 +44,9 @@ export const addAdminService = async (info: Info) => {
 
   return await generateJWTToken(new JwtPayload(username))
 }
+
+export const getAllUsersService = async () => {
+  const users = await User.find({})
+
+  return users
+}

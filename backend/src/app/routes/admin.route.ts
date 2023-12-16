@@ -6,6 +6,7 @@ import {
   serachForMedicine,
   acceptPharmacistRequest,
   rejectPharmacistRequest,
+  getAllUsers,
 } from '../controllers/admin.controller'
 import {
   getAllPharmacists,
@@ -52,5 +53,7 @@ router
 router
   .route('/rejectPharmacistRequest/:id')
   .patch(asyncWrapper(allowAdmins), rejectPharmacistRequest)
+
+router.route('/getAllUsers').get(asyncWrapper(allowAdmins), getAllUsers)
 
 export default router
