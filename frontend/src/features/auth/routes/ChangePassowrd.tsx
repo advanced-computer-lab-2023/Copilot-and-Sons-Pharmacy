@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useFormik } from 'formik'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { TextField, Button, Typography } from '@mui/material'
+import { TextField, Button } from '@mui/material'
 import { CircularProgress } from '@mui/material'
 import { toast } from 'react-toastify'
 import { api } from '@/api'
+import Title from '@/features/patient-dashboard/components/Title'
 
 interface ChangePasswordFormValues {
   oldPassword: string
@@ -71,7 +72,7 @@ export default function ChangePassword({
 
   return (
     <>
-      <Typography variant="h6">Change Password</Typography>
+      <Title>Change Password</Title>
       <div>
         {error !== null ? (
           <div className="alert alert-danger">{error}</div>

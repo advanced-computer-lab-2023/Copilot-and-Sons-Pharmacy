@@ -30,13 +30,20 @@ export async function AddAdmin(
 }
 
 //Calling the remoae user function using axios
-function removeUser(username: string) {
+export function removeUser(username: string) {
   return api
     .delete(`/admin/removeUser`, { data: { username } })
     .then((response) => response)
     .catch((error) => {
       throw new Error(error)
     })
+}
+
+export async function getAllUsers() {
+  const response = await api.get('/admin/getAllUsers')
+  console.log('users', response.data)
+
+  return response.data
 }
 
 //setting a mutation using react_query to handle the changes to database
