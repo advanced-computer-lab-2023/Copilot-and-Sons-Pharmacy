@@ -1,7 +1,42 @@
-import { Container, Grid, Card, CardContent, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import { viewAllPatients } from '../../../api/patient'
-import { Link } from 'react-router-dom'
+
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { Button } from '@mui/material'
+
+const columns: GridColDef[] = [
+  { field: 'name', headerName: 'Name', flex: 1 },
+  { field: 'email', headerName: 'Email', flex: 1 },
+  {
+    field: 'dateOfBirth',
+    headerName: 'Date of Birth',
+    flex: 1,
+    valueGetter: (params) => {
+      const date = new Date(params.row.dateOfBirth)
+
+      return date.toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
+    },
+  },
+  {
+    field: 'viewPatient',
+    headerName: 'View more info',
+    flex: 1,
+    renderCell: (params) => (
+      <Button
+        variant="contained"
+        onClick={() => {
+          window.location.href = `/admin-dashboard/viewPatients/info/${params.row.id}`
+        }}
+      >
+        View Patient
+      </Button>
+    ),
+  },
+]
 
 const ViewPatients = () => {
   const {
@@ -18,25 +53,17 @@ const ViewPatients = () => {
     return <p>Error fetching patients</p>
   }
 
-  // console.log("Patients data:", patients);
+  const rows = patients?.data.map((patient) => ({
+    id: patient._id,
+    name: patient.name,
+    email: patient.email,
+    dateOfBirth: patient.dateOfBirth,
+  }))
 
   return (
-    <Container>
-      <Grid container columnSpacing={4}>
-        {patients?.data.map((patient) => (
-          <Grid item key={patient._id} xs={12}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography>
-                  User:
-                  <Link to={`info/${patient._id}`}>{patient.name}</Link>
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+    <div style={{ height: '100%', width: '100%' }}>
+      <DataGrid rows={rows} columns={columns} checkboxSelection={false} />
+    </div>
   )
 }
 
