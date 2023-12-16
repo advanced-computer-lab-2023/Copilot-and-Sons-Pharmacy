@@ -211,8 +211,6 @@ const ViewAllMedicines = () => {
 
   return (
     <>
-      {/* Search Bar */}
-
       <Accordion
         style={{
           width: '75%',
@@ -310,79 +308,126 @@ const ViewAllMedicines = () => {
       </Accordion>
 
       <OnlyAuthenticated requiredUserType={UserType.Doctor}>
-        <div>
-          <h3>Prescription List</h3>
-          <ol>
-            {prescriptionList.map((medicineItem: any) => (
-              <li key={medicineItem.name}>
-                {medicineItem.name} - {medicineItem.quantity} -{' '}
-                {medicineItem.dosage}
-                <Button onClick={() => openEditDialog(medicineItem)}>
-                  <EditIcon color="action" />
-                </Button>
-                <Button
-                  onClick={() => {
-                    setPrescriptionList((prevList: any) =>
-                      prevList.filter(
-                        (item: any) => item.name !== medicineItem.name
-                      )
-                    )
+        <Card
+          style={{ padding: '20px', margin: '20px 0px', borderRadius: '10px' }}
+          variant="outlined"
+        >
+          <div
+            style={{
+              textAlign: 'center',
+              borderBottom: '1px solid #e0e0e0',
+              paddingBottom: '10px',
+            }}
+          >
+            <Typography
+              variant="h4"
+              style={{ fontWeight: 'bold' }}
+              color="primary.main"
+              textAlign="center"
+            >
+              Prescription List
+            </Typography>
+          </div>
+
+          <CardContent>
+            <ol>
+              {prescriptionList.map((medicineItem: any) => (
+                <li
+                  key={medicineItem.name}
+                  style={{
+                    display: 'flex',
                   }}
                 >
-                  <DeleteIcon color="error" />
-                </Button>
-              </li>
-            ))}
-          </ol>
-          {editingItem && (
-            <Dialog
-              open={Boolean(editingItem)}
-              onClose={() => setEditingItem(null)}
-            >
-              <DialogTitle>Edit Medicine</DialogTitle>
-              <DialogContent>
-                <TextField
-                  label="Medicine Name"
-                  value={editForm.name}
-                  margin="normal"
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                <TextField
-                  label="Quantity"
-                  name="quantity"
-                  value={editForm.quantity}
-                  onChange={handleFormChange}
-                  margin="normal"
-                  fullWidth
-                />
-                <TextField
-                  label="Dosage"
-                  name="dosage"
-                  value={editForm.dosage}
-                  onChange={handleFormChange}
-                  margin="normal"
-                  fullWidth
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleUpdate}>Update</Button>
-                <Button onClick={() => setEditingItem(null)}>Cancel</Button>
-              </DialogActions>
-            </Dialog>
-          )}
-        </div>
-        <Button
-          disabled={false}
-          variant="contained"
-          onClick={() => handleSubmitPrescription()}
-        >
-          {localStorage.getItem('PrescriptionId')
-            ? 'Update Prescription'
-            : 'Submit Prescription'}
-        </Button>
+                  <Typography
+                    style={{
+                      width: 'fit-content',
+                      minWidth: '400px',
+                      borderBottom: '1px solid #e0e0e0',
+                      paddingBottom: '2px',
+                      marginBottom: '7px',
+                    }}
+                  >
+                    {medicineItem.name} - {medicineItem.quantity} -{' '}
+                    {medicineItem.dosage}
+                  </Typography>
+                  <Typography
+                    style={{
+                      width: 'fit-content',
+                      borderBottom: '1px solid #e0e0e0',
+                      paddingBottom: '2px',
+                      marginBottom: '7px',
+                    }}
+                  >
+                    <Button onClick={() => openEditDialog(medicineItem)}>
+                      <EditIcon color="action" />
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setPrescriptionList((prevList: any) =>
+                          prevList.filter(
+                            (item: any) => item.name !== medicineItem.name
+                          )
+                        )
+                      }}
+                    >
+                      <DeleteIcon color="error" />
+                    </Button>
+                  </Typography>
+                </li>
+              ))}
+            </ol>
+            {editingItem && (
+              <Dialog
+                open={Boolean(editingItem)}
+                onClose={() => setEditingItem(null)}
+              >
+                <DialogTitle>Edit Medicine</DialogTitle>
+                <DialogContent>
+                  <TextField
+                    label="Medicine Name"
+                    value={editForm.name}
+                    margin="normal"
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField
+                    label="Quantity"
+                    name="quantity"
+                    value={editForm.quantity}
+                    onChange={handleFormChange}
+                    margin="normal"
+                    fullWidth
+                  />
+                  <TextField
+                    label="Dosage"
+                    name="dosage"
+                    value={editForm.dosage}
+                    onChange={handleFormChange}
+                    margin="normal"
+                    fullWidth
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleUpdate}>Update</Button>
+                  <Button onClick={() => setEditingItem(null)}>Cancel</Button>
+                </DialogActions>
+              </Dialog>
+            )}
+            <div style={{ textAlign: 'center', marginTop: '15px' }}>
+              <Button
+                disabled={false}
+                variant="contained"
+                onClick={() => handleSubmitPrescription()}
+              >
+                {localStorage.getItem('PrescriptionId')
+                  ? 'Update Prescription'
+                  : 'Submit Prescription'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </OnlyAuthenticated>
 
       <Grid container spacing={4}>
