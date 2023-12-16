@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogContentText,
 } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from 'react-query'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 import DialogTitle from '@mui/material/DialogTitle'
@@ -18,7 +18,7 @@ import { getAllUsers, removeUser } from '@/api/admin'
 export function Users() {
   const query = useQuery({
     queryKey: ['get-users'],
-    queryFn: () => getAllUsers(),
+    queryFn: () => getAllUsers().then((res) => res.data),
   })
 
   const [open, setOpen] = useState(false)
