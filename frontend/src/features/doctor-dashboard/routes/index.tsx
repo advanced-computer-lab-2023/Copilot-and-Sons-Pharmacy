@@ -1,10 +1,21 @@
+import { useEffect } from 'react'
 import { DoctorDashboardLayout } from '../components/DoctorDashboardLayout'
 import ViewAllMedicines from '@/features/medicine-dashboard/routes/ViewAllMedicines'
-
-import { RouteObject } from 'react-router-dom'
 import { ChatWithPharmacists } from './ChatWithPharmacists'
 
-export const DoctorDashboardRoutes: RouteObject[] = [
+const token = localStorage.getItem('token')
+
+// eslint-disable-next-line react-refresh/only-export-components
+const RedirectToClinic = () => {
+  useEffect(() => {
+    // Navigate to the clinic URL
+    window.location.href = `http://localhost:5173/doctor-dashboard?token=${token}`
+  })
+
+  return null // This component doesn't render anything, it just redirects
+}
+
+export const DoctorDashboardRoutes = [
   {
     element: <DoctorDashboardLayout />,
     children: [
@@ -15,6 +26,10 @@ export const DoctorDashboardRoutes: RouteObject[] = [
       {
         path: 'pharmacists',
         element: <ChatWithPharmacists />,
+      },
+      {
+        path: 'clinic',
+        element: <RedirectToClinic />,
       },
     ],
   },
