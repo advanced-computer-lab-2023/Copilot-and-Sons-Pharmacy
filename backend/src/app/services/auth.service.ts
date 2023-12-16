@@ -215,3 +215,26 @@ export async function isAdmin(username: string): Promise<boolean> {
 
   return user.type === UserType.Admin
 }
+
+export async function userExists(userId?: string) {
+  if (!userId) return false
+
+  const user = await User.findById(userId)
+
+  if (!user) return false
+
+  const patient = await Patient.count({
+    user: user.id,
+  })
+  const doctor = await DoctorModel.count({
+    user: user.id,
+  })
+  const admin = await Administrator.count({
+    user: user.id,
+  })
+  const pharmacist = await Pharmacist.count({
+    user: user.id,
+  })
+
+  return patient + doctor + admin + pharmacist > 0
+}

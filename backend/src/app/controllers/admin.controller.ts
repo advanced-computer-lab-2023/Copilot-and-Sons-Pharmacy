@@ -1,7 +1,10 @@
 import { Request, Response } from 'express'
 import { SUCCESS } from '../utils/httpStatusText'
 import asyncWrapper from '../middlewares/asyncWrapper'
-import { addAdminService } from '../services/addAdmin.service'
+import {
+  addAdminService,
+  getAllUsersService,
+} from '../services/addAdmin.service'
 import { getMedicineByName } from '../services/medicine/searchForMedicineByName'
 import { getMedicineByMeidinalUse } from '../services/medicine/filterMedicineByMedicinalUse'
 import { removeUser } from '../services/removeUser.service'
@@ -135,4 +138,16 @@ export const rejectPharmacistRequest = asyncWrapper(async (req, res) => {
     message: 'Pharmacist Request rejected successfully',
     name,
   })
+})
+
+export const getAllUsers = asyncWrapper(async (req: Request, res: Response) => {
+  const users = await getAllUsersService()
+
+  const usersResponse = users.map((user) => {
+    const { id, username, type } = user
+    const { name } = user.model
+
+    return { id, username, type, name }
+  })
+  res.json({ success: SUCCESS, data: usersResponse })
 })

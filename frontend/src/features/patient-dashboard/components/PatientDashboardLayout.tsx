@@ -7,7 +7,6 @@ import {
   LocalShipping,
   LocationCity,
   MedicationOutlined,
-  VpnKey,
   Dashboard,
 } from '@mui/icons-material'
 import { AuthenticatedRoute } from '@/components/AuthenticatedRoute'
@@ -21,11 +20,6 @@ export function PatientDashboardLayout() {
 
   useEffect(() => {
     setSidebarLinks([
-      {
-        to: '/patient-dashboard',
-        text: 'Dashboard',
-        icon: <Dashboard />,
-      },
       {
         to: '/patient-dashboard',
         text: 'Dashboard',
@@ -53,11 +47,6 @@ export function PatientDashboardLayout() {
         to: '/patient-dashboard/pharmacists',
         text: 'Chat With Pharmacists',
         icon: <MedicationOutlined />,
-      },
-      {
-        to: '/patient-dashboard/change-password',
-        text: 'Change Password',
-        icon: <VpnKey />,
       },
 
       {

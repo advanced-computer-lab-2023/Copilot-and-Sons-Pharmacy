@@ -4,6 +4,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Container,
   Grid,
   Typography,
 } from '@mui/material'
@@ -127,40 +128,44 @@ export const ChatWithPharmacists = () => {
   }
 
   return (
-    <Grid container spacing={1}>
-      <Grid
-        item
-        xs={12}
-        sx={{
-          marginBottom: '20px',
-        }}
-      >
-        <Typography
-          variant="h2"
-          marginBottom={2}
-          textAlign="center"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          gap={2}
-        >
-          <Message fontSize="inherit" color="primary" />
-          Chat with Pharmacists!
-        </Typography>
-        <Box
+    <Container>
+      <Grid container spacing={1}>
+        <Grid
+          item
+          xs={12}
           sx={{
-            backgroundColor: 'primary.main',
-            height: 5,
-            width: 500,
-            margin: 'auto',
+            marginBottom: '20px',
           }}
-        ></Box>
-      </Grid>
-      {query.data!.map((pharmacist) => (
-        <Grid item md={5} key={pharmacist._id}>
-          <PharmacistDetails pharmacist={pharmacist} />
+        >
+          <Typography
+            variant="h4"
+            marginBottom={2}
+            textAlign="center"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            gap={2}
+          >
+            <Message fontSize="inherit" color="primary" />
+            Chat with Pharmacists!
+          </Typography>
+          <Box
+            sx={{
+              backgroundColor: 'primary.main',
+              height: 5,
+              width: 500,
+              margin: 'auto',
+            }}
+          ></Box>
         </Grid>
-      ))}
-    </Grid>
+
+        {query.data!.map((pharmacist) => (
+          <Grid item md={6} key={pharmacist._id}>
+            <PharmacistDetails pharmacist={pharmacist} />
+          </Grid>
+        ))}
+      </Grid>
+      d
+    </Container>
   )
 }
