@@ -8,7 +8,7 @@ export function PatientProfile() {
   const { user } = useAuth()
 
   const query = useQuery({
-    queryKey: ['patient', user?.username],
+    queryKey: ['patient-profile', user?.username],
     queryFn: () => viewPatientInfo(user!.modelId),
   })
 

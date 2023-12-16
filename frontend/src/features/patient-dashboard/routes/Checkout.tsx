@@ -4,12 +4,11 @@ import { useCart } from '@/hooks/cartHook'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
 import PaymentsIcon from '@mui/icons-material/Payments'
-import PaymentIcon from '@mui/icons-material/Payment'
 import StripCheckout from '../components/Checkout'
 import { patchWallet } from '@/api/medicine'
 import { useAlerts } from '@/hooks/alerts'
 import CircularProgress from '@mui/material/CircularProgress'
-import { CreditCard, Wallet } from '@mui/icons-material'
+import { ArrowForward, CreditCard, Wallet } from '@mui/icons-material'
 import { Card, CardContent, Typography } from '@mui/material'
 import { DiscountedPrice } from '@/components/DiscountedPrice'
 import { Container, Stack } from '@mui/system'
@@ -39,7 +38,10 @@ const Checkout = () => {
         severity: 'success',
       })
 
-      window.location.href = '/patient-dashboard/medicines/'
+      //redirect after one second
+      setTimeout(() => {
+        window.location.href = '/patient-dashboard/medicines/'
+      }, 1000)
     } catch (err: any) {
       setLoading(false)
       console.log(err)
@@ -168,12 +170,12 @@ const Checkout = () => {
                 fullWidth
                 size="large"
               >
-                Pay
+                Continue Checkout
                 {paymentMethod === 'Cash' && (
-                  <PaymentsIcon style={{ marginLeft: '10px' }} />
+                  <ArrowForward style={{ marginLeft: '10px' }} />
                 )}
                 {paymentMethod === 'Wallet' && (
-                  <PaymentIcon style={{ marginLeft: '10px' }} />
+                  <ArrowForward style={{ marginLeft: '10px' }} />
                 )}
               </Button>
             )}

@@ -1,5 +1,10 @@
 import { useSidebar } from '../../../hooks/sidebar'
-import { Healing, PersonAdd, PersonRemove } from '@mui/icons-material'
+import {
+  Dashboard,
+  Healing,
+  PersonAdd,
+  PersonRemove,
+} from '@mui/icons-material'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
@@ -14,6 +19,11 @@ export function AdminDashboardLayout() {
 
   useEffect(() => {
     setSidebarLinks([
+      {
+        to: '/admin-dashboard',
+        text: 'Dashboard',
+        icon: <Dashboard />,
+      },
       {
         to: '/admin-dashboard/add-admin',
         text: 'Add Admin ',
