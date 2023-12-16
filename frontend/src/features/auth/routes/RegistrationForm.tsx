@@ -16,6 +16,8 @@ import {
   Radio,
   FormControlLabel,
   LinearProgress,
+  IconButton,
+  InputAdornment,
 } from '@mui/material'
 import {
   RegisterRequestValidator,
@@ -23,6 +25,8 @@ import {
 } from '../../../validators/user.validator.ts'
 import { format, isDate } from 'date-fns'
 import LoadingButton from '@mui/lab/LoadingButton'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 type errors = {
   [key: string]: string
 }
@@ -42,6 +46,12 @@ type FormState = {
 }
 
 const RegistrationForm: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword)
+  }
+
   const [formData, setFormData] = useState<FormState>({
     username: '',
     name: '',
@@ -228,13 +238,30 @@ const RegistrationForm: React.FC = () => {
               <TextField
                 fullWidth
                 label="Password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 required
                 value={formData.password}
                 onChange={handleInputChange}
                 error={Boolean(errors.password)}
                 helperText={errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleTogglePassword} edge="end">
+                        <FontAwesomeIcon
+                          icon={showPassword ? faEye : faEyeSlash}
+                          className="fa-regular"
+                          id="togglePasswordIcon"
+                          style={{
+                            fontSize: '16px',
+                            background: 'transparent',
+                          }}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
             <Grid item xs={12}>

@@ -17,6 +17,15 @@ import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedici
 import ChangePassword from '@/features/auth/routes/ChangePassowrd'
 import ViewMedicineSalesAndQuantity from './ViewMedicineSalesAndQuantity'
 
+// eslint-disable-next-line react-refresh/only-export-components
+const RedirectToClinic = () => {
+  const token = localStorage.getItem('token')
+  // Navigate to the clinic URL
+  window.location.href = `http://localhost:5173/admin-dashboard?token=${token}`
+
+  return null
+}
+
 export const adminDashboardRoutes: RouteObject[] = [
   {
     element: <AdminDashboardLayout />,
@@ -77,6 +86,10 @@ export const adminDashboardRoutes: RouteObject[] = [
       {
         path: 'sales-and-quantity',
         element: <ViewMedicineSalesAndQuantity />,
+      },
+      {
+        path: 'clinic',
+        element: <RedirectToClinic />,
       },
     ],
   },
