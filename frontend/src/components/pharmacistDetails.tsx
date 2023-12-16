@@ -150,7 +150,7 @@ export default function PharmacistDetails({
               value:
                 pharmacist.documents.length > 0
                   ? pharmacist.documents.map((document: string) => (
-                      <iframe width={'400'} height={'300'} src={document} />
+                      <iframe width={'300'} height={'300'} src={document} />
                     ))
                   : 'None',
             },
