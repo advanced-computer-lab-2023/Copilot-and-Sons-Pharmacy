@@ -28,9 +28,9 @@ export const RegisterRequestValidator = zod.object({
   email: zod.string().email(),
   mobileNumber: zod
     .string()
-    .min(10)
-    .max(10)
-    .regex(/^\d{10}$/),
+    .min(11)
+    .max(11)
+    .regex(/^\d{11}$/),
   dateOfBirth: zod.string().refine((date) => !isDate(date), {
     message: 'Date of Birth is required',
   }),
@@ -41,8 +41,8 @@ export const emergencyContactValidator = zod.object({
   fullName: zod.string().min(3).max(255),
   mobileNumber: zod
     .string()
-    .min(10)
-    .max(10)
-    .regex(/^\d{10}$/),
+    .min(11)
+    .max(11)
+    .regex(/^\d{11}$/),
   relation: zod.string().min(3).max(255),
 })
