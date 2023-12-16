@@ -4,14 +4,7 @@ import { toast } from 'react-toastify'
 import { AddAdmin } from '../../../api/admin.ts'
 import 'react-toastify/dist/ReactToastify.css'
 
-import {
-  TextField,
-  Button,
-  Container,
-  Typography,
-  Grid,
-  Box,
-} from '@mui/material'
+import { TextField, Button, Container, Grid, Box } from '@mui/material'
 
 type errors = {
   [key: string]: string
@@ -69,9 +62,6 @@ const AdminAdd: React.FC = () => {
     <Container maxWidth="sm">
       <Box sx={{ marginTop: 4 }}>
         <form onSubmit={handleSubmit}>
-          <Typography variant="h6" align="center" gutterBottom>
-            Add Admin
-          </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

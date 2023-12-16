@@ -39,10 +39,15 @@ export function AdminDashboardHome() {
         </Card>
       </Grid>
       <Grid item xs={12} md={6}>
-        <Stack spacing={5}>
-          <Box>
-            <AddingAdmin />
-          </Box>
+        <Stack spacing={2}>
+          <Typography variant="h4" textAlign="center">
+            Add Admin
+          </Typography>
+          <Card>
+            <CardContent>
+              <AddingAdmin />
+            </CardContent>
+          </Card>
           <Box>
             <Card>
               <CardContent>
