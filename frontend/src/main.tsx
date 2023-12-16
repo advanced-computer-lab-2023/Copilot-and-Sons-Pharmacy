@@ -33,7 +33,7 @@ if (usernameParam) {
 }
 
 const token = currentUrl.searchParams.get('token')
-console.log(token)
+console.log('tokennn' + token)
 
 if (token) {
   // If the parameter exists, save it in localStorage

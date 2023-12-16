@@ -7,7 +7,6 @@ import SearchForMedicine from '@/features/medicine-dashboard/routes/searchForMed
 import MedicinalUses from '@/features/medicine-dashboard/routes/ViewAllMedicinalUses'
 import FilteredMedicines from '@/features/medicine-dashboard/routes/FilterMedicines'
 import ChangePassword from '@/features/auth/routes/ChangePassowrd'
-import { useEffect } from 'react'
 import AllOrders from '@/features/patient-dashboard/routes/AllOrders'
 
 import Checkout from '@/features/patient-dashboard/routes/Checkout'
@@ -18,14 +17,10 @@ import { ChatWithPharmacists } from '@/features/doctor-dashboard/routes/ChatWith
 // import { PrescriptionCheckout } from './PrescriptionCheckout'
 import { Wallet } from './Wallet'
 
-const token = localStorage.getItem('token')
-
 // eslint-disable-next-line react-refresh/only-export-components
 const RedirectToClinic = () => {
-  useEffect(() => {
-    // Navigate to the clinic URL
-    window.location.href = `http://localhost:5173/patient-dashboard?token=${token}`
-  })
+  const token = localStorage.getItem('token')
+  window.location.href = `http://localhost:5173/patient-dashboard?token=${token}`
 
   return null // This component doesn't render anything, it just redirects
 }
