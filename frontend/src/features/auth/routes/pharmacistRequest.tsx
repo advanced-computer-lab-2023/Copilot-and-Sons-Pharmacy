@@ -283,13 +283,14 @@ export const Register = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <label>Select your latest Degree </label>
+              <label>Select your latest Degree *</label>
 
               <RadioGroup
                 onChange={(e) => {
                   setDegree(e.target.value)
                 }}
                 value={degree}
+                aria-required="true"
               >
                 <FormControlLabel
                   value="Associate degree"
@@ -328,7 +329,7 @@ export const Register = () => {
                   }}
                 >
                   <label style={{ marginBottom: '5px', textAlign: 'left' }}>
-                    Upload your {docType}
+                    Upload your {docType} *
                   </label>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <input
