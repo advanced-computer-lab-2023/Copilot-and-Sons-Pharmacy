@@ -1514,6 +1514,12 @@ npm install
   </details>
 
 ## 🧪 Tests
+We use `Postman` to manually test all our api references by making sure the response is as expected. We use it as some kind of sanity-check.
+
+Here is an example testing that logging in with an invalid username wouldn't pass authorization:
+
+![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/postman.PNG)
+
 
 ## 🧑🏻‍🏫 How to Use
 
