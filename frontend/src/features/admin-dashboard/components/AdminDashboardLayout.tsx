@@ -44,17 +44,7 @@ export function AdminDashboardLayout() {
       },
       {
         to: '/admin-dashboard/medicines/',
-        text: 'View All Available Medicines',
-        icon: <Healing />,
-      },
-      {
-        to: '/admin-dashboard/medicines/search-for-medicine/',
-        text: 'Search For Medicine',
-        icon: <Healing />,
-      },
-      {
-        to: '/admin-dashboard/medicines/allUses',
-        text: 'Filter By Medicinal Use',
+        text: 'Medicines',
         icon: <Healing />,
       },
       {

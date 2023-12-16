@@ -7,7 +7,9 @@ import {
   TextField,
   Button,
   Container,
+  FormControlLabel,
   Typography,
+  Checkbox,
   Grid,
   Box,
   Alert,
@@ -37,6 +39,7 @@ const validationSchema = Yup.object().shape({
     /^(?!.*\s,)[^,]*(, [^,]+)*$/,
     'Input must be in the form "a, b, c, d, e, f" with spaces after commas'
   ),
+  needPrescription: Yup.boolean().required('Need Prescription is required'),
 })
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -83,6 +86,7 @@ export function EditMedicine() {
     activeIngredients: '',
     medicinalUse: '',
     sales: 0,
+    needPrescription: false,
   }
 
   const handleEditedMedicine = (Medicine: typeof initialValues) => {
@@ -120,6 +124,13 @@ export function EditMedicine() {
       }
     }
 
+    if (Medicine.needPrescription !== undefined) {
+      formData.append(
+        'requiresPrescription',
+        Medicine.needPrescription.toString()
+      )
+    }
+
     if (Medicine.medicinalUse != '')
       formData.append('medicinalUse', Medicine.medicinalUse)
 
@@ -149,7 +160,14 @@ export function EditMedicine() {
   return (
     <>
       <Container maxWidth="sm">
-        <Box sx={{ marginTop: 4 }}>
+        <Box
+          sx={{
+            marginTop: 4,
+            boxShadow: 3,
+            padding: '20px',
+            borderRadius: '8px',
+          }}
+        >
           <Typography variant="h4" align="center" gutterBottom>
             Edit Medicine
           </Typography>
@@ -311,12 +329,34 @@ export function EditMedicine() {
               </Grid>
             </Grid>
             <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={formik.values.needPrescription}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    name="needPrescription"
+                    color="primary"
+                  />
+                }
+                label="Need Prescription"
+              />
+              {formik.errors.needPrescription &&
+              formik.touched.needPrescription ? (
+                <Alert severity="warning">
+                  {formik.errors.needPrescription}
+                </Alert>
+              ) : (
+                ''
+              )}
+            </Grid>
+            <Grid item xs={12}>
               <div
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  justifyContent: 'left',
                   marginTop: '10px',
                 }}
               >
