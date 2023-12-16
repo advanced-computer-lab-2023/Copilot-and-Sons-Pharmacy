@@ -7,6 +7,10 @@ import {
   Card,
   CardContent,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControlLabel,
   FormGroup,
   Grid,
@@ -29,6 +33,8 @@ import { useQuery } from 'react-query'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const ViewAllMedicines = () => {
   const { user } = useAuth()
@@ -116,6 +122,7 @@ const ViewAllMedicines = () => {
         toast.success('Prescription updated successfully!', {
           position: 'top-right',
         })
+        localStorage.removeItem('PrescriptionId')
       } else {
         toast.success('Prescription submitted successfully!', {
           position: 'top-right',
@@ -127,6 +134,37 @@ const ViewAllMedicines = () => {
         position: 'top-right',
       })
     }
+  }
+
+  const [editingItem, setEditingItem] = useState(null) // State to track the item being edited
+  const [editForm, setEditForm] = useState({
+    name: '',
+    quantity: '',
+    dosage: '',
+  })
+
+  // Function to open edit dialog
+  const openEditDialog = (item: any) => {
+    setEditingItem(item)
+    setEditForm({
+      name: item.name,
+      quantity: item.quantity,
+      dosage: item.dosage,
+    })
+  }
+
+  // Function to handle the update
+  const handleUpdate = () => {
+    setPrescriptionList((prevList: any) =>
+      prevList.map((item: any) =>
+        item.name === editForm!.name ? { ...item, ...editForm } : item
+      )
+    )
+    setEditingItem(null) // Close dialog after update
+  }
+
+  const handleFormChange = (e: any) => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value })
   }
 
   useEffect(() => {
@@ -285,11 +323,14 @@ const ViewAllMedicines = () => {
       <OnlyAuthenticated requiredUserType={UserType.Doctor}>
         <div>
           <h3>Prescription List</h3>
-          <ul>
+          <ol>
             {prescriptionList.map((medicineItem: any) => (
               <li key={medicineItem.name}>
                 {medicineItem.name} - {medicineItem.quantity} -{' '}
                 {medicineItem.dosage}
+                <Button onClick={() => openEditDialog(medicineItem)}>
+                  <EditIcon color="action" />
+                </Button>
                 <Button
                   onClick={() => {
                     setPrescriptionList((prevList: any) =>
@@ -299,11 +340,50 @@ const ViewAllMedicines = () => {
                     )
                   }}
                 >
-                  Remove
+                  <DeleteIcon color="error" />
                 </Button>
               </li>
             ))}
-          </ul>
+          </ol>
+          {editingItem && (
+            <Dialog
+              open={Boolean(editingItem)}
+              onClose={() => setEditingItem(null)}
+            >
+              <DialogTitle>Edit Medicine</DialogTitle>
+              <DialogContent>
+                <TextField
+                  label="Medicine Name"
+                  value={editForm.name}
+                  margin="normal"
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  label="Quantity"
+                  name="quantity"
+                  value={editForm.quantity}
+                  onChange={handleFormChange}
+                  margin="normal"
+                  fullWidth
+                />
+                <TextField
+                  label="Dosage"
+                  name="dosage"
+                  value={editForm.dosage}
+                  onChange={handleFormChange}
+                  margin="normal"
+                  fullWidth
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleUpdate}>Update</Button>
+                <Button onClick={() => setEditingItem(null)}>Cancel</Button>
+              </DialogActions>
+            </Dialog>
+          )}
         </div>
         <Button
           color="secondary"
