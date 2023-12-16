@@ -12,11 +12,21 @@ import {
   FormControlLabel,
   LinearProgress,
   Button,
+  IconButton,
+  InputAdornment,
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { pharmacistRequest } from '@/api/pharmacist'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export const Register = () => {
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword)
+  }
+
   const [activeStep, setActiveStep] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState('')
@@ -179,7 +189,7 @@ export const Register = () => {
               <TextField
                 fullWidth
                 id="standard-basic"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 label="Password"
                 onChange={(e) => {
                   setPassword(e.target.value)
@@ -187,6 +197,23 @@ export const Register = () => {
                 placeholder="Enter password"
                 value={password}
                 required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleTogglePassword} edge="end">
+                        <FontAwesomeIcon
+                          icon={showPassword ? faEye : faEyeSlash}
+                          className="fa-regular"
+                          id="togglePasswordIcon"
+                          style={{
+                            fontSize: '16px',
+                            background: 'transparent',
+                          }}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
 
@@ -283,13 +310,14 @@ export const Register = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <label>Select your latest Degree </label>
+              <label>Select your latest Degree *</label>
 
               <RadioGroup
                 onChange={(e) => {
                   setDegree(e.target.value)
                 }}
                 value={degree}
+                aria-required="true"
               >
                 <FormControlLabel
                   value="Associate degree"
@@ -328,7 +356,7 @@ export const Register = () => {
                   }}
                 >
                   <label style={{ marginBottom: '5px', textAlign: 'left' }}>
-                    Upload your {docType}
+                    Upload your {docType} *
                   </label>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <input
