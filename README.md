@@ -822,7 +822,7 @@ npm install
 - `POST /cart/clear` - Clear cart items
   - **Request Body**: N/A
   - **Response Body**:
-  `    {
+    `    {
     items: [
         {
             medicine: {

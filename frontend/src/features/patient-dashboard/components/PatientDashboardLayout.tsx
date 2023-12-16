@@ -26,6 +26,11 @@ export function PatientDashboardLayout() {
         text: 'Dashboard',
         icon: <Dashboard />,
       },
+      {
+        to: '/patient-dashboard',
+        text: 'Dashboard',
+        icon: <Dashboard />,
+      },
 
       {
         to: '/patient-dashboard/medicines/',
