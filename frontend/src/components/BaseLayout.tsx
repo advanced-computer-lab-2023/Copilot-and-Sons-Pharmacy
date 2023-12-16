@@ -21,6 +21,7 @@ import {
   ShoppingCart,
 } from '@mui/icons-material'
 import { NotificationsList } from './notification'
+
 // import { NotificationsList } from './notification'
 import { useAuth } from '@/hooks/auth'
 import { ChatsProvider } from '@/providers/ChatsProvider'
@@ -30,10 +31,10 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 // import { NotificationsList } from './notification'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { ProfileMenu } from './ProfileMenu'
 import SearchIcon from '@mui/icons-material/Search'
-import { faCapsules } from '@fortawesome/free-solid-svg-icons'
+
 import { UserType } from 'pharmacy-common/types/user.types'
 import { useCart } from '@/hooks/cartHook'
 
@@ -294,9 +295,9 @@ export function BaseLayout() {
                     fontWeight: 'bold',
                   }}
                 >
-                  <FontAwesomeIcon
-                    icon={faCapsules}
-                    style={{ marginRight: '15px' }}
+                  <img
+                    src="../../src/assets/logo2.png"
+                    style={{ width: '50px', height: '40px' }}
                   />
                   Pharmacy
                 </Typography>
