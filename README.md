@@ -1518,7 +1518,7 @@ We use `Postman` to manually test all our api references by making sure the resp
 
 Here is an example testing that logging in with an invalid username wouldn't pass authorization:
 
-![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Clinic/blob/main/images/postman.PNG)
+![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/postman.PNG)
 
 
 ## 🧑🏻‍🏫 How to Use
