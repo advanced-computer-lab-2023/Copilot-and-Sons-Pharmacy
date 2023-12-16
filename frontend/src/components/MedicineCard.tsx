@@ -393,7 +393,6 @@ export default function MedicineCard(props: {
                 to={`/pharmacist-dashboard/medicines/editMedicine/${props.medicine.name}`}
               >
                 <Button
-                  color="secondary"
                   disabled={false}
                   variant="contained"
                   startIcon={<Edit />}
@@ -403,7 +402,6 @@ export default function MedicineCard(props: {
               </Link>
               {props.medicine.status === 'unarchived' && (
                 <Button
-                  color="secondary"
                   disabled={false}
                   variant="contained"
                   onClick={handleArchive(props.medicine.name)}
@@ -441,7 +439,6 @@ export default function MedicineCard(props: {
                   variant="outlined"
                 />
                 <Button
-                  color="secondary"
                   disabled={false}
                   variant="contained"
                   onClick={() => handleAddToPrescription()}

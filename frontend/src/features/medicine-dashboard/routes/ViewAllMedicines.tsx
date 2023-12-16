@@ -309,17 +309,6 @@ const ViewAllMedicines = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Grid container spacing={4}>
-        {resultingMedicines.map((medicine: IMedicine) => (
-          <Grid item xs={12} md={6} lg={4} key={medicine._id}>
-            <MedicineCard
-              medicine={medicine}
-              onAddToPrescription={addToPrescription}
-            />
-          </Grid>
-        ))}
-      </Grid>
-
       <OnlyAuthenticated requiredUserType={UserType.Doctor}>
         <div>
           <h3>Prescription List</h3>
@@ -386,7 +375,6 @@ const ViewAllMedicines = () => {
           )}
         </div>
         <Button
-          color="secondary"
           disabled={false}
           variant="contained"
           onClick={() => handleSubmitPrescription()}
@@ -396,6 +384,17 @@ const ViewAllMedicines = () => {
             : 'Submit Prescription'}
         </Button>
       </OnlyAuthenticated>
+
+      <Grid container spacing={4}>
+        {resultingMedicines.map((medicine: IMedicine) => (
+          <Grid item xs={12} md={6} lg={4} key={medicine._id}>
+            <MedicineCard
+              medicine={medicine}
+              onAddToPrescription={addToPrescription}
+            />
+          </Grid>
+        ))}
+      </Grid>
     </>
   )
 }
