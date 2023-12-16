@@ -103,6 +103,75 @@ npm run compile:all
 
 ## 🔥 Features
 
+<details>
+  <summary>👤 User Registration</summary>
+  
+  - Register as a patient.
+  - Submit a request to register as a pharmacist.
+  - Upload documents to register as pharmacist
+</details>
+
+<details>
+  <summary>🔐 User Authentication</summary>
+  
+  - **Patient/Pharmacist/Administrator:** Login with username and password.
+  - **Patient/Pharmacist/Administrator:** Logout.
+</details>
+
+<details>
+  <summary>🔧 Administrator Operations</summary>
+  
+  - **Adminstrator:** Add another administrator with a set username and password.
+  - **Adminstrator:** Remove a pharmacist/patient from the system.
+  - **Adminstrator:** View all information uploaded by a pharmacist to apply to join the platform.
+  - **Adminstrator:** Accept or reject the request of a pharmacist to join the platform.
+</details>
+
+<details>
+  <summary>💊 Pharmacist Operations</summary>
+  
+  - **Pharmacist:** Upload and submit required documents upon registration such as ID, pharmacy degree, and working licenses.
+  - **Pharmacist:** View the available quantity and sales of each medicine.
+  - **Pharmacist:** Search for medicine based on name.
+  - **Pharmacist:** Filter medicines based on medicinal use.
+  - **Pharmacist:** Add a medicine with its details (active ingredients), price, and available quantity.
+  - **Pharmacist:** Upload medicine image.
+  - **Pharmacist:** Edit medicine details and price.
+  - **Pharmacist:** Archive/unarchive a medicine.
+  - **Adminstrator/Pharmacist:** View a total sales report based on a chosen month.
+  - **Pharmacist:** Filter sales report based on a medicine/date.
+  - **Pharmacist:** Chat with a doctor.
+  - **Pharmacist:** Receive a notification once a medicine is out of stock on the system and via email.
+</details>
+
+<details>
+  <summary>🔐 User Account Management</summary>
+  
+  - **Patient/Pharmacist/Administrator:** Change my password.
+  - **Patient/Pharmacist/Administrator:** Reset a forgotten password through OTP sent to email.
+</details>
+
+<details>
+  <summary>💊🛒 Medicine and Order Management</summary>
+  
+  - **Patient/Pharmacist/Administrator:** View a list of all available medicines (including a picture of medicine, price, description).
+  - **Patient:** Add an over-the-counter medicine to my cart.
+  - **Patient:** Add a prescription medicine to my cart based on my prescription.
+  - **Patient:** View cart items.
+  - **Patient:** Remove an item from the cart.
+  - **Patient:** Change the amount of an item in the cart.
+  - **Patient:** Checkout my order.
+  - **Patient:** Add a new delivery address (or multiple addresses).
+  - **Patient:** Choose a delivery address from the available addresses.
+  - **Patient:** Choose to pay with a wallet, credit card (using Stripe), or cash on delivery.
+  - **Patient:** View current and past orders.
+  - **Patient:** View order details and status.
+  - **Patient:** Cancel an order.
+  - **Patient:** View alternatives to a medicine that is out of stock based on the main active ingredient.
+  - **Patient:** Chat with a pharmacist.
+  - **Pharmacist:** View the amount in my wallet.
+</details>
+
 ## 💻 Code Examples
 
 <details>
@@ -774,7 +843,7 @@ npm install
         }
     ]
 }`
-  </details>
+    </details>
 
 <details>
 <summary>Medicine Endpoints</summary>
