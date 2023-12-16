@@ -43,21 +43,21 @@ const registrationValidator = Joi.object({
     'any.required': 'Gender is required',
   }),
   mobileNumber: Joi.string()
-    .pattern(/^[0-9]{10}$/)
+    .pattern(/^[0-9]{11}$/)
     .required()
     .messages({
       'string.pattern.base':
-        'Mobile number should be a 10-digit numeric string',
+        'Mobile number should be a 11-digit numeric string',
       'any.required': 'Mobile number is required',
     }),
   emergencyContact: Joi.object({
     fullName: Joi.string().required(),
     mobileNumber: Joi.string()
-      .pattern(/^[0-9]{10}$/)
+      .pattern(/^[0-9]{11}$/)
       .required()
       .messages({
         'string.pattern.base':
-          'Emergency contact mobile number should be a 10-digit numeric string',
+          'Emergency contact mobile number should be a 11-digit numeric string',
         'any.required': 'Emergency contact mobile number is required',
       }),
     relation: Joi.string().required(),
