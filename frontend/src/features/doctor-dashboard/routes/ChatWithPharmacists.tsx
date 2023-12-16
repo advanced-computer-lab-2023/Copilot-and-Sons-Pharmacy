@@ -165,7 +165,6 @@ export const ChatWithPharmacists = () => {
           </Grid>
         ))}
       </Grid>
-      d
     </Container>
   )
 }
