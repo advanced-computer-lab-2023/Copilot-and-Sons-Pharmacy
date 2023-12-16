@@ -298,7 +298,7 @@ export function BaseLayout() {
                     icon={faCapsules}
                     style={{ marginRight: '15px' }}
                   />
-                  Your Pharmacy
+                  Pharmacy
                 </Typography>
                 {sidebarLinks.map((link) => (
                   <ListItemLink

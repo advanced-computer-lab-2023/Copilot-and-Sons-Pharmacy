@@ -1,5 +1,5 @@
 import { useSidebar } from '../../../hooks/sidebar'
-import { Healing, PersonAdd, PersonRemove, VpnKey } from '@mui/icons-material'
+import { Healing, PersonAdd, PersonRemove } from '@mui/icons-material'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
@@ -46,11 +46,6 @@ export function AdminDashboardLayout() {
         to: '/admin-dashboard/medicines/',
         text: 'Medicines',
         icon: <Healing />,
-      },
-      {
-        to: '/admin-dashboard/change-password',
-        text: 'Change Password',
-        icon: <VpnKey />,
       },
     ])
   }, [setSidebarLinks])
