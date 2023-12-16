@@ -76,7 +76,37 @@ const RegistrationForm: React.FC = () => {
   const steps = ['Personal Information', 'Emergency Contact']
 
   const handleNext = () => {
-    setActiveStep((prevStep) => prevStep + 1)
+    try {
+      // Validate the form data for the current step
+      if (activeStep === 0) {
+        RegisterRequestValidator.parse(formData)
+      } else if (activeStep === 1) {
+        emergencyContactValidator.parse(formData.emergencyContact)
+      }
+
+      // Proceed to the next step
+      setActiveStep((prevStep) => prevStep + 1)
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        // Handle validation errors if needed
+        const fieldErrors: errors = {}
+        err.errors.forEach((validationError) => {
+          const fieldName = validationError.path[0]
+
+          if (typeof fieldName === 'string') {
+            if (fieldName.startsWith('emergencyContact.')) {
+              const subField = fieldName.split('.')[1]
+              emergencyContactError[subField] = validationError.message
+            } else {
+              fieldErrors[fieldName] = validationError.message
+            }
+          }
+        })
+
+        setErrors(fieldErrors)
+        setEmergencyError(emergencyContactError)
+      }
+    }
   }
 
   const handleBack = () => {
@@ -315,6 +345,11 @@ const RegistrationForm: React.FC = () => {
                   />
                 </RadioGroup>
               </FormControl>
+              {errors.gender && (
+                <Typography variant="body2" color="error">
+                  {errors.gender}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
