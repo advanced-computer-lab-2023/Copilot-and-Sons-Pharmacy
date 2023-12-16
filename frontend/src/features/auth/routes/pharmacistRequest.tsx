@@ -19,6 +19,8 @@ import { LoadingButton } from '@mui/lab'
 import { pharmacistRequest } from '@/api/pharmacist'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Step1Schema, Step2Schema } from '@/validators/pharmacist.validator'
+import { z } from 'zod'
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -42,6 +44,129 @@ export const Register = () => {
   const [degree, setDegree] = useState('')
   const [fieldValue, setFieldValue] = useState({ files: new Array(3) })
 
+  const [nameError, setNameError] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [usernameError, setUsernameError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [dateOfBirthError, setDateOfBirthError] = useState('')
+  const [hourlyRateError, setHourlyRateError] = useState('')
+  const [affiliationError, setAffiliationError] = useState('')
+
+  const [majorError, setMajorError] = useState('')
+  const [universityError, setUniversityError] = useState('')
+  const [graduationYearError, setGraduationYearError] = useState('')
+  const [degreeError, setDegreeError] = useState('')
+
+  const validateStep1 = () => {
+    try {
+      Step1Schema.parse({
+        name,
+        email,
+        username,
+        password,
+        dateOfBirth: new Date(dateOfBirth),
+        hourlyRate: Number(hourlyRate),
+        affiliation: affilation,
+      })
+
+      setNameError('')
+      setEmailError('')
+      setUsernameError('')
+      setPasswordError('')
+      setHourlyRateError('')
+      setAffiliationError('')
+      setDateOfBirthError('')
+
+      if (hourlyRate === '') {
+        setHourlyRateError('Enter hourly Rate')
+
+        return false
+      }
+
+      return true
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setNameError(
+          error.errors.find((err) => err.path[0] === 'name')?.message || ''
+        )
+        setEmailError(
+          error.errors.find((err) => err.path[0] === 'email')?.message || ''
+        )
+        setUsernameError(
+          error.errors.find((err) => err.path[0] === 'username')?.message || ''
+        )
+        setPasswordError(
+          error.errors.find((err) => err.path[0] === 'password')?.message || ''
+        )
+        setHourlyRateError(
+          error.errors.find((err) => err.path[0] === 'hourlyRate')?.message ||
+            ''
+        )
+        setAffiliationError(
+          error.errors.find((err) => err.path[0] === 'affiliation')?.message ||
+            ''
+        )
+        setDateOfBirthError(
+          error.errors.find((err) => err.path[0] === 'dateOfBirth')?.message ||
+            ''
+        )
+
+        if (hourlyRate === '') {
+          setHourlyRateError(' hourly Rate is required ')
+        }
+      }
+
+      return false
+    }
+  }
+
+  const validateStep2 = () => {
+    try {
+      Step2Schema.parse({
+        major,
+        university,
+        graduationYear: Number(graduationYear),
+        degree,
+      })
+
+      setMajorError('')
+      setUniversityError('')
+      setGraduationYearError('')
+      setDegreeError('')
+
+      if (graduationYear === '') {
+        setGraduationYearError(' graduation year is required')
+
+        return false
+      }
+
+      return true
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setMajorError(
+          error.errors.find((err) => err.path[0] === 'major')?.message || ''
+        )
+        setUniversityError(
+          error.errors.find((err) => err.path[0] === 'university')?.message ||
+            ''
+        )
+        setGraduationYearError(
+          error.errors.find((err) => err.path[0] === 'graduationYear')
+            ?.message || ''
+        )
+        setDegreeError(
+          error.errors.find((err) => err.path[0] === 'degree')?.message || ''
+        )
+
+        if (graduationYear === '') {
+          setGraduationYearError(' graduation year is required')
+        }
+      }
+
+      return false
+    }
+  }
+
   const steps = [
     'Personal Information',
     'Educational Background',
@@ -59,7 +184,26 @@ export const Register = () => {
   }
 
   const handleNext = () => {
-    setActiveStep((prevStep) => prevStep + 1)
+    switch (activeStep) {
+      case 0:
+        if (validateStep1()) {
+          setActiveStep((prevStep) => prevStep + 1)
+        }
+
+        break
+      case 1:
+        if (validateStep2()) {
+          setActiveStep((prevStep) => prevStep + 1)
+        }
+
+        break
+      case 2:
+        setActiveStep((prevStep) => prevStep + 1)
+
+        break
+      default:
+        break
+    }
   }
 
   const handleBack = () => {
@@ -98,6 +242,14 @@ export const Register = () => {
         (files) => files === undefined || files.length === 0
       )
     ) {
+      toast.error('Please choose files for document upload.')
+      setIsLoading(false)
+
+      return
+    }
+
+    // Check if any file is selected
+    if (fieldValue.files.every((files) => !files || files.length === 0)) {
       toast.error('Please choose files for document upload.')
       setIsLoading(false)
 
@@ -155,6 +307,8 @@ export const Register = () => {
                 }}
                 placeholder="Enter your Name"
                 required
+                error={!!nameError}
+                helperText={nameError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -169,6 +323,8 @@ export const Register = () => {
                 }}
                 placeholder="Enter your email address"
                 required
+                error={!!emailError}
+                helperText={emailError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -183,6 +339,8 @@ export const Register = () => {
                 value={username}
                 placeholder="Enter userrname"
                 required
+                error={!!usernameError}
+                helperText={usernameError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -197,6 +355,8 @@ export const Register = () => {
                 placeholder="Enter password"
                 value={password}
                 required
+                error={!!passwordError}
+                helperText={passwordError}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -230,6 +390,8 @@ export const Register = () => {
                 placeholder="Enter date of birth"
                 value={dateOfBirth}
                 required
+                error={!!dateOfBirthError}
+                helperText={dateOfBirthError}
               />
             </Grid>
 
@@ -245,6 +407,8 @@ export const Register = () => {
                 value={hourlyRate}
                 placeholder="Enter hourly rate in EGP"
                 required
+                error={!!hourlyRateError}
+                helperText={hourlyRateError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -259,6 +423,8 @@ export const Register = () => {
                 placeholder="Enter affiliation"
                 value={affilation}
                 required
+                error={!!affiliationError}
+                helperText={affiliationError}
               />
             </Grid>
           </Grid>
@@ -278,6 +444,8 @@ export const Register = () => {
                 }}
                 placeholder="Enter your major"
                 value={major}
+                error={!!majorError}
+                helperText={majorError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -292,6 +460,8 @@ export const Register = () => {
                 placeholder="Enter your university"
                 value={university}
                 required
+                error={!!universityError}
+                helperText={universityError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -307,6 +477,8 @@ export const Register = () => {
                 }}
                 placeholder="Enter graduation year"
                 value={graduationYear}
+                error={!!graduationYearError}
+                helperText={graduationYearError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -340,6 +512,11 @@ export const Register = () => {
                   label="Doctoral degree"
                 />
               </RadioGroup>
+              {degreeError && (
+                <Typography variant="body2" color="error">
+                  {degreeError}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         )
