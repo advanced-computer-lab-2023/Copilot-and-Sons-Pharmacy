@@ -163,7 +163,7 @@ export default function SignIn() {
           <Grid container>
             <Grid item xs>
               <Link
-                href={'/forgot-password'}
+                href="./forgot-password"
                 variant="body2"
                 color="text.primary"
               >

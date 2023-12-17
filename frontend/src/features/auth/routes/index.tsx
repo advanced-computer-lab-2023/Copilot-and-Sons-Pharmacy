@@ -5,6 +5,7 @@ import RegistrationForm from './RegistrationForm'
 import { AuthLayout } from '../components/AuthLayout'
 import { Logout } from './Logout'
 import SignIn from './Signin'
+import ForgotPassword from './ForgotPassword'
 
 export const authRoutes: RouteObject[] = [
   {
@@ -22,8 +23,13 @@ export const authRoutes: RouteObject[] = [
         path: 'register-request',
         element: <Registera />,
       },
+      {
+        path: 'forgot-password',
+        element: <ForgotPassword />,
+      },
     ],
   },
+
   {
     path: 'logout',
     element: <Logout />,
