@@ -67,6 +67,7 @@ export default function SignIn() {
         if (response.token) {
           refreshUser() // Call the refreshUser function to update the user information
         }
+
         // Handle the response from the API as needed
       } catch (error: any) {
         toast.error(error.message)
