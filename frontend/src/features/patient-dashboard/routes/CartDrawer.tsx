@@ -260,10 +260,10 @@ const Cart = () => {
 
       const order = {
         patientID,
-        total,
+        total: Math.round(total),
         date,
         address,
-        totalWithoutDiscount,
+        totalWithoutDiscount: Math.round(totalWithoutDiscount),
       }
       const jsonString = JSON.stringify(order)
       //navigate to checkout page
