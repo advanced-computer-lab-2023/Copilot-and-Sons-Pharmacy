@@ -7,17 +7,18 @@
 1. [🚀 Motivation](#-motivation)
 2. [🧱 Build Status](#-build-status)
 3. [🎨 Code Style](#-code-style)
-4. [🎥 Screenshots & Video](#-screenshots--video)
-5. [⚒️ Tech and Framework used](#-tech-and-framework-used)
-6. [🔥 Features](#-features)
-7. [💻 Code Examples](#-code-examples)
-8. [🪛 Installation](#-installation)
-9. [📚 API Reference](#-api-reference)
-10. [🧪 Tests](#-tests)
-11. [🧑🏻‍🏫 How to Use](#-how-to-use)
-12. [🤝 Contribute](#-contribute)
-13. [🫡 Credits](#-credits)
-14. [📜 License](#-license)
+4. [⚒️ Tech and Framework used](#-tech-and-framework-used)
+5. [🔥 Features](#-features)
+6. [💻 Code Examples](#-code-examples)
+7. [🪛 Installation](#-installation)
+8. [📚 API Reference](#-api-reference)
+9. [🧪 Tests](#-tests)
+10. [🧑🏻‍🏫 How to Use](#-how-to-use)
+11. [🤝 Contribute](#-contribute)
+12. [🫡 Credits](#-credits)
+13. [📜 License](#-license)
+
+![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/logo2.png)
 
 ## 🚀 Motivation
 
@@ -109,6 +110,9 @@ npm run compile:all
   - Register as a patient.
   - Submit a request to register as a pharmacist.
   - Upload documents to register as pharmacist
+
+![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/user-registration.png)
+
 </details>
 
 <details>
@@ -116,6 +120,9 @@ npm run compile:all
   
   - **Patient/Pharmacist/Administrator:** Login with username and password.
   - **Patient/Pharmacist/Administrator:** Logout.
+
+![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/user-authentication.png)
+
 </details>
 
 <details>
@@ -125,6 +132,9 @@ npm run compile:all
   - **Adminstrator:** Remove a pharmacist/patient from the system.
   - **Adminstrator:** View all information uploaded by a pharmacist to apply to join the platform.
   - **Adminstrator:** Accept or reject the request of a pharmacist to join the platform.
+
+     ![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/administrator-functions.png)
+
 </details>
 
 <details>
@@ -142,6 +152,9 @@ npm run compile:all
   - **Pharmacist:** Filter sales report based on a medicine/date.
   - **Pharmacist:** Chat with a doctor.
   - **Pharmacist:** Receive a notification once a medicine is out of stock on the system and via email.
+
+![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/pharmacist-operations.png)
+
 </details>
 
 <details>
@@ -149,6 +162,10 @@ npm run compile:all
   
   - **Patient/Pharmacist/Administrator:** Change my password.
   - **Patient/Pharmacist/Administrator:** Reset a forgotten password through OTP sent to email.
+
+     ![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/user-account-management.png)
+
+
 </details>
 
 <details>
@@ -170,6 +187,9 @@ npm run compile:all
   - **Patient:** View alternatives to a medicine that is out of stock based on the main active ingredient.
   - **Patient:** Chat with a pharmacist.
   - **Pharmacist:** View the amount in my wallet.
+
+    ![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/order-management.png)
+
 </details>
 
 ## 💻 Code Examples
@@ -1514,12 +1534,12 @@ npm install
   </details>
 
 ## 🧪 Tests
+
 We use `Postman` to manually test all our api references by making sure the response is as expected. We use it as some kind of sanity-check.
 
 Here is an example testing that logging in with an invalid username wouldn't pass authorization:
 
 ![image](https://github.com/advanced-computer-lab-2023/Copilot-and-Sons-Pharmacy/blob/main/images/postman.PNG)
-
 
 ## 🧑🏻‍🏫 How to Use
 
